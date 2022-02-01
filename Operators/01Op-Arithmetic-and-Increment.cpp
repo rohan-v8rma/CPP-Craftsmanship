@@ -10,9 +10,9 @@ using namespace std;
 */
 int main(){
 /*
-1. Arithmetic Operators
+* 1. Arithmetic Operators
 
-a. Binary Operators
+* a. Binary Operators
 
 To do arithmetic, C++ uses operators. It provides for 5 basic arithmetic
 calculations : addition, subtraction, multiplication, division and remainder
@@ -24,7 +24,7 @@ to calculate a final answer.
 % : works as expected. But both operands can only be of integer type.
 / : works as expected. Operands may be of int, float or double types.
 
-b. Unary operators
+* b. Unary operators
 Apart from these binary operators, C++ provides two unary arithmetic operators,
 (that require one operand) also, which are unary + and unary -
 
@@ -35,7 +35,7 @@ value.
 
 
 /*
-2. Increment/Decrement Operators (++ and --)
+* 2. Increment/Decrement Operators (++ and --)
 
 C++ includes 2 useful operators not generally found in other computer languages
 (except C). These are the increment(++) and decrement(--) operators. 
@@ -50,9 +50,9 @@ a = a - 1 or a -= 1 is the same as a-- or --a
 The prefix and postfix version have the same effect on the operand but they
 differ when they take place in an expression.
 
-Prefix version (++a): In an expression, C++ performs the increment or 
-decrement operation before using the value of the operand to evaluate 
-the expression.
+? Prefix version (++a): 
+In an expression, C++ performs the increment or decrement operation before 
+using the value of the operand to evaluate the expression.
 PRINCIPLE : Change-then-use
 */
     int sum = 8;
@@ -68,9 +68,9 @@ PRINCIPLE : Change-then-use
     cout << prefix_final << '\n';
 
 /*
-Postfix version(a++): In an expression, C++ performs the increment 
-or decrement operations after using the value of the operand to evaluate 
-the expression.
+? Postfix version(a++): 
+In an expression, C++ performs the increment or decrement operations after 
+using the value of the operand to evaluate the expression.
 PRINCIPLE : Use-then-change
 */
     postfix_final = sum * postfix_count++;
@@ -82,7 +82,7 @@ PRINCIPLE : Use-then-change
 //In both the cases final value of the count will be same, only difference will be in value of expression
 
 /*
-Important Case: b = a++ + ++a
+! Important Case: b = a++ + ++a
 Such an expression, where value of a variable is being modified more than once,
 is UNDEFINED in C++. Some compilers won't give errors and give some result but no C++ rule
 defines their execution. It is completely compiler dependent.
