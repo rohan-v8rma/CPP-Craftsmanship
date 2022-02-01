@@ -40,7 +40,7 @@ value.
 C++ includes 2 useful operators not generally found in other computer languages
 (except C). These are the increment(++) and decrement(--) operators. 
 
-The operator ++ adds 1 to it's operand, and -- subtracts 1.
+The operator ++ adds 1 to its operand, and -- subtracts 1.
 
 In other words,
 a = a + 1 or a += 1 is the same as a++ or ++a
@@ -48,7 +48,7 @@ a = a + 1 or a += 1 is the same as a++ or ++a
 a = a - 1 or a -= 1 is the same as a-- or --a
 
 The prefix and postfix version have the same effect on the operand but they
-differe when they take place in an expression.
+differ when they take place in an expression.
 
 Prefix version (++a): In an expression, C++ performs the increment or 
 decrement operation before using the value of the operand to evaluate 
@@ -98,10 +98,6 @@ C++ will first use the value of n(which is 7), write it to the output stream, th
 increment n to 8.
 If we were to increment it beforehand or use ++n, we would have seen 8 as the first output.
 */
-
-
-
-
     cout << "\n\n";
 }
 
