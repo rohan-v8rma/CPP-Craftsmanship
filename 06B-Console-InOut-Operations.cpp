@@ -33,6 +33,6 @@ The function 'gets()' and 'puts()' are string functions.
 */
     cout << "Enter a string : ";
     string str1;
-    gets(str1);
+    // gets(str1);
 //
 }
