@@ -37,8 +37,8 @@ it must provide an accessible memory address where the data can
 be written to.
 
 On the programmer side, we can see the lvalue as the variable name
-however, internally the lvalue is a numbered address which is mapped
-to the variable name.
+? however, internally the lvalue is a numbered address which is mapped
+? to the variable name.
 
 E.g:- sum = 100, the left one is lvalue and the right one is rvalue.
 */

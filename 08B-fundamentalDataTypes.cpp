@@ -34,7 +34,7 @@ structures, unions and enumerations.
 //!  2. Elaboration on Fundamental Data Types
 
 /*
-? A. Integer (int) - 1,4,100 - 4 bytes = 32 bits 
+? A. Integer (int) - 1,4,100 - 2 or 4 bytes = 16 or 32 bits assigned contiguously
 
 
 
@@ -71,6 +71,9 @@ But, the type double is larger and slower than type float.
 
 The char type is really another integer type (as inside memory, it actually holds
 numbers i.e., equivalent ASCII codes of characters/symbols).
+
+! ASCII Values are never negative so char values will always be stored internal 
+! as positive integers.
 
 We can use:
     character = 'a';

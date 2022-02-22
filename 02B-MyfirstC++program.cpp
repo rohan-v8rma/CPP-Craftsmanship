@@ -7,9 +7,11 @@ That means these statements are processed before compilation takes place.
 The #include <iostream> statement tells the compiler's preprocessor to 
 include the header file 'iostream'.
 
-Earlier, header files were specified in a way in which they 
-ended with '.h' but the modern style mandates the name 
-without the suffix, in case of some header files.
+! These preprocessor directives don't require semi-colon delimiters at the end of them.
+
+? Earlier, header files were specified in a way in which they 
+? ended with '.h' but the modern style mandates the name 
+? without the suffix, in case of some header files.
 
 The header file iostream is included in every C++ program to implement
 input & output facilities. I/O facilities are not defined with C++
@@ -31,7 +33,7 @@ However, at the user level, a file consists of a sequence of possibly intermixed
 data types-character, arithmetic values, class objects etc.
 
 
-Function of I/O library
+* Function of I/O library
 
 --> At the lowest implementation level, where the notion of data type is missing
 and files are treated as a stream of bytes, the I/O library manages the transfer
@@ -45,7 +47,7 @@ lowest implementation level.
 writing of built-in data types.
 
 
-Predefined Streams in I/O library
+* Predefined Streams in I/O library
 
 As mentioned, at lowest levels, files are implemented as a stream of bytes.
 

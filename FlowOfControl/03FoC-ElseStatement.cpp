@@ -2,6 +2,12 @@
 using namespace std;
 
 /*
+        INDEX
+1. Dangling else problem
+2. Usage semi-colon in if-else blocks
+
+* 1. Dangling else problem
+
 The nested if-else statement introduces a source of potential ambiguity 
 referred to as 'dangling-else' problem. 
 
@@ -39,6 +45,8 @@ if (testCondition1)
 
 This will not give the desired output. If we would have used braces, everything 
 would have been fine (-_-).
+
+* 2. Usage semi-colon in if-else blocks
 */
 
 

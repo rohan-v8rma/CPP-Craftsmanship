@@ -32,7 +32,7 @@ must be included in a program so that the declarations of the functions become a
 ! Datatypes and constants used with the library functions are also defined in them.
 */
 
-//stdio.h
+//* stdio.h
 
 #include <stdio.h>
 /*
@@ -40,17 +40,19 @@ This header files defines types and macros needed for the standard I/O package. 
 defines the standard I/O predefined streams e.g., stdin, stdout, stdprn and stderr.
 
 When we include <iostream> file in our program, this file i.e., stdio.h automatically gets included
-in our program.
+in our program. 
+
+! However <iostream> is only available in C++ not in C.
 */
 
-//string.h
+//* string.h
 
 #include <string>
 /*
 This header file declares several string manipulation and memory manipulation routines.
 */
 
-//math.h
+//* math.h
 
 #include <math.h>
 /*

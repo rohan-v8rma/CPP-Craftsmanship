@@ -18,8 +18,9 @@ if (testCondition){
     codeBlock;
 }
 
-If we put semicolon after the testCondition, the 'if' statement would end there.
-The block or statements following are no more part of 'if' in such cases.
+If we put semicolon after the testCondition, the 'if' statement 
+would end there. The block or statements following are no more 
+part of 'if' in such cases.
 */
 
 
@@ -75,7 +76,7 @@ It replaces the following code :-
     }
     else {
         expression2
-    }
+    };
 
 The general form of conditional '?:' operator is as follows.
 
