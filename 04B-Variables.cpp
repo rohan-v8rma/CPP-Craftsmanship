@@ -1,9 +1,16 @@
 #include <iostream>
 using namespace std;
+/*
+            INDEX  
+1. About variables
+2. Different ways of declaring variables
+3. sizeof() function 
 
+
+*/
 int main(){
 
-//! About variables
+//! 1. About variables
 
 
 /*
@@ -45,7 +52,7 @@ E.g:- sum = 100, the left one is lvalue and the right one is rvalue.
 
 
 
-//! Different ways of declaring variables
+//! 2. Different ways of declaring variables
 
 
 /*

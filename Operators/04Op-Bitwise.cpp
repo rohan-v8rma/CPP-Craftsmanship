@@ -22,5 +22,8 @@ This operator shifts the bits of an integer towards right.
 
 ! NOTE: If we keep right-shifting, the variable will ultimately 
 ! become 0.
+
+TODO We can use Bitwise shift on floating point numbers but it is a 
+TODO complex process and we will learn it digital logic course
 */
 }

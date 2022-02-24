@@ -6,16 +6,16 @@ int main(){
     cout << "Press a button : ";
     cin >> button;
 //Code that switch statement will replace
-    if (button == 'a'){
+    if ((button == 'a') || (button == 'A')) {
         cout << "Hello";
     }
-    else if (button == 'b'){
+    else if ((button == 'b') || (button == 'B')) {
         cout << "Hola";
     }
-    else if (button == 'c'){
+    else if ((button == 'c') || (button == 'C')) {
         cout << "Ciao";
     }
-    else if (button == 'b'){
+    else if ((button == 'd') || (button == 'D')) {
         cout << "Namaste";
     }
 /*
@@ -32,15 +32,19 @@ The syntax of a switch statement is as follows:
 
     switch (button) //<-- This is the expression that is evaluated and whose value is checked with corresponding cases.
     {
-        case 'a' : 
+        case 'A':
+        case 'a': //? Multiple cases having one output
             cout << "Hello";
             break;
+        case 'B' : 
         case 'b' : 
             cout << "Hola";
             break;
+        case 'C' :             
         case 'c' :
             cout << "Ciao";
             break;
+        case 'D' :
         case 'd' : // <-- The character written after 'case' is one of constant against which the expression is compared.
             cout << "Namaste";
             break;
