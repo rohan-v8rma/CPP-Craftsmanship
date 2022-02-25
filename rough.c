@@ -3,8 +3,12 @@
 
 int main()
 {
-    float arr[6] = {16.0, 12.5, 6.45, 8.0};
-    printf("%.f", arr[1]);
-
+    int a = 165;
+    int b = 100;
+    float c = (float)(a/b);
+    printf("%f\n", c);
+    
+    float d = (float)a/b;
+    printf("%f\n", d);
     return 0;
 }
