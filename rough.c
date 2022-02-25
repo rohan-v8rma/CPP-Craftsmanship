@@ -3,8 +3,8 @@
 
 int main()
 {
-    int a = 2;
-    printf("%d",(int)(bool)a);
+    float arr[6] = {16.0, 12.5, 6.45, 8.0};
+    printf("%.f", arr[1]);
 
     return 0;
 }
