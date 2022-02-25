@@ -17,6 +17,10 @@ Format Specifiers
 
 * 2. Float type
 %f - floating-point number with 6 digits of precision
+!IMP: 
+%.1f - 1 decimal place displayed
+%.f - 0 decimal place displayed
+
 * 3. Double type
 %lf - floating-point with 15 digits of precision
 * 4. Char type
