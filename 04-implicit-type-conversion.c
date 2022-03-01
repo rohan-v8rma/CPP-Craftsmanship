@@ -3,11 +3,15 @@
                 INDEX
 1. Implicit Type Conversion Hierarchy in C            
 2. Rules for Implicit Type Conversion while evaluating an Expression
+
 */
 
 int main() {
 /*
 * 1. Implicit Type Conversion Hierarchy in C
+
+Type conversion performed by the compiler is known as 
+implicit type conversion.
 
 ?                  ------------> (no data loss)
 * (LOWER DATA TYPE)
