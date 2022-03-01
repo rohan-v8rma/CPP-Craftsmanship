@@ -28,8 +28,9 @@ indicating the length of the array we are declaring.
 ?     int arr[30];
 Here, we are directly specifying a numerical value as the length of the array
 
-
 */
+    float arr[6] = {16.0, 12.5, 6.45, 8.0};
+    printf("%.f", arr[1]);
 /*
 TODO: 3. Dynamic Allocation
 
