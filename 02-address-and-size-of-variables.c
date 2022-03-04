@@ -2,17 +2,25 @@
 
 /*
             INDEX
-1. 'Address of' (&) operator
+1. Address-of/Reference (&) operator
 2. sizeof() operator
 */
 
 
 int main() {
 /*
-* 1. 'Address of' (&) operator
-The ampersand (&) is the 'Address of' operator. It returns the memory 
-location of a variable, and it is used by prefixing to the name of a 
-variable. 
+Variables name memory locations, which hold values. These are useful since we don't 
+have to memorize long addresses to access certain values. 
+
+* 1. Address-of/Reference (&) operator
+
+The ampersand (&) is the Address-of/Reference operator. It 
+returns the memory location of the data stored in a variable,
+and it is used by prefixing to the name of a variable. 
+
+? For example, if we have a variable 'var', which holds an integer value,
+? &var will get us the memory location where that integer value is stored
+
 The variable doesn't even have to be initialized, just declared.
 */
     int a;
