@@ -8,7 +8,10 @@ int main() {
     char num = 'b'+'b'+'b';
     /* 
     this will throw error as we are assigning a 294 ascii value to 'char' data type
-    which will give an overflow error. 
+    which will give a compile-time overflow error. 
+    ? Overflow errors are a problem in C but not in C++, due to improvements.
+    ? The above code in C++ will not give an error.
+
     Till 255, ASCII is as-is. 
     After that 256 is considered as ASCII value 0. 
     ! NOTE: The problem is not in the operation rather the assignment itself.
