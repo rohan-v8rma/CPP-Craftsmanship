@@ -25,7 +25,8 @@ Format Specifiers
 %lf - floating-point with 15 digits of precision
 * 4. Char type
 %c - character
-
+* 5. Address/Pointer type
+%p - an address (or pointer)
 */
     
 //? printf function
