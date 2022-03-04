@@ -9,8 +9,8 @@ TODO 3. Dynamic Allocation
 int main () {
 /*
 * 1. Arrays in C
+
 Arrays in C can store homogenous data like only
-The numpy API in python uses C arrays which is why it is so fast.
 
 ? SYNTAX of Declaring an array:
     <datatype-of-stored-elements> <array-name>[<number-of-elements>];
@@ -19,6 +19,14 @@ The numpy API in python uses C arrays which is why it is so fast.
 
 ! NOTE: When we assign a value to a variable while declaring it, it is called INITIALIZATION.
 ! If we declare it first and assign a value to it later, it is called ASSIGNMENT.
+
+? Difference between lists in Python and array in C
+
+Arrays don't have in-built methods like lists in Python. 
+Arrays have a fixed size which has to be pre-defined
+
+* The numpy API in python uses C arrays which is why it is so fast.
+
 
 * 2. Static Allocation
 
