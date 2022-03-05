@@ -38,7 +38,20 @@ Format Specifiers
     printf("%d %d\n", 1, 2);
 
 
-//? scanf function
+/*
+? scanf function
+
+scanf function takes two arguments. A format specifier AND 
+the memory location assigned to the variable to which the input
+value has to be written.
+
+? So, for example, we have a variable 'var' of 'int' data-type 
+? which has a memory location 100. 
+
+In order to store a user-defined value in 'var', we have to give
+"%d" as the first argument in the scanf function and address of g,
+which is 100 or &g (reference operator used).
+*/
 
     long int a = 10;
     scanf("%ld", &a);
