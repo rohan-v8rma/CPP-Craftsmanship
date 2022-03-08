@@ -4,8 +4,6 @@ using namespace std;
             INDEX  
 1. About variables
 2. Different ways of declaring variables
-3. sizeof() function 
-
 
 */
 int main(){
