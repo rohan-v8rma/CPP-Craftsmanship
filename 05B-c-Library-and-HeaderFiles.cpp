@@ -47,9 +47,11 @@ in our program.
 
 //* string.h
 
-#include <string>
+#include <string.h>
 /*
 This header file declares several string manipulation and memory manipulation routines.
+
+TODO refer Learning C/10-strings-in-C.c for examples of functions of <string.h> header file
 */
 
 //* math.h
