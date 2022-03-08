@@ -1,13 +1,30 @@
-//My first C++ program
+/*
+My first C++ program
+
+            INDEX
+1. Preprocessor Directives
+2. Header files
+3. All devices are treated as files 
+4. Function of I/O library
+5. Predefined Streams in I/O library
+6. main() function
+7. cout statement
+8. return instruction
+! 9. Intermediate Code
+*/
 
 #include <iostream>
 /*
+* 1. Preprocessor Directives
+
 Statements that begin with # sign - are directives for the preprocessor.
 That means these statements are processed before compilation takes place.
 The #include <iostream> statement tells the compiler's preprocessor to 
 include the header file 'iostream'.
 
 ! These preprocessor directives don't require semi-colon delimiters at the end of them.
+
+2. Header files
 
 ? Earlier, header files were specified in a way in which they 
 ? ended with '.h' but the modern style mandates the name 
@@ -17,6 +34,8 @@ The header file iostream is included in every C++ program to implement
 input & output facilities. I/O facilities are not defined with C++
 language, but rather implemented through a component of C++ standard
 library, iostream which, is I/O library.
+
+* 3. All devices are treated as files
 
 In C++, all devices are treated as files. Thus, 
 the standard input device (the keyboard) (where the input is received), 
@@ -33,7 +52,7 @@ However, at the user level, a file consists of a sequence of possibly intermixed
 data types-character, arithmetic values, class objects etc.
 
 
-* Function of I/O library
+* 4. Function of I/O library
 
 --> At the lowest implementation level, where the notion of data type is missing
 and files are treated as a stream of bytes, the I/O library manages the transfer
@@ -47,7 +66,7 @@ lowest implementation level.
 writing of built-in data types.
 
 
-* Predefined Streams in I/O library
+* 5. Predefined Streams in I/O library
 
 As mentioned, at lowest levels, files are implemented as a stream of bytes.
 
@@ -75,6 +94,8 @@ using namespace std;
 
 int main(){
 /*
+* 6. main() function
+
 This line indicates the beginning of main function. The main() function is 
 the point by where all c++ programs begin their execution. Infact, the content
 of main() is always the first to be executed when a program starts.
@@ -92,6 +113,8 @@ code below int main() and inside { and } is code of function main().
 */
     cout << "Welcome to C++ Programmming";
 /*
+* 7. cout statement
+
 This instruction does the most important thing in this specific program. The cout
 is the standard output stream in C++(usually the screen) and the above
 statement inserts (we are saying that characters are being inserted insteaded 
@@ -109,9 +132,25 @@ must be included after every executable instruction.
     return 0;
 }
 /*
+* 8. return instruction
+
 The return instruction is important as the main function should always return 
 'int' dataType (this is a rule), as evident from int before 'main()'. So as 
 to not get an error from the compiler saying the 'main' function must 
 return 'int', we return 0 at the end of our code.
-
 */    
+
+/*
+* 9. Intermediate Code
+
+When we compiler this program using the compiler, an executable file containing 
+intermediate code is created. 
+When we run this newly created executable file, we get the output of our program.
+
+? This newly created file can now be run independent of the presence of the source code.
+
+? Intermediate code lies between the high-level language and the machine language. 
+
+If the compiler directly translates source code into the machine code without generating 
+intermediate code then a full native compiler is required for each new machine.
+*/
