@@ -60,8 +60,9 @@ which one is lesser of the two.
 ! returns a reference to a variable. 
 */
 int main(){
-    int x = 5, y = 3;
-    
+    float x = 5, y = 3;
+    //! NOTE: we can't pass 'int' data type into a function that requires 'float'. Type upgradation takes place.
+
     smallest(x, y) = -5;
 // The above statement is perfectly fine and it assigns -5 to the lesser of the two, 'x' and 'y'
 }
