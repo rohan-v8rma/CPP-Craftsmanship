@@ -26,7 +26,7 @@ Format Specifiers
 * 4. Char type
 %c - character
 * 5. Address/Pointer type
-%p - an address (or pointer)
+%p - an address or a pointer (since a pointer stores addresses as well)
 */
     
 //? printf function
