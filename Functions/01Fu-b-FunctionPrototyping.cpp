@@ -6,6 +6,8 @@ Be it, for organizing or some other reason.
 
 In that case, to avoid getting a scope error that the user defined functions aren't recognized, 
 FUNCTION PROTOTYPING is used.
+
+TODO: See 09B-Scope.cpp for explanation about LOCAL and GLOBAL function prototypes.
 */
 #include <iostream>
 using namespace std;
