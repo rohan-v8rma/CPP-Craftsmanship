@@ -15,8 +15,10 @@ The goto(used in QBASIC) statement is rarely used in programming today yet we ar
 discussing goto statement as it is provided by C++ and without discussing it we 
 cannot say the jump statements have been covered.
 
-* A 'goto' statement can transfer the program control anywhere in the program. The 
-* target destination of a 'goto' statement is marked by a 'label'.
+* A 'goto' statement can transfer the program control anywhere within a function in the program. 
+* The target destination of a 'goto' statement is marked by a 'label'.
+
+! NOTE that it can't transfer control out of a function where the control is.
 
 The target 'label' and 'goto' must appear in the same function.
 
