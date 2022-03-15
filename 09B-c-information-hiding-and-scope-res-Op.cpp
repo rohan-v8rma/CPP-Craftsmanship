@@ -12,8 +12,9 @@ using namespace std;
 Here comes the idea of information hiding and scope rules. 
 
 * 1. Information Hiding
-Information hiding is a very important programming concept which states that the inside of each function 
-is hidden from everything outside itself. 
+Information hiding is a very important programming concept which states that:
+! the inside of each function is hidden from everything outside itself 
+! as well as from the local function prototypes within it. 
 
 Scope rules state that: 
 ? scope of global variables is the entire program file (they can be referenced from everywhere in the program) 

@@ -30,6 +30,10 @@ int main() {
     i.e., they can be accessed only in the function that declares them. 
     ? Also labels (of goto) have function scope i.e., they cannot be used outside the function. 
     
+    ! NOTE that the local function prototypes also can't access the variables declared
+    ! in their parent functions and neither can the parent functions access the variables
+    ! within the local functions.
+    
     * c. File Scope: 
     A name declared outside all blocks and functions has file scope i.e., it can be used 
     in all the blocks and functions written inside the file in which the name declaration appears.
@@ -49,7 +53,7 @@ int main() {
     their declaration. 
 
     * b. Global function prototype
-    On the other hand, if the function's (say A()'s prototgye appears outside all other functions in the 
+    On the other hand, if the function's (say A()'s prototype appears outside all other functions in the 
     program file, then the function A() can be accessed from any of the functions in the file. 
     
     Such function prototypes are GLOBAL prototypes and are globally available to all the functions in the file. 
