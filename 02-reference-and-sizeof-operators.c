@@ -43,11 +43,15 @@ memory allocated to that data type.
 ! or %lu (unsigned long int) format specifier, otherwise, we will encounter error.
 */
 
-    printf("Size of variable a : %ld\n", sizeof(a));
-    printf("Size of int data type : %ld\n", sizeof(int));
-    printf("Size of char data type : %ld\n", sizeof(char));
-    printf("Size of float data type : %ld\n", sizeof(float));
-    printf("Size of double data type : %ld\n", sizeof(double));
+    printf("Size of variable `a` : %ld\n", sizeof(a));
+    printf("Size of `char` data type : %ld\n", sizeof(char));
+    printf("Size of `short` data type : %ld\n", sizeof(short));
+    printf("Size of `int` data type : %ld\n", sizeof(int));
+    printf("Size of `float` data type : %ld\n", sizeof(float));
+    printf("Size of `long` data type : %ld\n", sizeof(long));
+    printf("Size of `double` data type : %ld\n", sizeof(double));
+    printf("Size of `long double` data type : %ld\n", sizeof(long double));
+    
     
     return 0;
 }
