@@ -5,6 +5,18 @@ int main() {
 /*
     Strings in C are 1-D arrays of 'char' type
 
+    Note that when we assign a string to a variable, even if we don't
+    use the pointer method of declaration of strings amd we use:
+    
+    ? char <string-name>[] = "abc";
+
+    The variable name internally, POINTS to the first character of the string 
+    or its starting index in case it's empty.
+
+    This is why we don't have to use reference operator (&), when using 
+    `scanf` to take an input of a string.
+    ? scanf("%s", <string-name>);
+
     By convention, a string in C is terminated by the end-of-string
     sentinel '\0' (null character)
 
