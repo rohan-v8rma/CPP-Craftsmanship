@@ -19,6 +19,15 @@ int main () {
     The lowest address corresponds to the first element and 
     the highest address to the last element. 
 
+    The variable we assign the array to points to the 
+    base address(first contigouous memory location) of the array and 
+    we can obtain the that element by DEREFERENCING the name of the variable
+    ? For example:
+    */
+    int array[5] = {1,2,3,4,5};
+    printf("%d\n", *array); //? gives us `1`
+    printf("%d\n", *(array + 1)); //TODO learn how this works internally.
+    /*
     Arrays in C can store homogenous data only.
 
 
@@ -70,7 +79,7 @@ int main () {
     
     };
     /*
-    TODO: 3. Dynamic Allocation
+    TODO: 6. Dynamic Allocation
 
     When we use pointers and dynamically allocate space for our array, it is called
     Dynamic Allocation.
