@@ -8,6 +8,25 @@ using namespace std;
 */
 
 /*
+* 1. Actual and Formal Parameters
+Formal Parameters are the parameter names which are included in the function definition.
+They are used in specifying how a function mutates its parameters.
+For example:
+? int new_function(int formal_parameter_1, int formal_parameter_2) {
+? ....function_body....   
+? }
+Here, `formal_parameter_1` and `formal_parameter_2` are the FORMAL PARAMETERS
+
+Actual Parameters are the variable names that are actually passed when calling a function.
+For example:
+? int main() {
+?   int actual_parameter_1 = 10;
+?   int actual_parameter_2 = 20;
+?   new_function(actual_parameter_1, actual_parameter_2);
+? }
+Here, `actual_parameter_1` and `actual_parameter_2` are the ACTUAL PARAMETERS
+
+
 * 2. Default Parameters in Functions
 
 We can assign default values to a function's parameter(s) which is useful in case a matching argument
