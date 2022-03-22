@@ -4,11 +4,12 @@
 1. Static Allocation
     a. Normal static allocation
     b. Initializing an array with all elements as 0
-TODO 2. Dynamic Allocation
-    a. Taking input/Providing a variable as the size of the array in DECLARATION
+    c. Taking input/Providing a variable as the size of the array in DECLARATION
     ? Works in C AND C++
-    b. Taking input/Providing a variable as the size of the array in INITIALIZATION
+    d. Taking input/Providing a variable as the size of the array in INITIALIZATION
     ! Only works in C++
+TODO 2. Dynamic Allocation
+    
 */
 int main() {
     /*
@@ -34,14 +35,9 @@ int main() {
         printf("%d\n", arr_1[index]);
     
     };
-    /*
-    TODO: 2. Dynamic Allocation
-
-    When we use pointers and dynamically allocate space for our array, it is called
-    Dynamic Allocation.  
-    */
+    
     /* 
-    * a. Taking input/Providing a variable as the size of the array in DECLARATION
+    * c. Taking input/Providing a variable as the size of the array in DECLARATION
     
     ? Works in both C and C++
     
@@ -55,7 +51,7 @@ int main() {
     */
     /*
 
-    * b. Taking input/Providing a variable as the size of the array in INITIALIZATION
+    * d. Taking input/Providing a variable as the size of the array in INITIALIZATION
     
     ! Works only in C++
 
@@ -63,6 +59,13 @@ int main() {
     int array[size] = {1, 2, 3, 4, 5}; 
 
     TODO why?    
+    */
+
+    /*
+    TODO: 2. Dynamic Allocation
+
+    When we use pointers and dynamically allocate space for our array, it is called
+    Dynamic Allocation.  
     */
     return 0;
 }
