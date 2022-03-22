@@ -8,8 +8,6 @@
     ? Works in C AND C++
     d. Taking input/Providing a variable as the size of the array in INITIALIZATION
     ! Only works in C++
-TODO 2. Dynamic Allocation
-    
 */
 int main() {
     /*
@@ -61,11 +59,5 @@ int main() {
     TODO why?    
     */
 
-    /*
-    TODO: 2. Dynamic Allocation
-
-    When we use pointers and dynamically allocate space for our array, it is called
-    Dynamic Allocation.  
-    */
     return 0;
 }
