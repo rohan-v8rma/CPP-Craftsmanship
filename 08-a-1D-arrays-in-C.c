@@ -24,7 +24,7 @@ int main () {
     */
     int array[5] = {1,2,3,4,5};
     printf("%d\n", *array); //? gives us `1`
-    printf("%d\n", *(array + 1)); //TODO learn how this works internally.
+    printf("%d\n", *(array + 1)); //array name is decaying to pointer
     /*
     Arrays in C can store homogenous data only.
 
@@ -46,7 +46,16 @@ int main () {
     ! NOTE: When we assign a value to a variable while declaring it, it is called INITIALIZATION.
     ! If we declare it first and assign a value to it later, it is called ASSIGNMENT.
 
-    * 4. Difference between lists in Python and array in C
+    *4. Iterating over an array using pointers
+    */
+    int length_of_array = 5;
+    int array_0[5] = {1,2,3,4,5};
+
+    for(int index = 0; (array_0 + index) < &array_0[length_of_array - 1] + 1; index++) {
+        printf("Address of the element `%d` is %p\n", *(array_0 + index), (array_0 + index));
+    }
+    /*
+    * 5. Difference between lists in Python and array in C
 
     Arrays don't have in-built methods like lists in Python. 
     Arrays have a fixed size which has to be pre-defined
