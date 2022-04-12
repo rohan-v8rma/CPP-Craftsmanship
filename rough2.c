@@ -1,18 +1,20 @@
 #include<stdio.h>
-#include<math.h>
 
-//Adding two numbers by pass by reference
+//Printing the elements of an array using pointers
 
-int addition(int* num_ptr_1, int* num_ptr_2) { //this function takes pointer arguments or address arguments
-    return (*num_ptr_1 + *num_ptr_2);   
-}
 
 int main() {
-    int num_1 = 1;
-    int num_2 = 2;
-    
-    int sum = addition(&num_1, &num_2);
-    printf("%d", sum);
-    
+    int length_of_array = 5;
+    int array[length_of_array];
+    for(int index = 0; index < length_of_array; index++) {
+        scanf("%d", &array[index]);
+
+    };
+    printf("\n");
+    int* pointer = array;
+    for(int index = 0; index < length_of_array; index++) {
+        printf("%d\n", *(pointer + index));
+    }
+
     return 0;
 }
