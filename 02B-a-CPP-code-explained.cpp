@@ -10,7 +10,6 @@ My first C++ program
 6. main() function
 7. cout statement
 8. return instruction
-! 9. Intermediate Code
 */
 
 #include <iostream>
@@ -139,18 +138,3 @@ The return instruction is important as the main function should always return
 to not get an error from the compiler saying the 'main' function must 
 return 'int', we return 0 at the end of our code.
 */    
-
-/*
-* 9. Intermediate Code
-
-When we compiler this program using the compiler, an executable file containing 
-intermediate code is created. 
-When we run this newly created executable file, we get the output of our program.
-
-? This newly created file can now be run independent of the presence of the source code.
-
-? Intermediate code lies between the high-level language and the machine language. 
-
-If the compiler directly translates source code into the machine code without generating 
-intermediate code then a full native compiler is required for each new machine.
-*/
