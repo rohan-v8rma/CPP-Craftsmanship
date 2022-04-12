@@ -1,0 +1,31 @@
+#include<stdio.h>
+#include<math.h>
+
+// Sum of 1 - x + x^2/2! - x^3/3!.....
+
+int factorial(int number) {
+    if((number == 0) || (number == 1)) {
+        return 1;
+    }
+    else {
+        return (number * factorial(number - 1));
+    };
+
+}
+
+int main() {
+    int x = 10;
+    int no_of_terms;
+    float sum;
+    
+    printf("Enter the number of terms: ");
+    scanf("%d", &no_of_terms);
+
+    for(int term = 0; term < no_of_terms; term++) {
+        sum += pow(-x, term) / factorial(term);
+    }
+    
+    printf("The sum is %f", sum);
+
+    return 0;
+}
