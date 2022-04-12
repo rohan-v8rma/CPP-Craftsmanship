@@ -18,7 +18,8 @@ to the appropriate type as per the requirements.
 However, if the contiguous memory space is insufficient, allocation of memory fails
 and it returns a NULL pointer. 
 
-! All the values at allocated memory are initialized to `0` value.
+! In older compilers, all values at allocated memory were initialized to garbage values. 
+! But in newer compilers, they are initialized to `0` value. SAME AS CALLOC
 
 ? SYNTAX: <datatype> *<ptr-name> = (<datatype>*)(malloc(<size-in-bytes>))
 

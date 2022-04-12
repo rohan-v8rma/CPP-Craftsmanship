@@ -9,7 +9,12 @@ The return value is a VOID pointer to the allocated space, which needs to be cas
 to the appropriate type as per the requirements.
 
 However, if the space is insufficient, allocation of memory fails and it returns a NULL pointer. 
-! All the values at allocated memory are initialized to 0
+! All the values at allocated memory are initialized to 0.
+
+TODO: Read 09-b which mentions that in new compilers, malloc also returns all values initialized to 0.
+
+! So malloc() and calloc() have practically no difference except for different syntax.
+
 
 ? SYNTAX: <datatype> *<ptr-name> = (<datatype>*)(calloc(<number-of-blocks>, <size-in-bytes>))
 
