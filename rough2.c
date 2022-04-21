@@ -1,20 +1,10 @@
 #include<stdio.h>
 
-//Printing the elements of an array using pointers
-
-
 int main() {
-    int length_of_array = 5;
-    int array[length_of_array];
-    for(int index = 0; index < length_of_array; index++) {
-        scanf("%d", &array[index]);
-
-    };
-    printf("\n");
-    int* pointer = array;
-    for(int index = 0; index < length_of_array; index++) {
-        printf("%d\n", *(pointer + index));
-    }
-
+    const char* pointer = "string";
+    pointer += 1; //this code works because the const modifier is applicable on the string rather than the address pointed to by the pointer
+    printf("%c\n", *pointer);
+    
     return 0;
 }
+
