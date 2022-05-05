@@ -29,10 +29,15 @@ struct Point
  
 int main()
 {
+   struct Point p0 = {1, 1};
    /* 
    A valid initialization. 
    The structure member x gets value 0 and y gets value 1. 
    These structure members are a part of the structure variable `p1`.
    */
-   struct Point p1 = {0, 1};
+   struct Point p1;
+
+   // // p1 = {0, 1};
+   //! Note that we can initialize the structure variable 
+   //! but we can't assign values to it later on after creating it
 }

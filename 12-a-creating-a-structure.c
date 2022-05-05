@@ -1,6 +1,9 @@
 #include <stdio.h>
 /*
 The‘struct’ keyword is used to create a structure. Following is an example. 
+
+Difference between structures and classes is that a structure can only contain
+variables and not methods.
 */
 
 struct address
