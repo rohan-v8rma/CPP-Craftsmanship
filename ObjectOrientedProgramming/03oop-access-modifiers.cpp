@@ -1,5 +1,5 @@
 #include <iostream>
-using namespace std;
+using namespace::std;
 
 /*
 There are 3 kinds of access modifiers: public, private and protected. 
@@ -33,6 +33,8 @@ subclass(derived class) of that class as well.
 class Employee {
     private: 
         int age;
+    protected:
+        int protected_variable;
     public:
         int hours_worked;
         void display_hours_worked() {
@@ -42,9 +44,20 @@ class Employee {
             age = age_argument;
             cout << "Age of the employee is: " << age << endl;
         }
-
-
 };
+
+class EmployeeChild : public Employee  {
+    public:
+        int child_number;
+
+        //? The member function of the child class is able to access the protected variable of its parent
+
+        void access_protected_variable (int value_argument) {
+            protected_variable = value_argument;
+            cout << "Value of protected variable: " << protected_variable << endl;
+        }
+};
+
 int main() {
     Employee employee_1;
 
@@ -66,5 +79,12 @@ int main() {
     In main(), we cannot directly access the class variable age.
     We can only indirectly manipulate age through the public inline member function displayAge().
     */
+    
+    //* demonstrating how child can access protected variable of parent
 
+    EmployeeChild child_1;
+    
+    child_1.access_protected_variable(10);
+
+    return 0;
 }
