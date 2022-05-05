@@ -1,10 +1,18 @@
 #include<stdio.h>
 
+struct Student {
+        char name[40];
+        int age;
+};
+
 int main() {
-    const char* pointer = "string";
-    pointer += 1; //this code works because the const modifier is applicable on the string rather than the address pointed to by the pointer
-    printf("%c\n", *pointer);
+    struct Student *rohan_struct_pointer;
+    struct Student rohan = {"ROHAN", 19};
     
+    rohan_struct_pointer = &rohan;
+
+    printf("%s", rohan_struct_pointer -> name);
+
     return 0;
 }
 
