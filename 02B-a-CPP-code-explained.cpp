@@ -7,9 +7,10 @@ My first C++ program
 3. All devices are treated as files 
 4. Function of I/O library
 5. Predefined Streams in I/O library
-6. main() function
-7. cout statement
-8. return instruction
+6. namespace
+7. main() function
+8. cout statement
+9. return instruction
 */
 
 #include <iostream>
@@ -85,15 +86,38 @@ console error.
 
 Declarations and functions of cin, cout, cerr are contained within iostream
 
-NOTE: If the #include<iostream> line is omitted in a program, each reference
+NOTE: If the #include <iostream> line is omitted in a program, each reference
 to cin, cout, cerr will be flagged as a type error by the compiler.
 */
 
-using namespace std;
+using namespace::std; //TODO: see 06Op-scope-resolution-operator for more detail about `::` operator
+
+/* 
+* 6. namespace
+
+C++ has a standard library that contains common functionality you use in 
+building your applications like containers, algorithms, etc. 
+
+If names used by these were out in the open, for example, if they defined 
+a queue class globally, you'd never be able to use the same name again without conflicts. 
+
+? So they created a namespace, std to contain this change.
+
+The using namespace statement just means that in the scope it is present, 
+make all the things under the std namespace available without 
+having to prefix std:: before each of them 
+? for example, cout, cin, etc.
+
+While this practice is okay for example code, pulling in the entire std namespace 
+into the global namespace is not good as it defeats the purpose of namespaces and 
+can lead to name collisions. 
+
+! This situation is called namespace pollution.
+*/
 
 int main(){
 /*
-* 6. main() function
+* 7. main() function
 
 This line indicates the beginning of main function. The main() function is 
 the point by where all c++ programs begin their execution. Infact, the content
@@ -107,12 +131,10 @@ last statement of main().
 
 Every function in C++ has its code included in a pair of curly braces{} so that
 code below int main() and inside { and } is code of function main().
-
-
 */
     cout << "Welcome to C++ Programmming";
 /*
-* 7. cout statement
+* 8. cout statement
 
 This instruction does the most important thing in this specific program. The cout
 is the standard output stream in C++(usually the screen) and the above
@@ -131,7 +153,7 @@ must be included after every executable instruction.
     return 0;
 }
 /*
-* 8. return instruction
+* 9. return instruction
 
 The return instruction is important as the main function should always return 
 'int' dataType (this is a rule), as evident from int before 'main()'. So as 
