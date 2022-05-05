@@ -49,7 +49,6 @@ a = a - 1 or a -= 1 is the same as a-- or --a
 
 The prefix and postfix version have the same effect on the operand but they
 differ when they take place in an expression.
-
 ? Prefix version (++a): 
 In an expression, C++ performs the increment or decrement operation before 
 using the value of the operand to evaluate the expression.
@@ -62,7 +61,7 @@ PRINCIPLE : Change-then-use
 
     
     prefix_final = sum * ++prefix_count;
-//In this case value of prefix_count will be incremented before the multiplication
+//In this case value of prefix_count swill be incremented before the multiplication
 //takes place. So the result will be 8 * (6+1) = 56    
     
     cout << prefix_final << '\n';
