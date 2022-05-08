@@ -25,8 +25,6 @@ int main(){
     do {
         
     }
-    while{
-
-    }
+    while(condition);
 }
 */
