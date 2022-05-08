@@ -4,6 +4,9 @@
 ? What are structure variables?
 Structure variables are instances of structures.
 
+When a structure is created, no memory is allocated for it. 
+To allocate memory for a given structure type and work with it, we need to declare structure variables.
+
 ? How to declare structure variables? 
 A structure variable can either be declared with structure declaration or as a separate declaration like basic types. 
 */ 

@@ -1,5 +1,13 @@
 #include <stdio.h>
 
+/*
+        INDEX
+1. We can INITIALIZE structure variables while declaring them using values  
+2. We can also INITIALIZE them by directly copying the structure details of one structure variable to another
+3. We can assign numerical values using the assignment operator `=`
+4. We can declare structure variables and use scanf to assign values to structure members
+*/
+
 int main() {
     struct book
     {
@@ -8,7 +16,7 @@ int main() {
         int pages;
     };
     
-    //* We can INITIALIZE structure variables while declaring them using values
+    //* 1. We can INITIALIZE structure variables while declaring them using values
 
     struct book first_book = {"Lord of the Rings", 999.99, 1200};
     
@@ -18,7 +26,7 @@ int main() {
 
     // OR
 
-    //* We can also INITIALIZE them by directly copying the structure details of one structure variable to another
+    //* 2. We can also INITIALIZE them by directly copying the structure details of one structure variable to another
     /*
     The copy of an entire structure can be easily done by the assignment operator.
     Each component in one structure is copied into the corresponding component in the other structure.
@@ -28,17 +36,23 @@ int main() {
 
     //! BUT, we also have methods for assigning values to structure variables after they've been created
 
+    //* 3. We can assign numerical values using the assignment operator `=`
 
-    //* We can declare structure variables and use scanf to assign values to structure members
-    
     struct book third_book;
+
+    third_book.price = 499.99;
+    third_book.pages = 100;
+
+    //* 4. We can declare structure variables and use scanf to assign values to structure members
     
+    struct book fourth_book;
+
     printf("Enter the details of the book: ");
 
-    scanf("%[^\n]s", third_book.name); 
+    scanf("%[^\n]s", fourth_book.name); 
     //not used & here because a string(which is actually an array here) is itself a pointer
-    scanf("%f", &third_book.price);
-    scanf("%d", &third_book.pages);
+    scanf("%f", &fourth_book.price);
+    scanf("%d", &fourth_book.pages);
 
     return 0;
 }
