@@ -49,10 +49,14 @@ class Employee {
 
         static void getCount() {
             cout << "The number of instances of the class is " << count << endl;
-
+            
             //! cout << employee_id;  
             //! This will throw an error because we are trying to acccess 
             //! a non-static variable using a static function.
+
+            //? But we can modify static variables using it 
+
+            count += 1;
         };
 
 };
