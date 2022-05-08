@@ -1,23 +1,28 @@
 #include <stdio.h>
 #include <string.h>
 
-union car {
-    char name[50];
-    int price;
-    float power;
-};
+void array_fn(int arr[3]) { 
+    /*
+    Because the array name itself is a pointer, 
+    it automatically gets passed by reference when we give it to a function,
+    meaning the original copy of the array is modified every time we make a change to it.
+    */
+    
+    *(arr + 1) = 5;     
+    
+    arr[1] = 5;
+}
+/* 
+Note that in both the methods of modification of array above, 
+it modifies the original copy of the array because it is 
+passed by reference in the `array_fn`
+*/
 
 int main() {
-    union car car_1;
+    int arr[3] = {1, 2, 3};
 
-    //Not working
-    car_1.name[] = "aston martin";
-    
-    //This is working
-    strcpy(car_1.name, "aston martin");
-
-    printf("%s\n", car_1.name);
-
+    array_fn(arr);
+    printf("%d", arr[1]);
 
     return 0;
 }
