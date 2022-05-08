@@ -8,7 +8,6 @@ are created and modified during the run-time.
 A class is a user-defined type. It consists of a set of members which might be PRIVATE or PUBLIC. 
 
 ! A struct which we studied earlier is a type of class where all MEMBERs are by default public. 
-! 
 
 ? PUBLIC MEMBERS provide the class’s interface.
 ? PRIVATE MEMBERS provide implementation details.
@@ -37,11 +36,11 @@ class Room {
         double breadth;
         double height;   
 
-        double calculateArea(){   
+        double calculateArea() {   
             return length * breadth;
         }
 
-        double calculateVolume(){   
+        double calculateVolume() {   
             return length * breadth * height;
         }
 

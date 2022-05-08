@@ -6,7 +6,7 @@ using namespace :: std;
 
 It is used for following purposes:
 
-* 1) To define a member function outside a class
+! 1) To define a member function outside a class
     
     Functions should be DECLARED (prototype declaration) inside the class to bound it to the class 
     and indicate it as its member but they can be DEFINED (writing the working code) outside of the class.

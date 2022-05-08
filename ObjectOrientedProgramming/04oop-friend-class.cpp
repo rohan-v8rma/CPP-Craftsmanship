@@ -7,13 +7,6 @@ using namespace::std;
 A friend class can access PRIVATE and PROTECTED members of other class in which it is declared as friend. 
 It is sometimes useful to allow a particular class to access private members of other class.
 
-* Friend Function 
-
-Like friend class, a friend function can be given a special grant to access PRIVATE and PROTECTED members. 
-
-A friend function can be: 
-a) A member of another class 
-b) A global function 
 
 * Important points about friendship
 

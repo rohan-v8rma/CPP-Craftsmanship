@@ -21,8 +21,7 @@ class <class-name> {
     ...
 };
 */
-class Box    
-{    
+class Box {    
     private:    
         int length;    
     public:    
@@ -36,8 +35,7 @@ int printLength(class Box example_box) {
     example_box.length += 10;      
     return example_box.length;    
 }     
-int main()    
-{    
+int main() {    
     class Box first_box;
     cout << "Length of box: " << printLength(first_box) << endl;    
     return 0;    
