@@ -1,18 +1,23 @@
-#include<stdio.h>
+#include <stdio.h>
+#include <string.h>
 
-struct Student {
-        char name[40];
-        int age;
+union car {
+    char name[50];
+    int price;
+    float power;
 };
 
 int main() {
-    struct Student *rohan_struct_pointer;
-    struct Student rohan = {"ROHAN", 19};
-    
-    rohan_struct_pointer = &rohan;
+    union car car_1;
 
-    printf("%s", rohan_struct_pointer -> name);
+    //Not working
+    car_1.name[] = "aston martin";
+    
+    //This is working
+    strcpy(car_1.name, "aston martin");
+
+    printf("%s\n", car_1.name);
+
 
     return 0;
 }
-
