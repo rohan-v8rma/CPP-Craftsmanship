@@ -1,8 +1,22 @@
 #include<stdio.h>
 #include<string.h>
 
+/*
+                INDEX
+1. Array nature of strings in C
+2. Sentinel value
+3. SYNTAX of creating a string
+4. Best method for modifying a string in C
+5. Most commonly used functions of <string.h> header file
+    a. strlen()
+    b. strcmp()
+    c. strcpy()
+    d. strcat()
+*/
+
 int main() {
 /*
+    * 1. Array nature of strings in C
     Strings in C are 1-D arrays of 'char' type
 
     Note that when we assign a string to a variable, even if we don't
@@ -16,6 +30,8 @@ int main() {
     This is why we don't have to use reference operator (&), when using 
     `scanf` to take an input of a string.
     ? scanf("%s", <string-name>);
+
+    * 2. Sentinel value
 
     By convention, a string in C is terminated by the end-of-string
     sentinel '\0' (null character)
@@ -35,7 +51,7 @@ int main() {
     BUT, when we use strlen() function to determine the length of a string,
     the null character (\0) will be excluded from that count. 
 
-    SYNTAX of creating a string:
+    * 3. SYNTAX of creating a string:
 */
  
     char string_1[6] = {'h', 'e', 'l', 'l', 'o','\0'};
@@ -49,9 +65,19 @@ int main() {
 
     char string_4[] = "hello bro"; //no length specified
     printf("\n%s\n", string_4);
-    
+
+
     /*
-    * Most commonly used functions of <string.h> header file
+    * 4. Best method for modifying a string in C
+    
+    The best method for modifying a string after it has been created is to 
+    import the <string.h> and to use the strcpy function because 
+    ? the regular method of <string-name> = "<string>" doesn't work in C easily
+
+    TODO: Look at working of strcpy below
+    */
+    /*
+    * 5. Most commonly used functions of <string.h> header file
     The below functions are defined in the <string.h> header file
         1. strlen()
         2. strcmp()
@@ -60,7 +86,7 @@ int main() {
     */
 
     /* 
-    * 1. strlen()
+    * a. strlen()
 
     The strlen() function calculates the length of a given string.
     The strlen() function takes a string as an argument and returns its length.
@@ -73,7 +99,7 @@ int main() {
     printf("\nLength of string_1('%s') is %d\n", string_1, length_of_string);
     
     /*
-    * 2. strcmp()
+    * b. strcmp()
 
     The strcmp() compares two strings character by character. If the strings 
     are equal, the function returns 0.
@@ -103,7 +129,7 @@ int main() {
     };
     
     /*
-    * 3. strcpy()
+    * c. strcpy()
 
     ? SYNTAX:
     ? strcpy(<destination string>, <source string>)
@@ -122,7 +148,7 @@ int main() {
     puts(string2);
 
     /*
-    * 4. strcat()
+    * d. strcat()
     In C programming, the strcat() function contcatenates (joins) two strings.
     It takes two arguments: destination string, source string
     
@@ -135,12 +161,12 @@ int main() {
 
     char str1[100] = "This is ", str2[] = "programiz.com";
 
-   // concatenates str1 and str2
-   // the resultant string is stored in str1.
-   strcat(str1, str2);
+    // concatenates str1 and str2
+    // the resultant string is stored in str1.
+    strcat(str1, str2);
 
-   puts(str1);
-   puts(str2);
+    puts(str1);
+    puts(str2);
 
     return 0;    
 }
