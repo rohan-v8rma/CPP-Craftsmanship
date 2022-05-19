@@ -30,7 +30,7 @@ However, when we don't define a constructor explicitly:
 ? From C++11 standard 12.1.5:
 
 If there is no user-declared constructor for class X, a constructor having no parameters is 
-implicitly declared as defaulted. An implicitly-declared default constructor is 
+implicitly declared by default. An implicitly-declared default constructor is 
 an inline public member of its class.
 
 ? and 12.8.7, 12.8.11:
@@ -47,8 +47,8 @@ An implicitly-declared copy/move assignment operator is an inline public member 
 
 * 3. Best practice of Default Constructors
 
-Whenever we define one or more non-default constructors( with parameters ) for a class, 
-a default constructor( without parameters ) should also be explicitly defined as the compiler 
+Whenever we define one or more non-default constructors ( with parameters ) for a class, 
+a default constructor ( without parameters ) should also be explicitly defined as the compiler 
 will not provide a default constructor in this case. 
 
 Although, it is not necessary but it’s considered best practice to always define a default constructor. 
@@ -96,12 +96,19 @@ class Second_Point_Class {
             x = x1;
             y = y1;
         };
+
         Second_Point_Class() {}; //default constructor
 
-        Second_Point_Class(class Second_Point_Class &reference_point) { //copy constructor
+        Second_Point_Class(Second_Point_Class &reference_point) { //copy constructor
             x = reference_point.x + 1;
             y = reference_point.y + 1;
-        }
+        }; //! We can also use the C method of pass by reference over here.
+
+        /*
+        ? Note that it is necessary to pass objects by reference in copy constructors always
+        TODO: Understand reason for this. 
+        */
+
 };
 /*
 Now, when we create an object using this class, we can give parameters, 
