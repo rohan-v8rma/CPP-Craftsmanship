@@ -2,9 +2,23 @@
 using namespace :: std;
 
 /*
-* In C++, scope resolution operator is :: 
+                        INDEX
+A. Scope Resolution Operator and its differences from (.) operator
+B. Uses of Scope Resolution Operator
+    Concept
+    1) To define a member function outside a class
+    2) To access a global variable when there is a local variable with same name
+    Practical Examples
+    1) To define a member function outside a class
+    2) To access a global variable when there is a local variable with same name
+*/
+/*
+* A. In C++, scope resolution operator is :: 
 
-It is used for following purposes:
+The dot (.) is used to access members of an object. 
+The double colon (::) is used to access members of a namespace or a class.
+
+? B. It is used for following purposes:
 
 ! 1) To define a member function outside a class
     
