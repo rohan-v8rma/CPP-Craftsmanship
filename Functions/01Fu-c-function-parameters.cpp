@@ -2,13 +2,17 @@
 using namespace std;
 /*
     INDEX
-1. Actual and Formal Parameter
-2. Default Parameters in Functions
-3. Constant Parameters
+1. Signature of a Function
+2. Actual and Formal Parameter
+3. Default Parameters in Functions
+4. Constant Parameters
 */
 
 /*
-* 1. Actual and Formal Parameters
+* 1. Signature of a Function
+Signature of a function is the number and type of parameters passed to it.
+
+* 2. Actual and Formal Parameters
 Formal Parameters are the parameter names which are included in the function definition.
 They are used in specifying how a function mutates its parameters.
 For example:
@@ -27,7 +31,7 @@ For example:
 Here, `actual_parameter_1` and `actual_parameter_2` are the ACTUAL PARAMETERS
 
 
-* 2. Default Parameters in Functions
+* 3. Default Parameters in Functions
 
 We can assign default values to a function's parameter(s) which is useful in case a matching argument
 is not passed in the function call statement. The default values are specified  at the time of
@@ -44,7 +48,7 @@ It sort of looks like variable initialization.
 !   float interest(float principal, float time = 3, float rate) --> ILLEGAL    
 
 
-* 3. Constant Parameters
+* 4. Constant Parameters
 
 Constant Parameters means the function cannot modify these arguments. If we pass constant values to the function,
 then the function cannot modify the values as the values are constants.
