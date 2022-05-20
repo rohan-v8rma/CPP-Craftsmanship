@@ -72,15 +72,33 @@ class person {
     public:
         char gender;
         int age;
+
+        person() {
+            cout << "Person constructor called" << endl;
+        };
 };
 
 class university_graduate {
     protected:
         int university_id;
 
+        university_graduate() { 
+            cout << "University graduate constructor called" << endl;
+        };
+
 };
 
 class electrician : public person, protected university_graduate {
     public:
         int badge_number;
+
+        electrician() {
+            cout << "Electrician constructor called" << endl;
+        };
 };
+
+int main() {
+    electrician ramu;
+
+    return 0;
+}
