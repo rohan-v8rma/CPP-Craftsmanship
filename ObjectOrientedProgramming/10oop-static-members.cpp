@@ -13,14 +13,19 @@ instead of the value being different for each instance of the class as in regula
 So, a static data member becomes a property of the class itself rather than the objects 
 which are instances of the class.
 
-When we set a data member as STATIC, it is automatically initialized to 0.
+? When we set a data member as STATIC, it is automatically INITIALIZED to 0.
 
 * Applications of STATIC data member
 It can help in keeping a count on how many objects have been created.
 
-* Assigning a value to static data member
-The syntax for a static data member is that its assignment should be done 
-outside the class using scope resolution operator.
+* Initializing static data member (IMPORTANT)
+Static data members are by default PRIVATE only. 
+
+? But for initializing them, we can use the SCOPE RESOLUTION OPERATOR 
+? (since static data members are part of classes) and access them directly.
+
+! NOTE that we can only do this ONCE and subsequent attempts to 
+! assign values to the static data member will throw errors.
 */
 
 class Employee {
@@ -63,6 +68,7 @@ class Employee {
 };
 
 int Employee::count = 1000; //assigning value to/declaring static data member
+
 /*
 we do this because if we were to assign a value to STATIC data member in the code for creating the class,
 the code would run everytime an instance of the class would be created, which would defeat the purpose
@@ -72,10 +78,6 @@ of the STATIC data member.
 int main() {
 
     class Employee rohan, prerit; 
-    
-    
-    //prerit, dekh le, tera naam
-    
     
     rohan.setData();
     rohan.getData();
