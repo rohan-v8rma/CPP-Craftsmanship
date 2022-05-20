@@ -24,7 +24,8 @@ outside the class using scope resolution operator.
 */
 
 class Employee {
-    static int count;
+    private:
+        static int count;
 
     public:
         int employee_id;
