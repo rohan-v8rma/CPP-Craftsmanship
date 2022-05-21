@@ -35,14 +35,17 @@ class Parent {
     public:
         int sample_variable;
 
+
+        //! Declaring prototype of function to be defined outside class
+        void printing_function(int integer); 
+
+
         void defining_sample_variable(int value_argument) {
             
             sample_variable = value_argument;
 
             cout << "The value of the sample variable is:" << sample_variable << endl;
         };
-
-        void printing_function(int integer); //! Declaring prototype of function to be defined outside class
 };
 
 //! 1) Defining member function outside a class
