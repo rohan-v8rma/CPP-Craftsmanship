@@ -2,7 +2,14 @@
 using namespace::std;
 
 /*
-* Friend Function 
+            INDEX
+1. What is a Friend Function?
+2. Benefits of Friend Function over MEMBER FUNCTIONS of a class
+3. Syntax for declaring a Friend Function
+*/
+
+/*
+* 1. What is a Friend Function?
 
 Like friend class, a friend function can be given a special grant to access PRIVATE and PROTECTED members. 
 
@@ -13,7 +20,16 @@ A friend function can be any of the TWO:
 a) A member of another class 
 b) A global function 
 
-* Syntax for declaring a Friend Function:
+* 2. Benefits of Friend Function over Member Functions of a class
+
+? The benefit of using friend functions instead of member functions defined 
+? within a class is that MEMBER functions are implicitly made INLINE 
+? which is good for speed but can cause some functional problems.
+
+! Member functions are USEFUL in case of short codes that will benefit from
+! reduced time of creating a function call stack.
+
+* 3. Syntax for declaring a Friend Function
 
 class <class-name> {
     friend <return-type> <function-name> (argument/s);
