@@ -80,6 +80,16 @@ class First_Point_Class {
 * B. Copy Constructor
 A copy constructor is a member function which initializes an object 
 using another object of the same class.
+
+? Note that it is necessary to pass objects by reference in copy constructors always
+
+Because, when we pass an object of the same class BY VALUE to the copy constructor, 
+we need to make a copy of the passed object(since we are passing BY VALUE). 
+To do that we have to call the copy constructor. 
+
+But to do that, we need to make a new value, so we call the copy constructor, and so on...
+
+(We would have infinite recursion because "to make a copy, you need to make a copy".)
 */
 
 /*
@@ -104,11 +114,8 @@ class Second_Point_Class {
             y = reference_point.y + 1;
         }; //! We can also use the C method of pass by reference over here.
 
-        /*
-        ? Note that it is necessary to pass objects by reference in copy constructors always
-        TODO: Understand reason for this. 
-        */
-
+        //? Reason for passing objects by reference to the copy constructor is mentioned above.        
+        
 };
 /*
 Now, when we create an object using this class, we can give parameters, 
