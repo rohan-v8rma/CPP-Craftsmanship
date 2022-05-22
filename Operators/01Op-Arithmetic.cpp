@@ -6,7 +6,6 @@ using namespace std;
     A. Binary Operators
     B. Unary Operators
 2. Increment/Decrement Operators (Prefix and Postfix)
-5. Logical Operators
 */
 int main(){
 /*
