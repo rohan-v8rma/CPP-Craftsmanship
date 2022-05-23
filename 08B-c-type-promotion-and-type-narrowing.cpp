@@ -28,24 +28,26 @@ int main() {
     Integral and floating-point types can be mixed freely in assignments and expressions.
     Wherever possible, values are converted so as not to lose information. 
     
-    Unfortunately, some value destroying (‘‘narrowing’’) conversions are also performed implicitly. 
+    ! Unfortunately, some value destroying (‘‘narrowing’’) conversions are also performed implicitly. 
     
     A conversion is value-preserving if you can convert a value and then convert the result back to its 
     original type and get the original value. If a conversion cannot do that, it is a narrowing conversion.
 
     When writing code, you should always aim to avoid undefined behavior and conversions 
     that quietly throw away information (‘‘narrowing conversions’’).
+    
     A compiler can warn about many questionable conversions. Fortunately, many compilers do.
     
-    The {}-initializer syntax prevents narrowing as demonstrated below.
+    ? The {}-initializer syntax prevents narrowing as demonstrated below.
     */
+   
+   //Type narrowing not taking place
     char hello_1 {'b'}; 
     printf("%c", hello_1);
     
-    //TODO find out why is the below code not giving error. 
-    
+    //! Type narrowing taking place (run this code and see the error message)
     float floating_point_number = 7.2;
-    int integer (floating_point_number);
+    int integer {floating_point_number};
     printf("%d", integer);
 
     return 0;
