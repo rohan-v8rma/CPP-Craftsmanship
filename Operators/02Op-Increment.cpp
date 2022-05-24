@@ -15,15 +15,19 @@ using namespace::std;
 C++ includes 2 useful operators not generally found in other computer languages
 (except C). These are the increment(++) and decrement(--) operators. 
 
-The operator ++ adds 1 to its operand, and -- subtracts 1.
+The operator ++ adds 1 to its operand, and -- subtracts 1,
+! along with returning a value
 
-In other words,
-a = a + 1 or a += 1 is the same as a++ or ++a
+So
+a = a + 1 or a += 1 is ALMOST same as a++ or ++a
 
-a = a - 1 or a -= 1 is the same as a-- or --a
+a = a - 1 or a -= 1 is ALMOST same as a-- or --a
+
+TODO: Look at point 2 to understand why they are NOT exactly same.
 
 The prefix and postfix version have the same effect on the operand but they
 differ when they take place in an expression.
+
 
 * 2. Do increment expressions return values as well?
 
@@ -53,36 +57,37 @@ int main() {
     int postfix_count = 6;
     int prefix_final, postfix_final;
 
-    
-    prefix_final = sum * ++prefix_count;
-//In this case value of prefix_count swill be incremented before the multiplication
-//takes place. So the result will be 8 * (6+1) = 56    
-    
+    prefix_final = sum * ++prefix_count;    
+    /*
+    In this case value of prefix_count swill be incremented before the multiplication
+    takes place. So the result will be 8 * (6+1) = 56    
+    */
     cout << prefix_final << '\n';
 
-/*
-? Postfix version(a++): 
-
-In an expression, C++ performs the increment or decrement operations after 
-using the value of the operand to evaluate the expression.
-PRINCIPLE : Use-then-change
-*/
+    /*
+    ? Postfix version(a++): 
+    In an expression, C++ performs the increment or decrement operations after 
+    using the value of the operand to evaluate the expression.
+    PRINCIPLE : Use-then-change
+    */
     postfix_final = sum * postfix_count++;
-//In this case the value of postfix_count will be incremented after the multiplication
-//takes place. So the result will be 8 * 6 = 48 after which value of postfix_count will change to 7
-    
+    /*
+    In this case the value of postfix_count will be incremented after the multiplication
+    takes place. So the result will be 8 * 6 = 48 after which value of postfix_count will change to 7
+    */
     cout << postfix_final << '\n';
+    //In both the cases final value of the count will be same, only difference will be in value of expression
 
-//In both the cases final value of the count will be same, only difference will be in value of expression
+    /*
+    * 3. Modification of a variable more than once between two sequence points
 
-/*
-* 3. Modification of a variable more than once between two sequence points
+    ! Important Case: b = a++ + ++a
+    Such an expression, where value of a variable is being modified more than once,
+    is UNDEFINED in C++. Some compilers won't give errors and give some result but no C++ rule
+    defines their execution. It is completely compiler dependent.
 
-! Important Case: b = a++ + ++a
-Such an expression, where value of a variable is being modified more than once,
-is UNDEFINED in C++. Some compilers won't give errors and give some result but no C++ rule
-defines their execution. It is completely compiler dependent.
-*/
+    TODO Look at learning-C/README.md for more details about sequence points    
+    */
 
     cout << "\n\n";    
     return 0;
