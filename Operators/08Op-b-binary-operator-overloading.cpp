@@ -1,20 +1,5 @@
 #include <iostream>
-/*
-* What is Operator Overloading?
-
-In C++, we can make operators to work for user defined classes. 
-This means C++ has the ability to provide the operators with
-a special meaning for a data type, this ability is known as operator overloading. 
-
-Some example classes where arithmetic operators may be overloaded are 
-Complex Number, Fractional Number, Big Integer, etc.
-
-Note that operator precedence still remains same in the case of operator overloading.
-
-* What are Operator Functions?
-
-Operator functions are like regular functions 
-*/
+using namespace::std;
 
 class Complex {
     
@@ -58,7 +43,8 @@ class Complex {
 This is an example of an OPERATOR FUNCTION that is declared as a 
 Friend Function of the class the operator is overloaded for.
 */
-Complex operator * (Complex const &first, Complex const &second) {
+Complex operator * (Complex const &first, Complex const &second) { 
+    //these parameters can be made not 'const' and pass by value. It won't make much difference
     Complex product;
     product.real = (first.real * second.real) + (first.imag * second.imag);
     product.imag = (first.imag * second.real) + (first.real * second.imag);
