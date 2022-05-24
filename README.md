@@ -10,7 +10,8 @@
     - [Name lookup vs. Overload Resolution](#name-lookup-vs-overload-resolution)
     - [Type Promotion and Type Narrowing](#type-promotion-and-type-narrowing)
     - [Poor Performance due to `std::endl`](#poor-performance-due-to-stdendl)
-
+    - [Zero Initializing vs. Default Initializing vs. Value Initializing](#zero-initializing-vs-default-initializing-vs-value-initializing)
+    - [Function Scope Determination](#function-scope-determination)
 
 The simple answer is that writing characters is generally fairly slow. 
 
@@ -119,10 +120,38 @@ So, along with specifying the namespace of a particular method, it is important 
 
 # Important Concepts
     
-## Name lookup vs. Overload Resolution 
+## Name Lookup vs. Overload Resolution 
 
-Read [12oop-c-multiple-inheritance-overloading.cpp](./ObjectOrientedProgramming/12oop-c-multiple-inheritance-overloading.cpp), 
-which describes that name lookup of a particular function 
+### What is Overload Resolution?
+
+C++20 Standard (Clause 12.4.1)
+
+Overload Resolution is a mechanism for selecting the best function to call given a list of expressions that are
+to be the arguments of the call and a set of candidate functions that can be called based on the context of
+the call. 
+
+The selection criteria for the best function are the number of arguments, how well the arguments
+match the parameter-type-list of the candidate function, how well (for non-static member functions) the
+object matches the implicit object parameter, and certain other properties of the candidate function.
+
+### What is Name Lookup?
+
+C++20 Standard (Clause 6.5.1)
+
+The name lookup rules apply uniformly to all names (including typedef-names (9.2.4), namespace-names (9.8),
+and class-names (11.3)) wherever the grammar allows such names in the context discussed by a particular rule.
+
+Name lookup associates the use of a name with a set of declarations (6.2) of that name. 
+
+If the declarations found by name lookup all denote functions or function templates, the declarations are said to form an **Overload Set**. 
+
+The declarations found by name lookup shall either all denote the same entity or form an overload set.
+
+### Coming to the important part mentioned in Clause 6.5.1...
+
+Overload Resolution (Clause 12.4) takes place **AFTER** Name Lookup(Clause 6.5.1) has succeeded.
+
+See [12oop-c-multiple-inheritance-overloading.cpp](./ObjectOrientedProgramming/12oop-c-multiple-inheritance-overloading.cpp) for an example implementation of this.
 
 ## Type Promotion and Type Narrowing
 
@@ -167,3 +196,36 @@ OR
 Immediately before asking for user input **(note that `std::cout` is automatically flushed when reading from `std::cin`)**.
 
 Although there may be a few occasions where you EXPLICITLY want to flush a stream, they are fairly rare.
+
+## Zero Initializing vs. Default Initializing vs. Value Initializing
+
+According to the C++20 standard,
+
+To **zero-initialize** an object of type T means:
+
+- if T is a scalar type (6.8), the object is initialized to the value obtained by converting the integer literal 0 (zero) to T;
+- if T is a (possible cv-qualified) non-union class type, its padding bits(6.8) are initialized to zero bits and each non-static data member, each non-virtual base class subobject, and, if the object is not a base class subobject, each virtual base class subobject is zero-initialized;
+- if T is a (possible cv-qualified) union type,  its padding bits(6.8) are initialized to zero bits and the object’s first non-static named data member is zero-initialized;
+- if T is an array type, each element is zero-initialized;
+- if T is a reference type, no initialization is performed.
+
+To **default-initialize** an object of type T means:
+
+- If T is a (possibly cv-qualified) class type (Clause 11), constructors are considered. The applicable constructors are enumerated (12.4.2.4), and the best one for the initializer () is chosen through overload resolution (12.4). The constructor thus selected is called, with an empty argument list, to initialize the
+object.
+- If T is an array type, each element is default-initialized;
+- otherwise, no initialization is performed.
+
+To **value-initialize** an object of type T means:
+
+- if T is a (possibly cv-qualified) class type (Clause 11), then (8.1.1) — if T has either no default constructor (11.4.5.2) or a default constructor that is user-provided or deleted, then the object is default-initialized;
+- otherwise, the object is zero-initialized and the semantic constraints for default-initialization are checked, and if T has a non-trivial default constructor, the object is default-initialized;
+- if T is an array type, then each element is value-initialized;
+- otherwise, the object is zero-initialized.
+
+## Function Scope Determination 
+
+The concept of local and global function scope is very important in C++.
+In simple terms, a function can be called from a scope wherre its prototype is declared.
+
+Read [09B-a-scope.cpp](./09B-a-scope.cpp) for more details.

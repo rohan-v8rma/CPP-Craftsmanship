@@ -8,10 +8,10 @@ CODING INDEX
 /*
 COMMENT INDEX
 1. Fundamental and Derived Data Types 
-2. Elaboration on Fundamental Data Types
-3. Data Type Modifiers
+2. Scalar vs. Non-scalar data objects
+3. Elaboration on Fundamental Data Types
+4. Data Type Modifiers
 */
-
 
 
 //! 1. Fundamental and Derived Data Types
@@ -27,11 +27,25 @@ Derived Data Types are constructed from fundamental data types.
 They can be built-in or user-defined. 
 E.g :- array, functions, pointers, references, constants, classes,
 structures, unions and enumerations.
+
+*/
+
+//! 2. Scalar vs. Non-scalar data objects
+
+/*
+Data objects in C++ can be categorized as: 
+
+? scalar (e.g. integers and pointers) 
+OR
+? non- scalar (e.g. arrays and classes), 
+
+where scalars are primitive objects which contain a single value 
+and aren't composed of other C++ objects.
 */
 
 
 
-//!  2. Elaboration on Fundamental Data Types
+//!  3. Elaboration on Fundamental Data Types
 
 /*
 ? A. Integer (int) - 1,4,100 - 2 or 4 bytes = 16 or 32 bits assigned contiguously
@@ -107,7 +121,7 @@ in the middle of a string, the part of the string after it is ignored.
 ? G. Boolean (bool) - 0, 1 - 1 byte = 8 bits
 */
 
-//! 3. Data Type Modifiers
+//! 4. Data Type Modifiers
 
 
 
