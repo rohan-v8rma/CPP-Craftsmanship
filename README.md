@@ -13,20 +13,6 @@
     - [Zero Initializing vs. Default Initializing vs. Value Initializing](#zero-initializing-vs-default-initializing-vs-value-initializing)
     - [Function Scope Determination](#function-scope-determination)
 
-The simple answer is that writing characters is generally fairly slow. 
-
-Flushing of buffers is an Operating System task. Each time the buffer is flushed, a request has to be made to the OS and these requests are comparatively expensive. 
-
-Furthermore, we don’t really need to flush the buffer every time we write something to the stream, since the buffers get flushed automatically when they get full.
-
-However, the amount of time it takes to write a reasonable amount of characters is essentially identical to writing just one. 
-
-The amount of characters depends on many characteristics of the operating system, file systems, etc. but often up to something like 4k characters are written in about the same time as just one character. 
-
-Thus, buffering characters up before sending them using a buffer depending on the details of the external destination can be a **huge performance improvement**.
-
-### Is there need to explicitly flush a stream?
-
 <!-- /TOC -->
 
 # Header files and Namespaces
