@@ -5,7 +5,8 @@
 2. Dereference Operator (*)
 3. Dereference(*) AND Reference-to(&) operators are converse of each other
 4. What is the type of a pointer variable?
-5. (Pointer initialization) Vs. (Pointer declaration & assignment)
+5. Why do we have to define a type for just pointing to an address? Aren't all addresses the same?
+6. (Pointer initialization) Vs. (Pointer declaration & assignment)
     a. When we initialize a pointer with a value
     b. When we declare a pointer and assign a value to it later
 
@@ -16,7 +17,7 @@ int main() {
 
     Pointers (pointer variables) are special variables that are used to store 
     addresses rather than values of data items.
-
+    
     * 2. Dereference Operator (*)
 
     What the * operator does in actuality is that it gets the corresponding 
@@ -49,7 +50,22 @@ int main() {
     Pointer to the datatype of the data item whose address is stored 
     Example: integer pointer, float pointer, char pointer etc.
 
-    SYNTAX:
+    * 5. Why do we have to define a type for just pointing to an address? Aren't all addresses the same?
+
+    All data types occupy different sizes in a computer's memory. This size is sometimes compiler dependent.
+
+    Specifying a data type for a pointer tells the compiler how many bytes to read from memory
+    when you dereference that pointer. 
+    
+    If your architecture imposes a 4-byte integer, when you dereference an int * variable 
+    the compiler will retrieve 4 bytes of data from the place in memory where your pointer points. 
+    
+    This is why you have to be careful with pointers. If you define a char variable in your code
+    and force an int * to point to that variable (via casting), when you dereference that int * 
+    you may get unexpected results (because you are accessing 4 bytes from a memory location 
+    where you have only stored a 1-byte value).
+
+    ? SYNTAX:
     */
     int *point, var; 
     /*
@@ -67,7 +83,7 @@ int main() {
     printf("%d\n", var);
 
     /*
-    * 5. (Pointer initialization) Vs. (Pointer declaration & assignment)
+    * 6. (Pointer initialization) Vs. (Pointer declaration & assignment)
     */
     int variable = 10;
     
@@ -93,8 +109,6 @@ int main() {
     variable whose address is already stored in `pointer_2`, but since there is no
     address stored in `pointer_2`, that statement would throw an error.
     */
-
-
 
     return 0;
 }
