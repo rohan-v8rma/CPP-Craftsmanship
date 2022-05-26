@@ -13,15 +13,17 @@ int main() {
 
     struct soldier soldier_list[3];
 
+    //for loop for taking input 
     for(int index = 0; index < 3; index++) {
         printf("Enter soldier details ( `enlistment_num` `kills` `guns_used` ):");
         scanf("%d %d %d", &soldier_list[index].enlistment_num, &soldier_list[index].kills, &soldier_list[index].guns_used);
     };
 
+    //for loop for printing output 
     for(int index = 0; index < 3; index++) {
         printf("Soldier %d STATS\n Enlistment number : %d \n Kills : %d\n Guns Used : %d\n", index + 1, 
         soldier_list[index].enlistment_num, soldier_list[index].kills, soldier_list[index].guns_used);
-        
     };
+    
     return 0;
 }
