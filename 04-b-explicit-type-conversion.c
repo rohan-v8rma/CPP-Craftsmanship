@@ -43,8 +43,8 @@ SYNTAX:
     
     // Another example of Explicit type conversion
 
-    float floating_point = 2.342;
-    int integer = (int)(floating_point) + 1;
+    float floating_point = 2.51;
+    int integer = (int)(floating_point) + 1; //no rounding occurs, only the value after the decimal point is lost
     printf("Explicit Type Conversion : %d\n", integer);
 
     return 0;
