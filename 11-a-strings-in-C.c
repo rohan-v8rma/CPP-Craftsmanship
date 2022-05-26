@@ -159,14 +159,14 @@ int main() {
     enough to store the resultant string. If not,! we will get the segmentation fault error.
     */
 
-    char str1[100] = "This is ", str2[] = "programiz.com";
+    char firstString[100] = "This is ", secondString[] = "programiz.com";
 
-    // concatenates str1 and str2
-    // the resultant string is stored in str1.
-    strcat(str1, str2);
+    // concatenates firstString and secondString
+    // the resultant string is stored in firstString.
+    strcat(firstString, secondString);
 
-    puts(str1);
-    puts(str2);
+    puts(firstString);
+    puts(secondString);
 
     return 0;    
 }
