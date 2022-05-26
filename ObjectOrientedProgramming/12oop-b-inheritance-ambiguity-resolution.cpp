@@ -8,9 +8,6 @@ Note that this problem is different from that of function overloading because th
 different over here, which leads to easy differentiation by the compiler in some cases, 
 on which method to call in case of inheritance.
 
-In case of function overloading, the signature of the functions has to be different for the compiler 
-to recognize which definition of that particular function it has to bind with the function call.
-
 NOTE that it is anyways bad practice to keep functions with the same name in derived classes but
 it is explained here for the sake of understanding AMBIGUITY RESOLUTION.
 */
@@ -43,7 +40,6 @@ class DerivedClass1: public BaseClass {
         };     
 };
 
-
 class DerivedClass2: public BaseClass {
         /*
         Since this class doesn't have a locally defined `greet()` method, 
@@ -53,9 +49,8 @@ class DerivedClass2: public BaseClass {
 };
 
 
+
 //* Second Case of MANUAL Ambiguity Resolution
-
-
 
 class BaseClass1 {
     public:
@@ -79,9 +74,8 @@ class DerivedClass : public BaseClass1, public BaseClass2 {
 
     This is because now instead of 
     one definition being in the LOCAL SCOPE and one definition in the OUTER SCOPE like in the first case, 
-    here both the definitions are inherited into the same scope.
+    both base classes have a function name punch().
     
-    TODO what if the function signatures are different?
     */
 
    //? Manually Resolving the ambiguity
@@ -95,5 +89,6 @@ class DerivedClass : public BaseClass1, public BaseClass2 {
 int main() {
     DerivedClass first;
     first.punch();
+    
     return 0;
 };
