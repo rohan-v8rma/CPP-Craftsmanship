@@ -88,7 +88,14 @@ class university_graduate {
 
 };
 
-class electrician : public person, protected university_graduate {
+class electrician : public person, protected university_graduate { 
+    /*
+    ! NOTE that just like in the case of data members, when we don't specify inheritance modes
+    
+    If we don't choose an inheritance type like `public person` show above, 
+    C++ defaults to private inheritance, just like data members and member functions 
+    default to private access if we don't specify otherwise.
+    */
     public:
         int badge_number;
 
