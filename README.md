@@ -12,6 +12,9 @@
     - [Poor Performance due to `std::endl`](#poor-performance-due-to-stdendl)
     - [Zero Initializing vs. Default Initializing vs. Value Initializing](#zero-initializing-vs-default-initializing-vs-value-initializing)
     - [Function Scope Determination](#function-scope-determination)
+    - [Data types in Switch Case statement](#data-types-in-switch-case-statement)
+    - [Amount of Memory occupied by a Derived Class Object](#amount-of-memory-occupied-by-a-derived-class-object)
+    - [How does a C++ program end](#how-does-a-c-program-end)
 
 <!-- /TOC -->
 
@@ -215,3 +218,26 @@ The concept of local and global function scope is very important in C++.
 In simple terms, a function can be called from a scope wherre its prototype is declared.
 
 Read [09B-a-scope.cpp](./09B-a-scope.cpp) for more details.
+
+## Data types in Switch Case statement
+
+Only integers and characters can be used in switch case expression.
+
+Read [07FoC-SwitchStatement.cpp](./FlowOfControl/07FoC-SwitchStatement.cpp) for more details.
+
+## Amount of Memory occupied by a Derived Class Object
+
+The amount of memory that an instance of a **Derived Class** occupies isn't dependent on its
+[inheritance mode](./ObjectOrientedProgramming/12oop-a-inheritance.cpp) from the **Base Class** or even on the [access modifiers](./ObjectOrientedProgramming/03oop-access-modifiers.cpp) of the data members of the Base Class.
+
+Read [12oop-d-sizeof-derived-class.cpp](./ObjectOrientedProgramming/12oop-d-sizeof-derived-class.cpp) for more details.
+
+## How does a C++ program end
+
+The `exit` function, declared in `<stdlib.h>`, terminates a C++ program. 
+
+The value supplied as an argument to exit is returned to the operating system as the program's return code or exit code. 
+
+By convention, a return code of zero means that the program completed successfully. We can also use the constants `EXIT_FAILURE` and `EXIT_SUCCESS`, also defined in `<stdlib.h>`, to indicate success or failure of your program.
+
+Issuing a return statement from the main function is equivalent to calling the exit function with the return value as its argument.
