@@ -2,7 +2,7 @@
 using namespace::std;
 
 /*
-            INDEX
+                    INDEX
 1. Ways of declaring pointers to objects
 
 2. Modifying data members of objects using object pointers
