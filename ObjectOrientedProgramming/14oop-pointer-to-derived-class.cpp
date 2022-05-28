@@ -43,17 +43,19 @@ int main() {
     baseClassPointer = &derivedInstance;
 
     /*
-    * 1. How does a pointer of a BaseClass type, when storing the address of a DerivedClass object, not throw an error?
+    * 1. How does a pointer of a BaseClass type, when storing the address of a DerivedClass object,
+    * not throw an error?
 
     We have made a BaseClass pointer point to an instance of the DerivedClass. This is not 
     throwing an error because `derivedInstance` is actually a type of BaseClass,
     ! albeit with some extra members of its own. 
 
-    So, we can use this pointer to only access members of BaseClass, not those
-    that are declared in DerivedClass.
+    ? NOTE that we can only use this pointer to access data members and member functions inherited
+    ? FROM the BaseClass ( by the DerivedClass ).
     */
     
-    //? This code is fine (because we are accessing a member of BaseClass using a pointer of type `BaseClass`)
+    //? This code is fine because we are accessing a member inherited FROM BaseClass ( by the DerivedClass instance )
+    //? using a pointer of type `BaseClass`
     baseClassPointer -> displayBase();
     
     //! Erroneous code (because we are trying to access a member of DerivedClass using a pointer of type `BaseClass`)
