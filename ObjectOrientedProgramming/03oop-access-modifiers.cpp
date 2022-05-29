@@ -18,6 +18,11 @@ This is because public elements are accessible from all parts of the program.
 The private keyword is used to create private members (data and functions).
 
 The private members can only be accessed from within the class.
+
+! NOTE that private members are inherited by derived classes. 
+! They even occupy memory when instances of the derived classes are created.
+? But, they still can't be accessed from anywhere EXCEPT from within the base class.
+
 However, friend classes and friend functions can access private members.
 
 * protected
