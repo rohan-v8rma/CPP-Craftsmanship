@@ -15,6 +15,8 @@
     - [Data types in Switch Case statement](#data-types-in-switch-case-statement)
     - [Amount of Memory occupied by a Derived Class Object](#amount-of-memory-occupied-by-a-derived-class-object)
     - [How does a C++ program end](#how-does-a-c-program-end)
+    - [How does a C++ program end ( return value of `int main()` )](#how-does-a-c-program-end--return-value-of-int-main)
+        - [Can we use `void main()` in C? Should we use it?](#can-we-use-void-main-in-c-should-we-use-it)
 
 <!-- /TOC -->
 
@@ -225,19 +227,55 @@ Only integers and characters can be used in switch case expression.
 
 Read [07FoC-SwitchStatement.cpp](./FlowOfControl/07FoC-SwitchStatement.cpp) for more details.
 
-## Amount of Memory occupied by a Derived Class Object
+## Size of Classes/Structures in C++
 
-The amount of memory that an instance of a **Derived Class** occupies isn't dependent on its
-[inheritance mode](./ObjectOrientedProgramming/12oop-a-inheritance.cpp) from the **Base Class** or even on the [access modifiers](./ObjectOrientedProgramming/03oop-access-modifiers.cpp) of the data members of the Base Class.
+When the structure was introduced in `C`, there was no concept of 'Objects' at that time. So, according to the `C standard`, it was decided to keep the size of the empty structure to zero. 
 
-Read [12oop-d-sizeof-derived-class.cpp](./ObjectOrientedProgramming/12oop-d-sizeof-derived-class.cpp) for more details.
+In `C++`, the Size of an empty structure/class is **one byte** as to call a function at least empty structure/class should have some size, i.e. one byte to make them distinguishable.
 
-## How does a C++ program end
+### Size of an Empty Class
+
+**Empty class** is a class that does not contain any data members (e.g. `int a`, `float b`, `char c`, and `string d`, etc.) However, an empty class may contain member functions. 
+
+A class WITHOUT an object requires no space allocated to it. 
+
+The space is allocated when the class is instantiated, so **1 byte** is allocated by the compiler to an object of an empty class for its **unique address identification**. 
+
+Taking a hypothetical situation where an object of an empty class is allocated 0 memory, how would be able to know that there exists an object, when we don't even have the address at which its stored? 
+
+That’s the reason when we create an object of an empty class in a C++ program, it needs some memory to get stored, and the minimum amount of memory that can be reserved is 1 byte. 
+
+Hence, if we create multiple objects of an empty class, every object will have a unique address.
+
+See [12oop-d-sizeof-empty-class.cpp](./ObjectOrientedProgramming/12oop-d-sizeof-empty-class.cpp) for validation of this.
+
+### Amount of Memory occupied by a Derived Class Object
+
+It is important to understand that the amount of memory occupied by an instance of a **Derived Class** is INDEPENDENT of its [mode of inheritance](./ObjectOrientedProgramming/12oop-a-inheritance.cpp) from the **Base Class** as well as the [access modifiers](./ObjectOrientedProgramming/03oop-access-modifiers.cpp) of the data members of the **Base Class**.
+
+It would be inconsistent and problem causing if we were to decide what members get inherited
+based on the ACCESS MODIFIER they are enclosed in ( In the Base Class ).
+
+It is easier and more reliable to accept the MEMORY OVERHEAD of the extra data members inherited from the **Base Class** which can't be accessed ( they might be under the `private:` access modifier ) but are still grouped with the **Derived Class** and are allocated memory upon creation of instances of the **Derived Class**.
+
+Take a look at [12oop-e-sizeof-derived-class.cpp](./ObjectOrientedProgramming/12oop-e-sizeof-derived-class.cpp) for validation of this concept.
+
+## How does a C++ program end ( return value of `int main()` )
 
 The `exit` function, declared in `<stdlib.h>`, terminates a C++ program. 
 
 The value supplied as an argument to exit is returned to the operating system as the program's return code or exit code. 
 
-By convention, a return code of zero means that the program completed successfully. We can also use the constants `EXIT_FAILURE` and `EXIT_SUCCESS`, also defined in `<stdlib.h>`, to indicate success or failure of your program.
+By convention, a return code of `zero` means that the program completed successfully. We can also use the constants `EXIT_FAILURE` and `EXIT_SUCCESS`, also defined in `<stdlib.h>`, to indicate success or failure of your program.
 
-Issuing a return statement from the main function is equivalent to calling the exit function with the return value as its argument.
+Issuing a return statement from the `main` function is equivalent to calling the exit function with the return value as its argument. 
+
+That is why we can't declare the return type of the `main` function as `void` in C++.
+
+### Can we use `void main()` in C? Should we use it?
+
+Although most C compilers don't give error when running `void main()`, it's non-standard (not in accordance with latest C standard that is a reference for what rules govern the behaviour of C compilers). 
+
+The standard prototype of main is `int main()` with the optional command line arguments `argc` and `argv` . 
+
+The `int` returned by `main()` is a way for a program to return a value to the system that invokes it.
