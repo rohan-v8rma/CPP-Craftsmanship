@@ -2,10 +2,12 @@
 using namespace std;
 
 /*
-1st set of Base and Derived class.
+* 1st set of Base and Derived class.
 
-Here, Base class has all data members that should be allocated memory, 
-upon instantiation of the class, set as PUBLIC.
+Here, Base class has all data members 
+that should be allocated memory, 
+upon instantiation of the class, 
+! set as PRIVATE.
 */
 class BasePrivate {
     private:
@@ -25,10 +27,12 @@ class DerivedPrivate : private BasePrivate {
 };
 
 /*
-2nd set of Base and Derived class.
+* 2nd set of Base and Derived class.
 
-Here, Base class has all data members that should be allocated memory, 
-upon instantiation of the class, set as PUBLIC.
+Here, Base class has all data members 
+that should be allocated memory, 
+upon instantiation of the class, 
+? set as PUBLIC.
 */
 
 class BasePublic {
@@ -53,7 +57,7 @@ int main() {
     DerivedPublic obj_public;
 
     /*
-    In theory, the size of both these objects should be different because,
+    In theory, the MEMORY OCCUPIED by both these objects should be different because,
     
     private data members of the BasePrivate class can't be accessed 
     using objects of DerivedPrivate so one would naturally think they wouldn't 
@@ -66,9 +70,13 @@ int main() {
     of memory.
     */
 
-    cout << "Size of derived class object whose base class has data members set as PRIVATE: " << sizeof(obj_private) << "\n";
-    cout << "Size of derived class object whose base class has data members set as PUBLIC: " << sizeof(obj_public) << "\n";
-
+    cout << "Size of derived class object whose base class has data members set as PRIVATE: " 
+         << sizeof(obj_private) 
+         << "\n";
+    
+    cout << "Size of derived class object whose base class has data members set as PUBLIC: " 
+         << sizeof(obj_public) 
+         << "\n";
 
     return 0;
 }
