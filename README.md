@@ -19,12 +19,14 @@
     - [Poor Performance due to `std::endl`](#poor-performance-due-to-stdendl)
     - [Zero Initializing vs. Default Initializing vs. Value Initializing](#zero-initializing-vs-default-initializing-vs-value-initializing)
     - [Function Scope Determination](#function-scope-determination)
+    - [Return by Reference in C++](#return-by-reference-in-c)
     - [Data types in Switch Case statement](#data-types-in-switch-case-statement)
     - [Amount of Memory occupied by a Derived Class Object](#amount-of-memory-occupied-by-a-derived-class-object)
     - [How does a C++ program end](#how-does-a-c-program-end)
     - [How does a C++ program end ( return value of `int main()` )](#how-does-a-c-program-end--return-value-of-int-main)
         - [Can we use `void main()` in C? Should we use it?](#can-we-use-void-main-in-c-should-we-use-it)
-- [Tips for C++]
+- [Tips for C++](#tips-for-c)
+    - [Alternative to `for-else` and `while-else` in C++](#alternative-to-for-else-and-while-else-in-c)
 <!-- /TOC -->
 
 # Header files and Namespaces
@@ -169,6 +171,72 @@ Take a look at [07Fu-function-templates.cpp](./Functions/07Fu-function-templates
 
 Take a look at [07Fu-function-templates.cpp](./Functions/07Fu-function-templates.cpp) for more information.
 
+# Overloading the Stream Insertion (`<<`) and Stream Extraction (`>>`) operator
+
+## `ostream` class
+
+This is a class defined in the `<iostream>` header file. 
+
+### `ofstream` class (derived from `ostream` class)
+
+This class is made to operate on files.
+
+Objects of this class maintain a `filebuf` object as their internal stream buffer, which performs input/output operations on the file they are associated with (if any).
+
+In simple words, it is a special kind of `ostream` that writes data out to a data file.
+
+## `istream` class
+
+This is a class defined in the `<iostream>` header file. 
+
+### `ifstream` class (derived from `istream` class)
+
+This class is made to operate on files.
+
+Objects of this class maintain a `filebuf` object as their internal stream buffer, which performs input/output operations on the file they are associated with (if any).
+
+## `cin` and `cout`  
+
+- `cin` is an instance/object of `ostream` class, which is declared within the `<iostream>` header file.
+- `cout` is an instance/object of `istream` class, which is declared within the `<iostream>` header file.
+
+## Stream Insertion and Extraction operators
+
+- `<<` is the stream insertion operator
+- `>>` is the stream extraction operator
+
+### Stream Insertion Operator (`<<`)
+
+The insertion operator `<<` gets its name from the idea of inserting data into the output stream.
+
+It is the one we usually use for output, as in:
+
+```cpp
+cout << "This is output\n";
+```
+
+Notice that it has two arguments in most use cases: 
+
+- on the left, an instance of the `ostream` class, and 
+- on the right, an instance of any implicit data type. 
+
+The Operator Function for defining the behaviour of this (`<<`) operator is a public member function of the `ostream` class. 
+
+It can be accessed using the following scope resolution syntax - `std::ostream::operator<<`
+
+Note that the operation returns an object of the class `ostream`, which was passed by reference to the operator function originally.
+
+Since we do not have the ability to add anything to the `ostream` class (which someone else already invented) in order to overload it for use with the user-defined class.
+
+So, we will have to make it a friend of our user-defined class and pass the `ostream` object into the friend function (as opposed to a member function being able to directly access the **data members** of the `ostream` class).
+
+
+Refer [08Op-d-stream-operator-overloading.cpp](./Operators/08Op-d-stream-operator-overloading.cpp) for an example implementation of this.
+
+## TODO (under stream operator overloading)
+
+Understand what happens after we return the ostream object which was passed by reference.
+
 # Important Concepts
     
 ## Name Lookup vs. Overload Resolution 
@@ -280,6 +348,81 @@ The concept of local and global function scope is very important in C++.
 In simple terms, a function can be called from a scope wherre its prototype is declared.
 
 Read [09B-a-scope.cpp](./09B-a-scope.cpp) for more details.
+
+## Pass and Return by Reference in C++
+
+### What is actually the meaning of By Reference?
+
+The concept is to be able to refer to a certain variable using an alternate name. 
+
+The difference between a reference and a pointer is that: 
+- references are used to refer an existing variable in another name 
+- whereas, pointers are used to store address of variable
+
+Note that references are such that we can use them as if they are the ACTUAL names of the variables themselves.
+
+For example, if a function having a return type `int&` returns an integer. We can use that function's call and assign a value to the variable.
+
+Input:
+```cpp
+int& test(int& var) {
+    return var;
+};
+
+int main() {
+    int mainVar = 1;
+
+    cout << mainVar << '\n';
+
+    test(mainVar) = 5; //Using the function call on the left side of an assignment operation
+    
+    cout << mainVar << '\n';
+
+    return 0;
+}
+```
+Output:
+```
+1
+5
+```
+
+### Makeshift Pass and Return by Reference of C
+
+In C, passing and returning a value `by reference` is actually just passing or returning a pointer `by value`.
+
+```cpp
+void swap_by_pointers(int *first_num, int *second_num) {
+    /*
+    Here, we are specifying that we would be inputting: 
+    
+    pointers which point to an integer value 
+    OR 
+    pointers which hold the address of integer values 
+    OR 
+    addresses of integer values DIRECTLY
+    */
+    int temp = *first_num;
+    *first_num = *second_num;
+    *second_num = temp;
+    /*
+    In this function, we are manipulating the variables as if we
+    have addresses stored in them. 
+    
+    In the case of the Call by Reference method of C++, 
+    we manipulate the variables normally as in Call by Value.
+    It's just that the original copies are getting mutated.
+    */
+}
+```
+
+### Example scripts of Pass and Return by Reference in C++
+
+
+- [12B-b-return-by-reference-in-CPP.cpp](./12B-b-return-by-reference-in-CPP.cpp) for an elementary example of return by reference.
+
+- [08Op-d-stream-opouterator-overloading.cpp](./Operators/08Op-d-stream-operator-overloading.cpp) for understanding why we return `cin` and `cout` by reference when we overload the stream insertion (`<<`) and stream deletion (`>>`)
+operators.
 
 ## Data types in Switch Case statement
 
