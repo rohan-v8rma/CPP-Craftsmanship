@@ -6,6 +6,13 @@
         - [What are Header Files?](#what-are-header-files)
         - [What is a Namespace?](#what-is-a-namespace)
     - [How does the most basic combination of `<iostream>` header file and `std` namespace work?](#how-does-the-most-basic-combination-of-iostream-header-file-and-std-namespace-work)
+- [Templates in C++](#templates-in-c)
+    - [What are placeholder types used in Templates?](#what-are-placeholder-types-used-in-templates)
+    - [Template Parameter Declaration](#template-parameter-declaration)
+    - [Difference between `typename` and `class` keyword](#difference-between-typename-and-class-keyword)
+    - [Function Templates](#function-templates)
+    - [Class Templates](#class-templates)
+- [Overloading the Stream Insertion `<<` and Stream Extraction `>>` operator](#overloading-the-stream-insertion--and-stream-extraction--operator)
 - [Important Concepts](#important-concepts)
     - [Name lookup vs. Overload Resolution](#name-lookup-vs-overload-resolution)
     - [Type Promotion and Type Narrowing](#type-promotion-and-type-narrowing)
@@ -17,7 +24,7 @@
     - [How does a C++ program end](#how-does-a-c-program-end)
     - [How does a C++ program end ( return value of `int main()` )](#how-does-a-c-program-end--return-value-of-int-main)
         - [Can we use `void main()` in C? Should we use it?](#can-we-use-void-main-in-c-should-we-use-it)
-
+- [Tips for C++]
 <!-- /TOC -->
 
 # Header files and Namespaces
@@ -108,6 +115,59 @@ Here, we are able to use the `cout` and `endl` methods BECAUSE they are defined 
 If it had NOT been `#include`'d, we wouldn't have been able to access these methods.
 
 So, along with specifying the namespace of a particular method, it is important to ensure that the header file or library header containing the definition of that method is `#include`'d by the source file.
+
+# Templates in C++
+
+In C++, the **template** system was designed to simplify the process of creating functions (or classes) that are able to work with different data types.
+
+Instead of manually creating a bunch of mostly-identical functions (**function overloading**) or classes (one for each set of different types), we instead create a single template. 
+
+Just like a normal definition, a template describes what a function or class looks like.
+
+In a way, we can say that..
+
+- **Class** is a blueprint for an **Object**
+- So, **Template** is a blueprint for a **Class**
+
+Once a template is defined, the compiler can use the template to generate as many overloaded functions (or classes) as needed, each using different actual types.
+
+This concept of helps us to satisfy **DRY**(Don't Repeat Yourself).
+
+## What are placeholder types used in Templates?
+
+Unlike a normal definition (where ALL types must be specified), in a template we can use one or more `placeholder` types. 
+A `placeholder` type represents some type that is not known at the time the template is written, but that will be provided later.
+
+## Template Parameter Declaration
+
+We start with the keyword `template`, which tells the compiler that we’re creating a template. 
+
+Next, we specify all of the template types (types with variable names) that our template will use inside angled brackets (`<>`). 
+
+## Difference between `typename` and `class` keyword
+
+For each template type, we use the keyword `typename` or `class`, followed by the name of the template type. The best practice is to use a single capital letter (starting with `T`) to name your template types (e.g. `T`, `U`, `V`, etc…)
+
+```cpp
+template <typename someType>
+template <class someClass>
+```
+
+Here `someType` and `someClass` are template types.
+
+Each template function (or template class) needs its own template parameter declaration.
+
+There is no difference between the `typename` and `class` keywords in this context. The use of the `class` keyword is often seen since it was introduced into the language earlier. 
+
+However, the newer `typename` keyword is preferred, because it makes it clearer that the template type can be replaced by any type (such as a `fundamental` type), not just `class` types.
+
+## Function Templates
+
+Take a look at [07Fu-function-templates.cpp](./Functions/07Fu-function-templates.cpp) for more information.
+
+## Class Templates
+
+Take a look at [07Fu-function-templates.cpp](./Functions/07Fu-function-templates.cpp) for more information.
 
 # Important Concepts
     
@@ -279,3 +339,47 @@ Although most C compilers don't give error when running `void main()`, it's non-
 The standard prototype of main is `int main()` with the optional command line arguments `argc` and `argv` . 
 
 The `int` returned by `main()` is a way for a program to return a value to the system that invokes it.
+
+# Tips for C++
+
+## Alternative to `for-else` and `while-else` in C++
+
+Like `for-else` or `while-else` in python in which `else` block was executed on 
+successful completion of iteration of the loop, we can use `exit()` function in `C++` to end 
+the program in case we don't want the body after the loop to be executed so, in a way we 
+get that same functionality.
+
+Here is a snippet of a prime number checker from Python:
+
+```python
+num = int(input("What is the number to check for prime? \n>>> "))
+
+for divisor in range(2, num):
+    if (num % divisor == 0):
+        print("Not a prime number.")
+else:
+    print("It is a prime number.")
+```
+
+...and a similar functionality implemented in C++:
+
+```cpp
+int main(){
+    int num;
+    int divisor = 2;
+
+    cout << "What is the number to check for prime : ";
+    cin >> num;
+    cout << '\n';
+    for( ; divisor < num ; ++divisor){
+        if (num % divisor == 0){
+            cout << "Not a prime number.\n\n";
+            exit(0);
+        }
+    }
+    cout << "It is a prime number.";
+    
+    return 0;
+}
+```
+
