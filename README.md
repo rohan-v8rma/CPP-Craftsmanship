@@ -135,16 +135,88 @@ Once a template is defined, the compiler can use the template to generate as man
 
 This concept of helps us to satisfy **DRY**(Don't Repeat Yourself).
 
-## What are placeholder types used in Templates?
+## Declaring one or more Template Parameters using PlaceHolder Types
 
-Unlike a normal definition (where ALL types must be specified), in a template we can use one or more `placeholder` types. 
-A `placeholder` type represents some type that is not known at the time the template is written, but that will be provided later.
+In order to declare the **Template Parameters**, we start with the `template` keyword, which tells the compiler that we’re creating a template. 
 
-## Template Parameter Declaration
+Next, we specify all of the template arguments (regular types OR `placeholder` types) that our template will use inside angled brackets (`<>`). 
 
-We start with the keyword `template`, which tells the compiler that we’re creating a template. 
+- A `placeholder` type is declared with the use of the `typename` keyword along with a **placeholder name** (For example: `T`, `U`, `V`, etc...). 
 
-Next, we specify all of the template types (types with variable names) that our template will use inside angled brackets (`<>`). 
+- It represents some type that is not known at the time the template is written, but that will be provided later. Unlike a normal definition (where ALL types must be specified), in a template we can use one or more `placeholder` types. 
+
+- These placeholder types are useful for creating Library Functions BECAUSE, we can re-use the same functions for datatypes that didn't even exist at the time of writing the Library Functions. 
+
+Note that we can declare multiple **comma separated** template parameters for a `function template` or a `class template`.
+
+An example of a `function template`:
+```cpp
+template <typename T, typename G> //parameters can be ONE or more
+
+void print(T firstVal, G secondVal) {
+    cout << firstVal << endl;
+    cout << secondVal << endl;
+};
+```
+
+An example of a `class template`:
+```cpp
+template <typename T, typename U> //parameters can be ONE or more
+
+class Array {
+    private:
+        U key;
+        T arr[50];
+    public:
+        void displayArr();
+        void displayKey() {
+            cout << "Your key is" << key << endl;
+        };
+};
+
+template <typename G, typename H>
+/*
+Note that we can change the placeholder names of the placeholder types.
+
+Although the standard is, to use the same placeholder names 
+as the original class definition in order to avoid confusion.
+*/
+void Array<G, H>::displayArr() {
+    for(int index = 0; index < 50; index++) {
+        cout << arr[index] << '\n';
+    };
+};
+
+template <typename T, typename U>
+/*
+Also keep in mind that each usage of the placeholder types 
+requires a separate `Template Parameter Declaration` as well. 
+*/
+void Array<T, U>::displayKey() {
+    cout << "Your key is" << key << endl;
+};
+```
+
+## Templates with Default Parameters
+
+
+We can use the following syntax for specifiying default datatypes of Template Parameters in case the used doesn't specify a datatype.
+
+```cpp
+template <typename T=int, typename U=float>
+```
+
+## Class Templates in C++
+
+Refer... 
+- [17oop-a-intro-to-class-templates.cpp](./ObjectOrientedProgramming/17oop-a-intro-to-class-templates.cpp) for an example implementation of templates with multiple parameters, as well as to see the usage of **Templates with default parameters**.
+- [17oop-b-another-example-of-class-templates.cpp](./ObjectOrientedProgramming/17oop-b-another-example-of-class-templates.cpp) to see how two objects derived from different classes but the same class template interact.
+
+## Function Templates
+
+Refer...
+- [07Fu-a-function-templates.cpp](./Functions/07Fu-a-function-templates.cpp) for a standard implementation of function templates.
+- [07Fu-c-overloaded-and-templatized-member-func.cpp](./Functions/07Fu-c-overloaded-and-templatized-member-func.cpp) for understanding how a function call is resolved when a function is both templatized and overloaded.
 
 ## Difference between `typename` and `class` keyword
 
@@ -157,19 +229,9 @@ template <class someClass>
 
 Here `someType` and `someClass` are template types.
 
-Each template function (or template class) needs its own template parameter declaration.
-
 There is no difference between the `typename` and `class` keywords in this context. The use of the `class` keyword is often seen since it was introduced into the language earlier. 
 
 However, the newer `typename` keyword is preferred, because it makes it clearer that the template type can be replaced by any type (such as a `fundamental` type), not just `class` types.
-
-## Function Templates
-
-Take a look at [07Fu-function-templates.cpp](./Functions/07Fu-function-templates.cpp) for more information.
-
-## Class Templates
-
-Take a look at [07Fu-function-templates.cpp](./Functions/07Fu-function-templates.cpp) for more information.
 
 # Overloading the Stream Insertion (`<<`) and Stream Extraction (`>>`) operator
 
