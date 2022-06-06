@@ -7,11 +7,11 @@
         - [What is a Namespace?](#what-is-a-namespace)
     - [How does the most basic combination of `<iostream>` header file and `std` namespace work?](#how-does-the-most-basic-combination-of-iostream-header-file-and-std-namespace-work)
 - [Templates in C++](#templates-in-c)
-    - [What are placeholder types used in Templates?](#what-are-placeholder-types-used-in-templates)
-    - [Template Parameter Declaration](#template-parameter-declaration)
-    - [Difference between `typename` and `class` keyword](#difference-between-typename-and-class-keyword)
+    - [## Declaring one or more Template Parameters using PlaceHolder Types](#declaring-one-or-more-template-parameters-using-placeholder-types)
+    - [Templates with Default Parameters](#templates-with-default-parameters)
     - [Function Templates](#function-templates)
     - [Class Templates](#class-templates)
+    - [Difference between `typename` and `class` keyword](#difference-between-typename-and-class-keyword)
 - [Overloading the Stream Insertion `<<` and Stream Extraction `>>` operator](#overloading-the-stream-insertion--and-stream-extraction--operator)
 - [Important Concepts](#important-concepts)
     - [Name lookup vs. Overload Resolution](#name-lookup-vs-overload-resolution)
@@ -206,7 +206,7 @@ We can use the following syntax for specifiying default datatypes of Template Pa
 template <typename T=int, typename U=float>
 ```
 
-## Class Templates in C++
+## Class Templates
 
 Refer... 
 - [17oop-a-intro-to-class-templates.cpp](./ObjectOrientedProgramming/17oop-a-intro-to-class-templates.cpp) for an example implementation of templates with multiple parameters, as well as to see the usage of **Templates with default parameters**.
