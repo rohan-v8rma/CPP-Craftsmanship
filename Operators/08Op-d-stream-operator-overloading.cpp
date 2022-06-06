@@ -45,6 +45,7 @@ istream& operator >> (istream & in, Student &example) {
     is modified such that its input buffer has some new bytes of data, 
     which it needs to initialize variables with.
     
+    TODO understand more in-depth
     */
 
 };

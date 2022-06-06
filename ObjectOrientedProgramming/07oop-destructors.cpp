@@ -28,6 +28,7 @@ A destructor function is called automatically, in order to destroy the object fr
 when the object goes out of scope: 
 
 (1) the function ends 
+! For example, when main function returns a value, then destructors are called
 (2) the program ends 
 (3) a block containing local variables ends 
 (4) a delete operator is called

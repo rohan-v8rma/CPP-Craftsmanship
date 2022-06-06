@@ -3,12 +3,12 @@ using namespace::std;
 
 class Complex {
     
-    friend Complex operator * (Complex const &first, Complex const &second);
+    friend Complex operator * (Complex &first, Complex &second);
     
     private:
         int real, imag;
     public:
-        Complex(){};
+        Complex(); //todo, when we remove curly brackets, why is an error thrown
 
         Complex(int real_parameter, int imag_parameter) {
             real = real_parameter;
@@ -43,7 +43,7 @@ class Complex {
 This is an example of an OPERATOR FUNCTION that is declared as a 
 Friend Function of the class the operator is overloaded for.
 */
-Complex operator * (Complex const &first, Complex const &second) { 
+Complex operator * (Complex &first, Complex &second) { 
     //these parameters can be made not 'const' and pass by value. It won't make much difference
     Complex product;
     product.real = (first.real * second.real) + (first.imag * second.imag);

@@ -9,7 +9,7 @@ class Complex {
     private:
         int real, imag;
     public:
-        Complex(){};
+        Complex();
 
         Complex(int real_parameter, int imag_parameter) {
             real = real_parameter;
