@@ -1,9 +1,10 @@
 #include <iostream>
+#include <string.h>
 using namespace::std;
 
 class Hostel {
     public:
-        char blockName;
+        char blockName[7] = "Block ";
         int roomNumber;
         string airCon;
         string diet;
@@ -21,7 +22,7 @@ class Hostel {
         };
 
         Hostel() {
-            blockName = block;
+            blockName[5] = block;
             roomNumber = rooms;
             allotRoom();
         };
@@ -36,7 +37,6 @@ class Student {
     friend istream& operator >> (istream& in, Student& student);
     friend ostream& operator << (ostream& out, Student& student);
     
-    friend void sameBlockStudents(Student *studentList);
     friend void sameBlockStudents(char blockFind, Student *studentList, int size);
 
     private:
@@ -83,17 +83,23 @@ void sameBlockStudents(char blockFind, Student *studentList, int size) {
     
     int matches = 0;
 
+    char blockMatch[7] = "Block ";
+    blockMatch[5] = blockFind;
+
     for(int index = 0; index < size; index++) {    
-        if ( ((*(studentList + index)).hostelInfo).blockName == blockFind ) {
+
+        int test = strcmp(((*(studentList + index)).hostelInfo).blockName, blockMatch);
+        
+        if (!test) {
             matches += 1;
             cout << ((studentList + index) -> regNumber) << ", ";
         };
     };
+
     printf("%d out of %d students belong to this block.\n", matches, size);
 };
 
 int main() {
-    // Student::setTotalInstances();
 
     Student studentList[1];
 
