@@ -15,6 +15,11 @@ which are instances of the class.
 
 ? When we set a data member as STATIC, it is automatically INITIALIZED to 0.
 
+* Access specifiers for STATIC data members
+Whatever access specifier we keep a static data member under, it can still be accessed
+outside the class and initialized,
+USING THE SCOPE RESOLUTION OPERATOR 
+
 * Applications of STATIC data member
 It can help in keeping a count on how many objects have been created.
 
