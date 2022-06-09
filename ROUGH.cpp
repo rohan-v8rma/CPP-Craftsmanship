@@ -3,7 +3,7 @@ using namespace::std;
 
 class Hostel {
     public:
-        string blockName;
+        char blockName;
         int roomNumber;
         string airCon;
         string diet;
@@ -21,7 +21,7 @@ class Hostel {
         };
 
         Hostel() {
-            blockName = (string)( "Block" + block );
+            blockName = block;
             roomNumber = rooms;
             allotRoom();
         };
@@ -37,7 +37,7 @@ class Student {
     friend ostream& operator << (ostream& out, Student& student);
     
     friend void sameBlockStudents(Student *studentList);
-    friend void sameBlockStudents(string blockFind, Student *studentList, int size);
+    friend void sameBlockStudents(char blockFind, Student *studentList, int size);
 
     private:
         string regNumber;
@@ -79,23 +79,17 @@ ostream& operator << (ostream& out, Student& student) {
     return out;
 };
 
-void sameBlockStudents(string blockFind, Student *studentList, int size) {
+void sameBlockStudents(char blockFind, Student *studentList, int size) {
     
     int matches = 0;
 
-    for(int index = 0; index < size; index++) {
-        
-
-        cout << (*(studentList + index)) << "\n";
-        cout << ((*(studentList + index)).hostelInfo).roomNumber << "\n";
-        // cout << "Block" << blockFind << "\n";
-    
-        if ( ((*(studentList + index)).hostelInfo).blockName == ("Block" + blockFind) ) {
+    for(int index = 0; index < size; index++) {    
+        if ( ((*(studentList + index)).hostelInfo).blockName == blockFind ) {
             matches += 1;
             cout << ((studentList + index) -> regNumber) << ", ";
         };
     };
-    printf("%d out of %d students belong to this block.", matches, size);
+    printf("%d out of %d students belong to this block.\n", matches, size);
 };
 
 int main() {
@@ -107,9 +101,8 @@ int main() {
         cin >> studentList[index];
     };
 
-    string blockFind;
-
-    // cout << "Find students of block [Enter block as a capital letter]: ";
+    char blockFind;
+    cout << "What block students do you need? --> ";
     cin >> blockFind;
     
     sameBlockStudents(blockFind, studentList, (sizeof(studentList)/sizeof(studentList[0])));
