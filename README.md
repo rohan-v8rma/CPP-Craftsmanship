@@ -7,11 +7,13 @@
         - [What is a Namespace?](#what-is-a-namespace)
     - [How does the most basic combination of `<iostream>` header file and `std` namespace work?](#how-does-the-most-basic-combination-of-iostream-header-file-and-std-namespace-work)
 - [Templates in C++](#templates-in-c)
-    - [## Declaring one or more Template Parameters using PlaceHolder Types](#declaring-one-or-more-template-parameters-using-placeholder-types)
+    - [Declaring one or more Template Parameters using PlaceHolder Types](#declaring-one-or-more-template-parameters-using-placeholder-types)
     - [Templates with Default Parameters](#templates-with-default-parameters)
     - [Function Templates](#function-templates)
     - [Class Templates](#class-templates)
     - [Difference between `typename` and `class` keyword](#difference-between-typename-and-class-keyword)
+- [Standard Template Library in C++](#standard-template-library-in-c)
+    - [Advantages of STL](#advantages-of-stl)
 - [Overloading the Stream Insertion `<<` and Stream Extraction `>>` operator](#overloading-the-stream-insertion--and-stream-extraction--operator)
 - [Important Concepts](#important-concepts)
     - [Name lookup vs. Overload Resolution](#name-lookup-vs-overload-resolution)
@@ -22,9 +24,10 @@
     - [Return by Reference in C++](#return-by-reference-in-c)
     - [Data types in Switch Case statement](#data-types-in-switch-case-statement)
     - [Amount of Memory occupied by a Derived Class Object](#amount-of-memory-occupied-by-a-derived-class-object)
-    - [How does a C++ program end](#how-does-a-c-program-end)
+    - [Empty Function/Constructor Definition](#empty-functionconstructor-definition)
     - [How does a C++ program end ( return value of `int main()` )](#how-does-a-c-program-end--return-value-of-int-main)
         - [Can we use `void main()` in C? Should we use it?](#can-we-use-void-main-in-c-should-we-use-it)
+    
 - [Tips for C++](#tips-for-c)
     - [Alternative to `for-else` and `while-else` in C++](#alternative-to-for-else-and-while-else-in-c)
 <!-- /TOC -->
@@ -232,6 +235,29 @@ Here `someType` and `someClass` are template types.
 There is no difference between the `typename` and `class` keywords in this context. The use of the `class` keyword is often seen since it was introduced into the language earlier. 
 
 However, the newer `typename` keyword is preferred, because it makes it clearer that the template type can be replaced by any type (such as a `fundamental` type), not just `class` types.
+
+# Standard Template Library in C++
+
+The C++ STL (Standard Template Library) is a powerful set of C++ template classes to provide general-purpose classes and functions with templates that implement many popular and commonly used algorithms and data structures like vectors, lists, queues, and stacks.
+
+STL is used because it is a good idea not to re-invent the wheel.
+
+At the core of the C++ Standard Template Library are following three well-structured components −
+
+- **Containers** are used to manage collections of objects of a certain kind. There are several different types of containers like deque, list, vector, map etc.
+
+- **Algorithms** act on containers. They provide the means by which you will perform initialization, sorting, searching, and transforming of the contents of containers.
+
+- **Iterators** are used to step through the elements of collections of objects. These collections may be containers or subsets of containers.
+
+Iterator is an object that points to an element in a Container. It is handled just like pointers. 
+
+The movement of this object is controlled by the Algorithm.  
+
+## Advantages of STL
+
+- We can re-use well tested components.
+- We can save time no matter what level of proficiency you have in C++.
 
 # Overloading the Stream Insertion (`<<`) and Stream Extraction (`>>`) operator
 
@@ -524,6 +550,42 @@ based on the ACCESS MODIFIER they are enclosed in ( In the Base Class ).
 It is easier and more reliable to accept the MEMORY OVERHEAD of the extra data members inherited from the **Base Class** which can't be accessed ( they might be under the `private:` access modifier ) but are still grouped with the **Derived Class** and are allocated memory upon creation of instances of the **Derived Class**.
 
 Take a look at [12oop-e-sizeof-derived-class.cpp](./ObjectOrientedProgramming/12oop-e-sizeof-derived-class.cpp) for validation of this concept.
+
+## Empty Function/Constructor Definition
+
+Consider the following code snippet...
+```cpp
+1  #include <iostream>
+2
+3  class Example {
+4     public:
+5         void display1();
+6         void display2(){};
+7 
+8         int process1();
+9         int process2(){};
+10
+11        Example();
+12        Example(){};
+13 };
+```
+- Line 5 is a VALID **function prototype declaration**.
+- Line 6 is a VALID **empty function definition**. This means that it is not possible use the scope resolution operator and define the function (again) outside the class because we will receive a **function re-definition error**. 
+- Line 8 is a VALID **function prototype declaration**.
+- Line 9 is an INVALID **empty function definition** because the function has a non-void return type, yet there is no return statement within the function definition, so we get a warning similar to this: 
+
+    ```bash
+    warning: no return statement in function returning non-void [-Wreturn-type]
+    ```
+- Line 10 is a VALID **default constructor prototype**. But, the user might get errors when trying to create objects using the default constructor if the program doesn't contain a definition later on for this **default constructor**. The sytax for the constructor definition is similar to this:
+    ```cpp 
+    Base::Base() {
+        //...
+        //constructor definition
+        //...
+    };
+    ```
+- Line 11 is a VALID **empty default constructor definition** because constructors don't return any values. But, just like line 6, we can't write a definition for this constructor using the scope resolution operator (`::`) outside the class as it would be considered a **function re-definition** which is not allowed. 
 
 ## How does a C++ program end ( return value of `int main()` )
 
