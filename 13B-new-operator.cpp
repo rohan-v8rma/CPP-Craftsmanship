@@ -24,10 +24,10 @@ int main() {
     secondIntegerPointer = new int(5); 
     /*
     Notice how when we place ROUND brackets, it is taken as the value for intializing 
-    the integer that the `firstIntegerPointer` is made to point to
+    the integer that the `secondIntegerPointer` is made to point to
     */
 
-    cout << *firstIntegerPointer << "\n";
+    cout << *secondIntegerPointer << "\n";
 
     //? Using `new` to allocate memory for an integer array and assign it to an integer pointer 
     int *thirdIntegerPointer;

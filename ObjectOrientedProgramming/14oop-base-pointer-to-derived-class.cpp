@@ -58,7 +58,7 @@ int main() {
     //? using a pointer of type `BaseClass`
     baseClassPointer -> displayBase();
     
-    //! Erroneous code (because we are trying to access a member of DerivedClass using a pointer of type `BaseClass`)
+    //! Erroneous code below (because we are trying to access a member of DerivedClass using a pointer of type `BaseClass`)
     //// baseClassPointer -> derivedClassMember;
 
 
