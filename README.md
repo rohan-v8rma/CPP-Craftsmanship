@@ -14,6 +14,16 @@
     - [Difference between `typename` and `class` keyword](#difference-between-typename-and-class-keyword)
 - [Standard Template Library in C++](#standard-template-library-in-c)
     - [Advantages of STL](#advantages-of-stl)
+    - [Containers](#containers)
+        - [Sequence Containers](#sequence-containers)
+            - [`std::vector`](#stdvector)
+                - [Some member functions of `std::vector`](#some-member-functions-of-stdvector)
+            - [`std::list`](#stdlist)
+        - [Associative Containers](#associative-containers)
+            - [`std::set` and `std::multiset`](#stdset-and-stdmultiset)
+            - [`std::map` and `std::multimap`](#stdmap-and-stdmultimap)
+        - [Derived Containers](#derived-containers)
+    - [Iterators](#iterators)
 - [Overloading the Stream Insertion `<<` and Stream Extraction `>>` operator](#overloading-the-stream-insertion--and-stream-extraction--operator)
 - [Important Concepts](#important-concepts)
     - [Name lookup vs. Overload Resolution](#name-lookup-vs-overload-resolution)
@@ -258,6 +268,91 @@ The movement of this object is controlled by the Algorithm.
 
 - We can re-use well tested components.
 - We can save time no matter what level of proficiency you have in C++.
+
+## Containers
+
+A Container class is a class designed to hold and organize multiple instances of another type (either another class, or a fundamental type). 
+
+There are many different kinds of container classes, each of which has various advantages, disadvantages, and restrictions in their use.
+
+### Sequence Containers
+
+Sequence containers are container classes that maintain the ordering of elements in the container. A defining characteristic of sequence containers is that you can choose where to insert your element by position. 
+
+As of C++11, the STL contains 6 sequence containers: `std::vector`, `std::deque`, `std::array`, `std::list`, `std::forward_list`, and `std::basic_string`
+
+### `std::vector`
+
+`std::vector` provides dynamic array functionality that handles its own memory management.
+
+ This means we can create arrays that have their length set at run-time, without having to explicitly allocate and deallocate memory using `new` and `delete` operators. 
+ 
+ `std::vector` is defined in the `<vector>` header file and is included under the `std` namespace.
+
+- Random access is fast in `std::vector`.
+- Insertion and deletion at the end is fast but slow in the middle.
+
+This is in comparison with the built-in implementation of arrays in C.
+
+### Some member functions of `std::vector`
+
+- `std::vector::size()` 
+    
+    It returns the number of elements in the vector.
+
+    This is the number of actual objects held in the vector, which is not necessarily equal to its storage capacity.
+    <br><br>
+
+- `std::vector::capacity()` 
+
+    It returns the size of the storage space **currently allocated** for the vector, expressed in terms of elements.
+
+    This capacity is not necessarily equal to the vector size. It can be equal or greater, with the extra space allowing to accommodate for growth without the need to reallocate on each insertion.
+
+    Notice that this capacity does not suppose a limit on the size of the vector. When this capacity is exhausted and more is needed, it is automatically expanded by the container (reallocating it storage space). The theoretical limit on the size of a vector is given by member max_size.
+    <br><br>
+
+- `std::vector::max_size()` 
+
+    It returns the maximum number of elements that the vector can hold.
+
+    This is the **maximum potential size** the container can reach due to known system or library implementation limitations, but the container is by no means guaranteed to be able to reach that size: it can still fail to allocate storage at any point before that size is reached.
+
+
+#### Take a look at [vectors.cpp](./StandardTemplateLibrary/vectors.cpp) for example code.
+
+### `std::list`
+
+TODO
+
+- Random access is slow in `std::list`.
+- Insertion and deletion is fast both at the end and in the middle.
+
+### Associative Containers
+
+Associative containers are containers that automatically sort their inputs when those inputs are inserted into the container. By default, associative containers compare elements using operator `<`.
+
+All operations (searching, insertion and deleting) are fast except for Random Access.
+
+### `std::set` and `std::multiset`
+
+- `std::set` is a container that stores unique elements, with duplicate elements disallowed. The elements are sorted according to their values.
+- `std::multiset` is a set where duplicate elements are allowed.
+
+`std::set` and `std::multiset` are both defined in the `<set>` header file and are included under the `std` namespace.
+
+### `std::map` and `std::multimap`
+
+- `std::map` (also called an associative array) is a set where each element is a pair, called a key/value pair. The key is used for sorting and indexing the data, and must be unique. The value is the actual data.
+- `std::multimap` (also called a dictionary) is a map that allows duplicate keys. Real-life dictionaries are multimaps: the key is the word, and the value is the meaning of the word. All the keys are sorted in ascending order, and you can look up the value by key. Some words can have multiple meanings, which is why the dictionary is a multimap rather than a map.
+
+`std::map` and `std::multimap` are both defined in the `<map>` header file and are included under the `std` namespace.
+
+### Derived Containers
+
+These containers model real-world objects so the speed of their operations depends on the implementation of the container.
+
+## Iterators
 
 # Overloading the Stream Insertion (`<<`) and Stream Extraction (`>>`) operator
 
