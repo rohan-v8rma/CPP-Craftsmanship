@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 int main() {
+
     int matrix[3][4];
     int out_limit = ( sizeof(matrix) / sizeof(matrix[0]) );
     int in_limit = ( sizeof(matrix[0]) / sizeof(int) );
