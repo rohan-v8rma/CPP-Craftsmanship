@@ -296,16 +296,34 @@ This is in comparison with the built-in implementation of arrays in C.
 
 ### Some member functions of `std::vector`
 
+- `std::vector::begin()`
+
+    Returns an `iterator` pointing to the first element in the vector.
+
+    Notice that, unlike member `vector::front`, which returns a **reference** to the first element, this function returns a `random access iterator` pointing to it.
+    <br><br>
+
+- `std::vector::end()`
+    
+    Returns an iterator referring to the **past-the-end** element in the vector container.
+
+    The **past-the-end** element is the theoretical element that would follow the last element in the vector. It does not point to any element, and thus shall not be dereferenced.
+
+    Because the ranges used by functions of the standard library do not include the element pointed by their closing iterator, this function is often used in combination with `vector::begin` to specify a range including all the elements in the [container](#containers).
+
+    If the container is empty, this function returns the same as `vector::begin`.
+    <br><br>
+
 - `std::vector::size()` 
     
-    It returns the number of elements in the vector.
+    Returns the number of elements in the vector.
 
     This is the number of actual objects held in the vector, which is not necessarily equal to its storage capacity.
     <br><br>
 
 - `std::vector::capacity()` 
 
-    It returns the size of the storage space **currently allocated** for the vector, expressed in terms of elements.
+    Returns the size of the storage space **currently allocated** for the vector, expressed in terms of elements.
 
     This capacity is not necessarily equal to the vector size. It can be equal or greater, with the extra space allowing to accommodate for growth without the need to reallocate on each insertion.
 
@@ -314,10 +332,26 @@ This is in comparison with the built-in implementation of arrays in C.
 
 - `std::vector::max_size()` 
 
-    It returns the maximum number of elements that the vector can hold.
+    Returns the maximum number of elements that the vector can hold.
 
     This is the **maximum potential size** the container can reach due to known system or library implementation limitations, but the container is by no means guaranteed to be able to reach that size: it can still fail to allocate storage at any point before that size is reached.
+    <br><br>
 
+- `std::vector::push_back()`
+
+    Adds a new element at the end of the vector, after its current last element. The content of val is copied (or moved) to the new element.
+
+    This effectively increases the container size by one, which causes an automatic reallocation of the allocated storage space if **-and only if-** the new vector size surpasses the current vector capacity.
+    <br><br>
+
+- `std::vector::pop_back()`
+    <br><br>
+
+- `std::vector::insert()`
+    The vector is extended by inserting new elements before the element at the specified position, effectively increasing the container size by the number of elements inserted.
+
+    This causes an automatic reallocation of the allocated storage space if -and only if- the new vector size surpasses the current vector capacity.
+    <br><br>
 
 #### Take a look at [vectors.cpp](./StandardTemplateLibrary/vectors.cpp) for example code.
 
