@@ -10,7 +10,8 @@
     - [What is Stack Overflow Error?](#what-is-stack-overflow-error)
   - [6. Command Line Arguments](#6-command-line-arguments)
   - [7. Usage of Heap](#7-usage-of-heap)
-
+- 
+- [Sequence Points in C/C++](#sequence-points-in-cc) 
 <!-- /TOC -->
 # Memory Allocation in C
 
@@ -125,3 +126,19 @@ The address is stored by the local variable in the `main` function (this local v
 We should note that the memory consumed will not get freed automatically in case we overwrite the pointer. If suppose we overwrite the pointer to an array with a character, the remaining memory which was occupied by the array will become GARBAGE and it will be counted in the usage of the program.
 
 This should be looked out for as it can lead to complete exhaustion of the memory.
+
+# Sequence Points in C/C++
+
+In general, we can consider the sequence point as it defines any point in the execution of a computer program at which it guarantees or ensures that all the side effects of the previous evaluation of the program's code are done or successfully performed. 
+
+However, it also ensures that none of the alterations or side effects of the subsequent evaluations is yet performed at all.
+
+Also, according to the C++ Standard:
+```
+Between the previous and next sequence point, 
+a scalar object shall have its stored value 
+modified at most once by the evaluation of an expression.
+```
+which, in a sense means that we are not supposed to change a variable's value multiple times in the same expression.
+
+Take a look at [16-sequence-points.c](./16-sequence-points.c) for example code.
