@@ -31,7 +31,10 @@
     - [Poor Performance due to `std::endl`](#poor-performance-due-to-stdendl)
     - [Zero Initializing vs. Default Initializing vs. Value Initializing](#zero-initializing-vs-default-initializing-vs-value-initializing)
     - [Function Scope Determination](#function-scope-determination)
-    - [Return by Reference in C++](#return-by-reference-in-c)
+    - [Pass and Return by Reference in C++](#pass-and-return-by-reference-in-c)
+        - [What is actually the meaning of By Reference?](#what-is-actually-the-meaning-of-by-reference)
+        - [Makeshift Pass and Return by Reference of C](#makeshift-pass-and-return-by-reference-of-c)
+        - [Example scripts of Pass and Return by Reference in C++](#example-scripts-of-pass-and-return-by-reference-in-c)
     - [Data types in Switch Case statement](#data-types-in-switch-case-statement)
     - [Amount of Memory occupied by a Derived Class Object](#amount-of-memory-occupied-by-a-derived-class-object)
     - [Empty Function/Constructor Definition](#empty-functionconstructor-definition)
@@ -337,7 +340,7 @@ This is in comparison with the built-in implementation of arrays in C.
     This is the **maximum potential size** the container can reach due to known system or library implementation limitations, but the container is by no means guaranteed to be able to reach that size: it can still fail to allocate storage at any point before that size is reached.
     <br><br>
 
-- `std::vector::push_back()`
+- `std::vector::push_back(<element>)`
 
     Adds a new element at the end of the vector, after its current last element. The content of val is copied (or moved) to the new element.
 
@@ -347,7 +350,7 @@ This is in comparison with the built-in implementation of arrays in C.
 - `std::vector::pop_back()`
     <br><br>
 
-- `std::vector::insert()`
+- `std::vector::insert(<element>, <index-position>)`
     The vector is extended by inserting new elements before the element at the specified position, effectively increasing the container size by the number of elements inserted.
 
     This causes an automatic reallocation of the allocated storage space if -and only if- the new vector size surpasses the current vector capacity.
@@ -638,7 +641,7 @@ void swap_by_pointers(int *first_num, int *second_num) {
 
 - [12B-b-return-by-reference-in-CPP.cpp](./12B-b-return-by-reference-in-CPP.cpp) for an elementary example of return by reference.
 
-- [08Op-d-stream-opouterator-overloading.cpp](./Operators/08Op-d-stream-operator-overloading.cpp) for understanding why we return `cin` and `cout` by reference when we overload the stream insertion (`<<`) and stream deletion (`>>`)
+- [08Op-d-stream-operator-overloading.cpp](./Operators/08Op-d-stream-operator-overloading.cpp) for understanding why we return `cin` and `cout` by reference when we overload the stream insertion (`<<`) and stream deletion (`>>`)
 operators.
 
 ## Data types in Switch Case statement
