@@ -67,8 +67,8 @@ int main() {
         };
     };
 
-    for(int out_index = 0; out_index < ( sizeof(matrix) / sizeof(matrix[0]) ); out_index++) {
-        for(int in_index = 0; in_index < ( sizeof(matrix[0]) / sizeof(int) ); in_index++) {
+    for(int out_index = 0; out_index < out_limit; out_index++) {
+        for(int in_index = 0; in_index < in_limit; in_index++) {
             
             printf("%d ", *(*(matrix + out_index) + in_index));
         };
