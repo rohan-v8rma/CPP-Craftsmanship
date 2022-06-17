@@ -1,7 +1,7 @@
 #include<stdio.h>
 
 //TODO understand in more depth
-//? This is another way of storing strings in C but it is a DEPRECATED method. refer `10-strings-in-C` for the first method.
+//? This is another way of storing strings in C but it is a DEPRECATED method. refer `11-a-strings-in-C` for the first method.
 int main() {
     char *pointer = "abc"; //! these strings aren't mutable
     /*
