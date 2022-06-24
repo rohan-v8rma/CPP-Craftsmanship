@@ -148,7 +148,7 @@ This assembly language code is given to the assembler and assembler produces `ob
 
 The term `object code` indicates the code is the goal or **"objective"** of the compiling process, wherein compilation includes the assembling phases as well.
 
-This code can be run on any machine irrespective of the architecture of the CPU. It is also referred to as **Intermediate Code**.
+This code can be run on any machine with the same CPU architecture. It is also referred to as **Intermediate Code**.
 
 ## `gcc` compiler
 
