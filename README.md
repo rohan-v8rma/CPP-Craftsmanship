@@ -11,6 +11,13 @@
   - [6. Command Line Arguments](#6-command-line-arguments)
   - [7. Usage of Heap](#7-usage-of-heap)
 - [Source Code to Executable File](#source-code-to-executable-file)
+  - [Source Code to Assembly Code](#source-code-to-assembly-code)
+  - [Assembly Code to Object Code](#assembly-code-to-object-code)
+    - [What is Object Code?](#what-is-object-code)
+  - [`gcc` compiler](#gcc-compiler)
+  - [Intermediate/Object Code files](#intermediateobject-code-files)
+  - [Role of Linker in creating executable/library files](#role-of-linker-in-creating-executablelibrary-files)
+    - [How exactly does `linker` work and what is its need?](#how-exactly-does-linker-work-and-what-is-its-need)
 - [Sequence Points in C/C++](#sequence-points-in-cc) 
 <!-- /TOC -->
 # Memory Allocation in C
