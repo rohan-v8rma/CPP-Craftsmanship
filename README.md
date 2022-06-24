@@ -10,7 +10,7 @@
     - [What is Stack Overflow Error?](#what-is-stack-overflow-error)
   - [6. Command Line Arguments](#6-command-line-arguments)
   - [7. Usage of Heap](#7-usage-of-heap)
-- 
+- [Source Code to Executable File](#source-code-to-executable-file)
 - [Sequence Points in C/C++](#sequence-points-in-cc) 
 <!-- /TOC -->
 # Memory Allocation in C
@@ -126,6 +126,60 @@ The address is stored by the local variable in the `main` function (this local v
 We should note that the memory consumed will not get freed automatically in case we overwrite the pointer. If suppose we overwrite the pointer to an array with a character, the remaining memory which was occupied by the array will become GARBAGE and it will be counted in the usage of the program.
 
 This should be looked out for as it can lead to complete exhaustion of the memory.
+
+# Source Code to Executable File
+
+## Source Code to Assembly Code
+
+When we have the source code of a C program, that `source code` is passed to the compiler and compiler will produce the output in `assembly code` (mnemonic version of machine code). 
+
+## Assembly Code to Object Code
+
+This assembly language code is given to the assembler and assembler produces `object code`,  which is usually in binary language.  
+
+### What is Object Code?
+
+The term `object code` indicates the code is the goal or **"objective"** of the compiling process, wherein compilation includes the assembling phases as well.
+
+This code can be run on any machine irrespective of the architecture of the CPU. It is also referred to as **Intermediate Code**.
+
+## `gcc` compiler
+
+When we wish to run a C program, we just pass it to the `gcc` compiler and it directly gives us the executable file for the program. 
+
+But, we know that there are several steps along with compilation for obtaining the executable file for a program.
+
+The compiler software actually has within it, the `assembler` along with `loader` and `linker`. So, all the modules are kept together. 
+
+When we call `gcc`, we are actually calling not just the `compiler`, we are calling the `compiler`, then `assembler`, then `linker` and `loader`.
+
+## Intermediate/Object Code files
+
+`.obj` files (.o files on Linux/Unix) are `compiled & assembled` source files. There will indeed be one for each `.cpp` file, or more formally "compilation unit". 
+
+They are produced by the `compilation & assembling` phase of building a project.
+
+## Role of Linker in creating executable/library files
+
+These `.obj` files are then combined by linker to:
+ - an application, which is usually a `.exe` file on Windows. On Unix-like systems, an application has no extension. 
+ 
+ OR
+ - a library file (dynamic or static)
+    -  `.dll` on Windows, `.so` on a Unix-like platform for dynamic library files.
+    - `.lib` on Windows, `.a` on a Unix-like platform for static library files (which is basically a collection of `.obj` files in one packed into one file). 
+
+We do not see `.obj` files or static `.lib` files with applications/programs, because they are not needed at runtime, they are used only by `linker`. 
+
+When we run the linking phase of building a project, `linker` combines all the needed `.obj` files into `.exe` and `.dll` files (or equivalent), which are used at runtime.
+
+### How exactly does `linker` work and what is its need?
+
+Let us assume that we `#include`'d some header files in our C program and used the functions that had their prototypes within these header files.
+
+We know that the actual definitions of these functions are in certain libraries that are referred to within the header file.
+
+If we were to explain the need of a linker in simple terms, after `compilation & assembling`, once we obtain the object code contained within an `.obj` file, the linker ensures that the definitions of the `library functions` used are grouped with the object code into a single package which is the `executable file` of the program.
 
 # Sequence Points in C/C++
 
