@@ -165,6 +165,9 @@ When we call `gcc`, we are actually calling not just the `compiler`, we are call
 `.obj` files (.o files on Linux/Unix) are `compiled & assembled` source files. There will indeed be one for each `.cpp` file, or more formally "compilation unit". 
 
 They are produced by the `compilation & assembling` phase of building a project.
+<div align="center" >
+<img src="./compilation-of-c-programs.jpg" width = "50%" />
+</div>
 
 ## Role of Linker in creating executable/library files
 
