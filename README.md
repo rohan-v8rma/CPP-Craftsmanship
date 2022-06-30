@@ -1,5 +1,5 @@
 <!-- TOC -->
-
+- [Compiling using g++](#compiling-using-g)
 - [Header files and Namespaces](#header-files-and-namespaces)
     - [Accessing methods using **header files** and **namespaces**](#accessing-methods-using-header-files-and-namespaces)
     - [Need of both **Header files** and **namespaces**](#need-of-both-header-files-and-namespaces)
@@ -44,6 +44,101 @@
 - [Tips for C++](#tips-for-c)
     - [Alternative to `for-else` and `while-else` in C++](#alternative-to-for-else-and-while-else-in-c)
 <!-- /TOC -->
+
+# Compiling using g++
+
+The information is just a summarized explanation of the most used commands. Check out [this](https://man7.org/linux/man-pages/man1/g++.1.html) documentation for all the possible flags.
+
+## Options controlling the kind of Output
+
+We invoke `gcc`/`g++` in order to compile the source code of a C/C++ program. In reality, these programs perform multiple steps along with compilation in order to obtain the executable file from the source code.
+
+**Compilation** can involve up to four stages: `preprocessing`, `compilation proper`, `assembly and linking`, always in that order.
+
+GCC is capable of preprocessing and compiling several files either into several assembler input files, or into one assembler input file; then each assembler input file produces an object file, and linking combines all the object files (those newly compiled, and those specified as input) into an executable file.
+
+The "overall options" allow you to stop this process at an intermediate stage. 
+
+For example, the `-c` option says not to run the linker.  Then the output consists of object files output by the assembler, instead of the executable file.
+
+Other options are passed on to one or more stages of processing.
+Some options control the preprocessor and others the compiler itself. Yet other options control the assembler and linker, we rarely need to use any of them.
+
+The usual way to run GCC is to run the executable called `gcc`, or `machine-gcc` when cross-compiling, or `machine-gcc-version` to run a specific version of GCC.  
+
+When you compile `C++` programs, you should invoke GCC as `g++` instead.
+
+## Operands accepted by `gcc`/`g++`
+
+The `gcc` program accepts `options` and `file names` as **operands**. Many options have multi-letter names; therefore multiple single-letter options may not be grouped: `-dv` is very different from `-d` `-v`.
+
+We can mix options and other arguments.  For the most part, the order you use doesn't matter.  Order does matter when you use several options of the same kind; for example, if you specify `-L` more than once, the directories are searched in the order specified.  Also, the placement of the `-l` option is significant.
+
+- `-c` :  Compile or assemble the source files, but do not link.  
+    
+    The linking stage simply is not done.  The ultimate output is in the form of an object file for each source file.
+    
+    By default, the object file name for a source file is made by replacing the suffix .c, .i, .s, etc., with .o.
+    
+    Unrecognized input files, not requiring compilation or assembly, are ignored.
+
+- `-o` *file* : Place output in file *file*. 
+
+    This applies to whatever sort of output is being produced, whether it be an executable file, an object file, an assembler file or preprocessed C code.
+
+    If `-o` is not specified, the default is to put an executable file in `a.out`, the object file for `source.suffix` in `source.o`, its assembler file in `source.s`, a precompiled header file in `source.suffix.gch`, and all preprocessed C source on standard output.
+
+## Compiling a CPP file to generate an executable target file
+### `g++ file_name`
+```console
+rohan@ubuntu:~$ g++ exampleFile.cpp
+``` 
+
+This command compiles, assembles and links `exampleFile.cpp` to produce a default target executable file `a.out` in present working directory. 
+
+To run this program, type `./a.out` where `./` represents present working directory and `a.out` is the executable target file.
+
+### `g++ -S file_name`
+
+``` 
+rohan@ubuntu:~$ g++ -S exampleFile.cpp
+``` 
+This command is used to only compile `exampleFile.cpp` and not assembling or linking. It will generate a `exampleFile.s` assembly source file.
+
+### `g++ -c file_name`
+
+```
+rohan@ubuntu:~$ g++ -c exampleFile.cpp
+```
+This command is used to only compile and assemble `exampleFile.cpp` and not link the object code to produce executable file. It will generate a `exampleFile.o` object code file in present working directory.
+
+### `g++ -o target_name file_name`
+
+``` 
+rohan@ubuntu:~$ g++ -o main.exe hello.cpp
+```
+Compiles and links `hello.cpp` and generates executable target file with `main.exe` (or `a.out` by default when a target is not specified).
+
+## Compiling and linking multiple files 
+
+When `-c` flag is used, it invokes the compiler stage which translates source code to object code.
+
+When `-o` flag is used it links object code to create the executable file from `file_name.o` to `a.out`(default). 
+
+Multiples files may be passed together as arguments.
+ 
+```
+rohan@ubuntu:~$ g++ -c helloWorld.cpp hello.cpp
+```
+It compiles and creates object code for the files `helloWorld.cpp` and `hello.cpp` to `helloWorld.o` and `hello.o` respectively.
+``` 
+rohan@ubuntu:~$ g++ -o main.exe helloWorld.o hello.o
+```
+It links the object codes `helloWorld.o` and `hello.o` to create an executable file `main.exe`. So, effectively we are executing the commands of both the cpp files when we run `main.exe`.
+
+### Printing compilation warning messages (`g++ -Wall file_name`)
+
+It prints all warning messages that are generated during compilation of `file_name`.
 
 # Header files and Namespaces
 
@@ -350,7 +445,7 @@ This is in comparison with the built-in implementation of arrays in C.
 - `std::vector::pop_back()`
     <br><br>
 
-- `std::vector::insert(<element>, <index-position>)`
+- `std::vector::insert(<element>, <iterator-index-position> )`
     The vector is extended by inserting new elements before the element at the specified position, effectively increasing the container size by the number of elements inserted.
 
     This causes an automatic reallocation of the allocated storage space if -and only if- the new vector size surpasses the current vector capacity.
