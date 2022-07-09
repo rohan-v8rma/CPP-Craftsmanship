@@ -1,20 +1,15 @@
-#include <stdio.h>
+#include<stdio.h>
 
 int main()
 {
-
-    char str[128] = "We all scream for ice cream!";
-    char *pointer_1 = str;
-    // here we see again the loop exit condition *p == '\0'
-    while(*pointer_1) {
-        printf("%c", *pointer_1);
-        pointer_1++;
-    } 
-    printf("\n");
-
-    for(char *pointer_2 = str; *pointer_2; pointer_2++) {
-        printf("%c", *pointer_2);
-    }
-    printf("\n");
+    int array[5] = {1,2,3,4,5};
+    // array += 1; 
+    //! it is not possible to do this because the array pointer cannot be changed to point to any other element except the base by default
+    printf("%d", *(array + 1));
     return 0;
+
+    /*
+    ? how does compiler recognize what + 1 means? because +1 over here means 4 bytes (space occupied by integer)
+    `+` operator is overloaded for use with a pointer and depending on the size of the datatype the pointer is meant to point to, adding 1 to the pointer increments the memory address.
+    */
 }
