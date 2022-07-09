@@ -68,7 +68,7 @@ class DerivedClass : public BaseClass {
     public:
         int derived;
 
-        virtual void show() {
+        void show() {
             cout << "Show derived\n";
         };
 };
