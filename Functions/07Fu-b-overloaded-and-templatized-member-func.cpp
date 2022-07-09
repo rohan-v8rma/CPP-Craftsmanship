@@ -24,31 +24,26 @@ void func(float passed) {
 
 int main() {
     
-    func(4);
-    /*
-    Since there is a DIRECT match in function signature of this function call,
-    it is resolved to the INTEGER overloaded function definition.
-    */
+    func(4); 
+    // Since there is a DIRECT match in function signature of this function call, it is resolved to the INTEGER overloaded function definition.
+    
     
     func('c');
-    /*
-    There is no DIRECT match in function signature of this function call,
-    so it is resolved to the TEMPLATIZED function definition.
-    */
+    // There is no DIRECT match in function signature of this function call, so it is resolved to the TEMPLATIZED function definition.
 
     func(6.5);
     /*
     We would think that this would get resolved to the FLOAT overloaded function definition 
     but C++ by default considers that the input is of `double` type.
     
-    TODO WHY IS THE INPUT BY DEFAULT CONSIDERED TO BE OF `DOUBLE` DATA TYPE?
+    TODO: Read `08B-e-floating-point-suffixes.cpp` why the input is considered to be of DOUBLE datatype by default and why the last function call resolves to the FLOAT overloaded function defintion. 
 
     So, this is resolved to the TEMPLATIZED function definition as well.
     */
     func((float)(6.5));
-    /*
-    Since we have type-casted the parameter to `float`, now the function call 
-    gets resolved to FLOAT overloaded function definition.
-    */
+    // Since we have type-casted the parameter to `float`, now the function call gets resolved to FLOAT overloaded function definition.
     
+    func(6.5f);
+    // We can use suffix `f` or `F` to indicate that this is a floating-point literal of type `float`
+
 }

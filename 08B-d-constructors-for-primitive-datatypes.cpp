@@ -1,11 +1,9 @@
 #include <iostream>
 
 /*
-We know that structures and unions which are a part of C, have constructors.
-Classes, which are a part of C++, have constructors.
+We know that structures and unions which are a part of C, have constructors. Classes, which are a part of C++, have constructors.
 
-Built-in types do not have constructors, but they can be value-initialized 
-using the same syntax as class types with default constructors. 
+Built-in types do not have constructors, but they can be value-initialized using the same syntax as class types with default constructors. 
 
 TODO: Read about value initialization from the README file of this repository.
 
