@@ -10,6 +10,7 @@
     - [What is Stack Overflow Error?](#what-is-stack-overflow-error)
   - [6. Command Line Arguments](#6-command-line-arguments)
   - [7. Usage of Heap](#7-usage-of-heap)
+  - [Static vs. Dynamic Languages](#static-vs-dynamic-languages)
 - [Source Code to Executable File](#source-code-to-executable-file)
   - [Source Code to Assembly Code](#source-code-to-assembly-code)
   - [Assembly Code to Object Code](#assembly-code-to-object-code)
@@ -33,7 +34,7 @@ A typical memory representation of a C program consists of the following section
    
 A typical memory layout of a running process
 
-![](./memory-layout-in-c.png)
+![](./images/memory-layout-in-c.png)
 
 ## 1. Text / Code Segment 
 
@@ -127,12 +128,28 @@ Command line arguments like `argc` and `argv`, and environment variables are sto
 
 ## 7. Usage of Heap
 
-We can create a pointer in our `main` function and point to a memory block in the HEAP. 
-The address is stored by the local variable in the `main` function (this local variable is stored in Stack segment in the `stack frame` of the `main` function). 
+We can create a pointer/reference variable in our `main` function and point to a memory block in the HEAP. 
+The address is stored by the reference variable local to the `main` function (this local variable is stored in Stack segment in the `stack frame` of the `main` function). 
+
+The value the reference variable points to in HEAP is known as the 'Object'. Note that multiple reference variables can point to the same object. 
+```c
+int main() {
+  int a = 10;
+  int b = 10;
+}
+```
+`a` and `b` are both reference variables that point to the object `10`.
+
+Also, in the case of [dynamic languages](#static-vs-dynamic-languages), the same reference variable can be made to point to an object of another data-type, which would also be stored in the heap memory.
 
 We should note that the memory consumed will not get freed automatically in case we overwrite the pointer. If suppose we overwrite the pointer to an array with a character, the remaining memory which was occupied by the array will become GARBAGE and it will be counted in the usage of the program.
 
 This should be looked out for as it can lead to complete exhaustion of the memory.
+
+
+## Static vs. Dynamic Languages
+
+![](./images/static-vs-dynamic-languages.png)
 
 # Source Code to Executable File
 
