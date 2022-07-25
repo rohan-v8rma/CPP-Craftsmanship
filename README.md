@@ -138,14 +138,21 @@ int main() {
   int b = 10;
 }
 ```
-`a` and `b` are both reference variables that point to the object `10`.
+`a` and `b` are both **reference variables** that point to the **object** `10`.
 
 Also, in the case of [dynamic languages](#static-vs-dynamic-languages), the same reference variable can be made to point to an object of another data-type, which would also be stored in the heap memory.
 
-We should note that the memory consumed will not get freed automatically in case we overwrite the pointer. If suppose we overwrite the pointer to an array with a character, the remaining memory which was occupied by the array will become GARBAGE and it will be counted in the usage of the program.
+We should note that the memory consumed will not get freed automatically in case we overwrite/destroy the pointer. 
+
+If suppose we overwrite the pointer to an array with a character, the remaining memory which was occupied by the array will become GARBAGE and it will be counted in the usage of the program.
+
+OR
+
+If we delete the pointer/reference variable, the object will still consume memory in heap as GARBAGE.
 
 This should be looked out for as it can lead to complete exhaustion of the memory.
 
+In the case of languages like Java, which have the facility of GARBAGE collection, those **objects** which don't have any **reference variable** pointing to them are removed from memory.
 
 ## Static vs. Dynamic Languages
 
