@@ -7,6 +7,7 @@ The new operator denotes a request for memory allocation on the Free Store.
 If sufficient memory is available, a new operator initializes the memory and 
 returns the address of the newly allocated and initialized memory to the pointer variable. -*
 
+TODO: Read 13-b-using-new-and-delete.cpp for understanding the difference between 'new' vs. 'malloc' and 'calloc'
 
 */
 

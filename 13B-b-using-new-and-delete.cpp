@@ -14,7 +14,7 @@ class Book {
             /*
             Note that this method of explicit type casting which we used with 
             `malloc` and `calloc` is not required as the `new` operator already 
-            returns a pointer of the same datatype.
+            returns a pointer of the datatype following it, which is 'string'.
             */
             title = new string;
             price = new float;
