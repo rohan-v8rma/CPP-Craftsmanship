@@ -20,14 +20,12 @@ class Student {
         };
 
     friend istream& operator >> (istream& in, Student& example); 
-    friend ostream& operator << (ostream& out, Student example);
-    /* 
-    we will be giving `cin` as one operand to the operator, which is why 
-    we are keeping `istream& in` as a parameter.
-    */
+    // we will be giving `cin` as one operand to the operator, which is why we are keeping `istream& in` as a parameter.
+    friend void operator << (ostream& out, Student example);
+    
 };
-
-istream& operator >> (istream & in, Student &example) { 
+// Operator function with return-type `ostream&`
+istream& operator >> (istream& in, Student& example) { 
     
     cout << "Name: ";
     in >> example.name;
@@ -41,24 +39,20 @@ istream& operator >> (istream & in, Student &example) {
     return in;
     /*
     After the operation is completed, we return `in` BY REFERENCE
-    Meaning, the original object `in` (which is `cin` during our usage)
-    is modified such that its input buffer has some new bytes of data, 
-    which it needs to initialize variables with.
-    
-    TODO understand more in-depth
+    Meaning, the original object `in` is replace by `cin` during our usage and it takes the input values for all data members one by one.
     */
 
 };
-
-ostream& operator << (ostream& out, Student example) {
+//Operator function with return type 'void'
+void operator << (ostream& out, Student example) {
     out << "\nStudent's name is " << example.name;
     out << "\nStudent's age is " << example.age;
     out << "\nStudent's gender is " << example.gender;
-    return out;
+    // return out;
 }
 
 int main() {
     Student rohan;
     cin >> rohan;
-    cout << rohan << '\n';
+    cout << rohan;
 }

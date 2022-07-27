@@ -1,48 +1,75 @@
 <!-- TOC -->
+
 - [Compiling using g++](#compiling-using-g)
+  - [Options controlling the kind of Output](#options-controlling-the-kind-of-output)
+  - [Operands accepted by `gcc`/`g++`](#operands-accepted-by-gccg)
+  - [Compiling a CPP file to generate an executable target file](#compiling-a-cpp-file-to-generate-an-executable-target-file)
+    - [`g++ file_name`](#g-file_name)
+    - [`g++ -S file_name`](#g--s-file_name)
+    - [`g++ -c file_name`](#g--c-file_name)
+    - [`g++ -o target_name file_name`](#g--o-target_name-file_name)
+  - [Compiling and linking multiple files](#compiling-and-linking-multiple-files)
+    - [Printing compilation warning messages (`g++ -Wall file_name`)](#printing-compilation-warning-messages-g--wall-file_name)
 - [Header files and Namespaces](#header-files-and-namespaces)
-    - [Accessing methods using **header files** and **namespaces**](#accessing-methods-using-header-files-and-namespaces)
-    - [Need of both **Header files** and **namespaces**](#need-of-both-header-files-and-namespaces)
-        - [What are Header Files?](#what-are-header-files)
-        - [What is a Namespace?](#what-is-a-namespace)
-    - [How does the most basic combination of `<iostream>` header file and `std` namespace work?](#how-does-the-most-basic-combination-of-iostream-header-file-and-std-namespace-work)
+  - [Accessing methods using **header files** and **namespaces**](#accessing-methods-using-header-files-and-namespaces)
+  - [Need of both **Header files** and **namespaces**](#need-of-both-header-files-and-namespaces)
+    - [What are Header Files?](#what-are-header-files)
+      - [How do they work?](#how-do-they-work)
+    - [What is a Namespace?](#what-is-a-namespace)
+  - [How does the most elementary combination of `<iostream>` header file and `std` namespace work?](#how-does-the-most-elementary-combination-of-iostream-header-file-and-std-namespace-work)
 - [Templates in C++](#templates-in-c)
-    - [Declaring one or more Template Parameters using PlaceHolder Types](#declaring-one-or-more-template-parameters-using-placeholder-types)
-    - [Templates with Default Parameters](#templates-with-default-parameters)
-    - [Function Templates](#function-templates)
-    - [Class Templates](#class-templates)
-    - [Difference between `typename` and `class` keyword](#difference-between-typename-and-class-keyword)
+  - [Declaring one or more Template Parameters using PlaceHolder Types](#declaring-one-or-more-template-parameters-using-placeholder-types)
+  - [Templates with Default Parameters](#templates-with-default-parameters)
+  - [Class Templates](#class-templates)
+  - [Function Templates](#function-templates)
+  - [Difference between `typename` and `class` keyword](#difference-between-typename-and-class-keyword)
 - [Standard Template Library in C++](#standard-template-library-in-c)
-    - [Advantages of STL](#advantages-of-stl)
-    - [Containers](#containers)
-        - [Sequence Containers](#sequence-containers)
-            - [`std::vector`](#stdvector)
-                - [Some member functions of `std::vector`](#some-member-functions-of-stdvector)
-            - [`std::list`](#stdlist)
-        - [Associative Containers](#associative-containers)
-            - [`std::set` and `std::multiset`](#stdset-and-stdmultiset)
-            - [`std::map` and `std::multimap`](#stdmap-and-stdmultimap)
-        - [Derived Containers](#derived-containers)
-    - [Iterators](#iterators)
-- [Overloading the Stream Insertion `<<` and Stream Extraction `>>` operator](#overloading-the-stream-insertion--and-stream-extraction--operator)
+  - [Advantages of STL](#advantages-of-stl)
+  - [Containers](#containers)
+    - [Sequence Containers](#sequence-containers)
+    - [`std::vector`](#stdvector)
+    - [Some member functions of `std::vector`](#some-member-functions-of-stdvector)
+      - [Take a look at vectors.cpp for example code.](#take-a-look-at-vectorscpp-for-example-code)
+    - [`std::list`](#stdlist)
+    - [Associative Containers](#associative-containers)
+    - [`std::set` and `std::multiset`](#stdset-and-stdmultiset)
+    - [`std::map` and `std::multimap`](#stdmap-and-stdmultimap)
+    - [Derived Containers](#derived-containers)
+  - [Iterators](#iterators)
+- [Overloading the Stream Insertion (`<<`) and Stream Extraction (`>>`) operator](#overloading-the-stream-insertion--and-stream-extraction--operator)
+  - [`ostream` class](#ostream-class)
+    - [`ofstream` class (derived from `ostream` class)](#ofstream-class-derived-from-ostream-class)
+  - [`istream` class](#istream-class)
+    - [`ifstream` class (derived from `istream` class)](#ifstream-class-derived-from-istream-class)
+  - [`cin` and `cout`](#cin-and-cout)
+  - [Stream Insertion and Extraction operators](#stream-insertion-and-extraction-operators)
+    - [Stream Insertion Operator (`<<`)](#stream-insertion-operator-)
+  - [Return type of the overloaded Operator Function](#return-type-of-the-overloaded-operator-function)
 - [Important Concepts](#important-concepts)
-    - [Name lookup vs. Overload Resolution](#name-lookup-vs-overload-resolution)
-    - [Type Promotion and Type Narrowing](#type-promotion-and-type-narrowing)
-    - [Poor Performance due to `std::endl`](#poor-performance-due-to-stdendl)
-    - [Zero Initializing vs. Default Initializing vs. Value Initializing](#zero-initializing-vs-default-initializing-vs-value-initializing)
-    - [Function Scope Determination](#function-scope-determination)
-    - [Pass and Return by Reference in C++](#pass-and-return-by-reference-in-c)
-        - [What is actually the meaning of By Reference?](#what-is-actually-the-meaning-of-by-reference)
-        - [Makeshift Pass and Return by Reference of C](#makeshift-pass-and-return-by-reference-of-c)
-        - [Example scripts of Pass and Return by Reference in C++](#example-scripts-of-pass-and-return-by-reference-in-c)
-    - [Data types in Switch Case statement](#data-types-in-switch-case-statement)
+  - [Name Lookup vs. Overload Resolution](#name-lookup-vs-overload-resolution)
+    - [What is Overload Resolution?](#what-is-overload-resolution)
+    - [What is Name Lookup?](#what-is-name-lookup)
+    - [Coming to the important part mentioned in Clause 6.5.1...](#coming-to-the-important-part-mentioned-in-clause-651)
+  - [Type Promotion and Type Narrowing](#type-promotion-and-type-narrowing)
+  - [Poor Performance due to `std::endl`](#poor-performance-due-to-stdendl)
+    - [Why aren't characters immediately written?](#why-arent-characters-immediately-written)
+    - [Is there need to explicitly flush a stream?](#is-there-need-to-explicitly-flush-a-stream)
+  - [Zero Initializing vs. Default Initializing vs. Value Initializing](#zero-initializing-vs-default-initializing-vs-value-initializing)
+  - [Function Scope Determination](#function-scope-determination)
+  - [Pass and Return by Reference in C++](#pass-and-return-by-reference-in-c)
+    - [What is actually the meaning of By Reference?](#what-is-actually-the-meaning-of-by-reference)
+    - [Makeshift Pass and Return by Reference of C](#makeshift-pass-and-return-by-reference-of-c)
+    - [Example scripts of Pass and Return by Reference in C++](#example-scripts-of-pass-and-return-by-reference-in-c)
+  - [Data types in Switch Case statement](#data-types-in-switch-case-statement)
+  - [Size of Classes/Structures in C++](#size-of-classesstructures-in-c)
+    - [Size of an Empty Class](#size-of-an-empty-class)
     - [Amount of Memory occupied by a Derived Class Object](#amount-of-memory-occupied-by-a-derived-class-object)
-    - [Empty Function/Constructor Definition](#empty-functionconstructor-definition)
-    - [How does a C++ program end ( return value of `int main()` )](#how-does-a-c-program-end--return-value-of-int-main)
-        - [Can we use `void main()` in C? Should we use it?](#can-we-use-void-main-in-c-should-we-use-it)
-    
+  - [Empty Function/Constructor Definition](#empty-functionconstructor-definition)
+  - [How does a C++ program end ( return value of `int main()` )](#how-does-a-c-program-end--return-value-of-int-main-)
+    - [Can we use `void main()` in C? Should we use it?](#can-we-use-void-main-in-c-should-we-use-it)
 - [Tips for C++](#tips-for-c)
-    - [Alternative to `for-else` and `while-else` in C++](#alternative-to-for-else-and-while-else-in-c)
+  - [Alternative to `for-else` and `while-else` in C++](#alternative-to-for-else-and-while-else-in-c)
+
 <!-- /TOC -->
 
 # Compiling using g++
@@ -539,18 +566,33 @@ The Operator Function for defining the behaviour of this (`<<`) operator is a pu
 
 It can be accessed using the following scope resolution syntax - `std::ostream::operator<<`
 
-Note that the operation returns an object of the class `ostream`, which was passed by reference to the operator function originally.
-
 Since we do not have the ability to add anything to the `ostream` class (which someone else already invented) in order to overload it for use with the user-defined class.
 
 So, we will have to make it a friend of our user-defined class and pass the `ostream` object into the friend function (as opposed to a member function being able to directly access the **data members** of the `ostream` class).
 
+## Return type of the overloaded Operator Function
+
+The operation is made to return an object of the class `ostream`/`istream`, which was passed by reference to the operator function originally.
+
+Note that it isn't necessary that return type of the operator function is `istream&` or `ostream&`. 
+
+We can also keep the return type as `void`. This is possible in the cases where there is just the object to be shown:
+```cpp
+cout << objectName;
+```
+If suppose we had a statement similar to:
+```
+cout << objectName << "\n";
+```
+Then, we would be needing the `cout << objectName` operation to return `cout` so that `\n` could also be written to the output stream, with the command effectively becoming
+```cpp
+cout << "\n"; 
+```
+with the object `objectName` already written to the output stream.
+
+Even though it isn't necessary to keep the return type as `istream&` or `ostream&`, we should still do it everytime as that is how `cin` and `cout` work with primitive values as well.
 
 Refer [08Op-d-stream-operator-overloading.cpp](./Operators/08Op-d-stream-operator-overloading.cpp) for an example implementation of this.
-
-## TODO (under stream operator overloading)
-
-Understand what happens after we return the ostream object which was passed by reference.
 
 # Important Concepts
     
