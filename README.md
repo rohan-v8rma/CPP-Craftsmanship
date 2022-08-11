@@ -17,6 +17,7 @@
       - [How do they work?](#how-do-they-work)
     - [What is a Namespace?](#what-is-a-namespace)
   - [How does the most elementary combination of `<iostream>` header file and `std` namespace work?](#how-does-the-most-elementary-combination-of-iostream-header-file-and-std-namespace-work)
+- [Scopes in C++](#scopes-in-c)
 - [Templates in C++](#templates-in-c)
   - [Declaring one or more Template Parameters using PlaceHolder Types](#declaring-one-or-more-template-parameters-using-placeholder-types)
   - [Templates with Default Parameters](#templates-with-default-parameters)
@@ -69,7 +70,78 @@
     - [Can we use `void main()` in C? Should we use it?](#can-we-use-void-main-in-c-should-we-use-it)
 - [Tips for C++](#tips-for-c)
   - [Alternative to `for-else` and `while-else` in C++](#alternative-to-for-else-and-while-else-in-c)
-
+  
+- [Compiling using g++](#compiling-using-g)
+  - [Options controlling the kind of Output](#options-controlling-the-kind-of-output)
+  - [Operands accepted by `gcc`/`g++`](#operands-accepted-by-gccg)
+  - [Compiling a CPP file to generate an executable target file](#compiling-a-cpp-file-to-generate-an-executable-target-file)
+    - [`g++ file_name`](#g-file_name)
+    - [`g++ -S file_name`](#g--s-file_name)
+    - [`g++ -c file_name`](#g--c-file_name)
+    - [`g++ -o target_name file_name`](#g--o-target_name-file_name)
+  - [Compiling and linking multiple files](#compiling-and-linking-multiple-files)
+    - [Printing compilation warning messages (`g++ -Wall file_name`)](#printing-compilation-warning-messages-g--wall-file_name)
+- [Header files and Namespaces](#header-files-and-namespaces)
+  - [Accessing methods using **header files** and **namespaces**](#accessing-methods-using-header-files-and-namespaces)
+  - [Need of both **Header files** and **namespaces**](#need-of-both-header-files-and-namespaces)
+    - [What are Header Files?](#what-are-header-files)
+      - [How do they work?](#how-do-they-work)
+    - [What is a Namespace?](#what-is-a-namespace)
+  - [How does the most elementary combination of `<iostream>` header file and `std` namespace work?](#how-does-the-most-elementary-combination-of-iostream-header-file-and-std-namespace-work)
+- [Scopes in C++](#scopes-in-c)
+- [Templates in C++](#templates-in-c)
+  - [Declaring one or more Template Parameters using PlaceHolder Types](#declaring-one-or-more-template-parameters-using-placeholder-types)
+  - [Templates with Default Parameters](#templates-with-default-parameters)
+  - [Class Templates](#class-templates)
+  - [Function Templates](#function-templates)
+  - [Difference between `typename` and `class` keyword](#difference-between-typename-and-class-keyword)
+- [Standard Template Library in C++](#standard-template-library-in-c)
+  - [Advantages of STL](#advantages-of-stl)
+  - [Containers](#containers)
+    - [Sequence Containers](#sequence-containers)
+    - [`std::vector`](#stdvector)
+    - [Some member functions of `std::vector`](#some-member-functions-of-stdvector)
+      - [Take a look at vectors.cpp for example code.](#take-a-look-at-vectorscpp-for-example-code)
+    - [`std::list`](#stdlist)
+    - [Associative Containers](#associative-containers)
+    - [`std::set` and `std::multiset`](#stdset-and-stdmultiset)
+    - [`std::map` and `std::multimap`](#stdmap-and-stdmultimap)
+    - [Derived Containers](#derived-containers)
+  - [Iterators](#iterators)
+- [Overloading the Stream Insertion (`<<`) and Stream Extraction (`>>`) operator](#overloading-the-stream-insertion--and-stream-extraction--operator)
+  - [`ostream` class](#ostream-class)
+    - [`ofstream` class (derived from `ostream` class)](#ofstream-class-derived-from-ostream-class)
+  - [`istream` class](#istream-class)
+    - [`ifstream` class (derived from `istream` class)](#ifstream-class-derived-from-istream-class)
+  - [`cin` and `cout`](#cin-and-cout)
+  - [Stream Insertion and Extraction operators](#stream-insertion-and-extraction-operators)
+    - [Stream Insertion Operator (`<<`)](#stream-insertion-operator-)
+  - [Return type of the overloaded Operator Function](#return-type-of-the-overloaded-operator-function)
+- [Important Concepts](#important-concepts)
+  - [Name Lookup vs. Overload Resolution](#name-lookup-vs-overload-resolution)
+    - [What is Overload Resolution?](#what-is-overload-resolution)
+    - [What is Name Lookup?](#what-is-name-lookup)
+    - [Coming to the important part mentioned in Clause 6.5.1...](#coming-to-the-important-part-mentioned-in-clause-651)
+  - [Type Promotion and Type Narrowing](#type-promotion-and-type-narrowing)
+  - [Poor Performance due to `std::endl`](#poor-performance-due-to-stdendl)
+    - [Why aren't characters immediately written?](#why-arent-characters-immediately-written)
+    - [Is there need to explicitly flush a stream?](#is-there-need-to-explicitly-flush-a-stream)
+  - [Zero Initializing vs. Default Initializing vs. Value Initializing](#zero-initializing-vs-default-initializing-vs-value-initializing)
+  - [Function Scope Determination](#function-scope-determination)
+  - [Pass and Return by Reference in C++](#pass-and-return-by-reference-in-c)
+    - [What is actually the meaning of By Reference?](#what-is-actually-the-meaning-of-by-reference)
+    - [Makeshift Pass and Return by Reference of C](#makeshift-pass-and-return-by-reference-of-c)
+    - [Example scripts of Pass and Return by Reference in C++](#example-scripts-of-pass-and-return-by-reference-in-c)
+  - [Data types in Switch Case statement](#data-types-in-switch-case-statement)
+  - [Size of Classes/Structures in C++](#size-of-classesstructures-in-c)
+    - [Size of an Empty Class](#size-of-an-empty-class)
+    - [Amount of Memory occupied by a Derived Class Object](#amount-of-memory-occupied-by-a-derived-class-object)
+  - [Empty Function/Constructor Definition](#empty-functionconstructor-definition)
+  - [How does a C++ program end ( return value of `int main()` )](#how-does-a-c-program-end--return-value-of-int-main-)
+    - [Can we use `void main()` in C? Should we use it?](#can-we-use-void-main-in-c-should-we-use-it)
+- [Tips for C++](#tips-for-c)
+  - [Alternative to `for-else` and `while-else` in C++](#alternative-to-for-else-and-while-else-in-c)
+  
 <!-- /TOC -->
 
 # Compiling using g++
@@ -255,6 +327,34 @@ Here, we are able to use the `cout` and `endl` methods BECAUSE they are defined 
 If it had NOT been `#include`'d, we wouldn't have been able to access these methods.
 
 So, along with specifying the namespace of a particular method, it is important to ensure that the header file or library header containing the definition of that method is `#include`'d by the source file.
+
+# Scopes in C++
+
+TODO: Complete in detail
+
+```cpp
+#include <iostream>
+
+int a = 1
+
+void exampleFn() {
+  a = 5;
+}
+
+int main() {
+  std::cout << a << "\n";
+  exampleFn();
+  std::cout << a;
+}
+```
+Output:
+```
+1
+5
+```
+Since, we didn't pass the variable by value `a` into `exampleFn()`, no local copy was created, and `a` referred to the global version itself.
+
+This is why the change in `a` is reflected.
 
 # Templates in C++
 
