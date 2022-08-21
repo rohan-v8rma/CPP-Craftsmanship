@@ -1,12 +1,9 @@
-<!-- TOC -->
-
 - [Memory Allocation in C](#memory-allocation-in-c)
   - [1. Text / Code Segment](#1-text--code-segment)
   - [2. Initialized Data Segment](#2-initialized-data-segment)
   - [3. Uninitialized Data Segment / BSS](#3-uninitialized-data-segment--bss)
   - [4. Heap](#4-heap)
   - [5. Stack](#5-stack)
-    - [What are Automatic Variables?](#what-are-automatic-variables)
     - [What is Stack Overflow Error?](#what-is-stack-overflow-error)
   - [6. Command Line Arguments](#6-command-line-arguments)
   - [7. Usage of Heap](#7-usage-of-heap)
@@ -19,8 +16,31 @@
   - [Intermediate/Object Code files](#intermediateobject-code-files)
   - [Role of Linker in creating executable/library files](#role-of-linker-in-creating-executablelibrary-files)
     - [How exactly does `linker` work and what is its need?](#how-exactly-does-linker-work-and-what-is-its-need)
-- [Sequence Points in C/C++](#sequence-points-in-cc) 
-<!-- /TOC -->
+    - [Static vs. Dynamic Linking](#static-vs-dynamic-linking)
+      - [Static Linking](#static-linking)
+      - [Dynamic Linking](#dynamic-linking)
+- [Sequence Points in C/C++](#sequence-points-in-cc)
+- [Pointers in C](#pointers-in-c)
+  - [What are Pointers?](#what-are-pointers)
+  - [Dereference Operator (*)](#dereference-operator-)
+  - [Dereference (`*`) AND Reference (`&`) operators are converse of each other](#dereference--and-reference--operators-are-converse-of-each-other)
+  - [What is the type of a pointer variable?](#what-is-the-type-of-a-pointer-variable)
+  - [Why do we have to define a type for just pointing to an address? Aren't all addresses the same?](#why-do-we-have-to-define-a-type-for-just-pointing-to-an-address-arent-all-addresses-the-same)
+  - [(Pointer initialization) Vs. (Pointer declaration & assignment)](#pointer-initialization-vs-pointer-declaration--assignment)
+    - [Initializing a Pointer with a value](#initializing-a-pointer-with-a-value)
+    - [When we declare a pointer and assign a value to it later](#when-we-declare-a-pointer-and-assign-a-value-to-it-later)
+  - [Using pointers in looping statements](#using-pointers-in-looping-statements)
+    - [Pointer as LOOP VARIABLE of a WHILE loop](#pointer-as-loop-variable-of-a-while-loop)
+    - [Pointer as LOOP VARIABLE of a FOR loop](#pointer-as-loop-variable-of-a-for-loop)
+  - [Pointer to Pointer](#pointer-to-pointer)
+- [Arrays in C](#arrays-in-c)
+  - [Incrementing pointers pointing to array elements](#incrementing-pointers-pointing-to-array-elements)
+  - [Decaying of array names to pointers](#decaying-of-array-names-to-pointers)
+    - [Array name as argument of `&` operator](#array-name-as-argument-of--operator)
+  - [Calculating the length of an array using pointers](#calculating-the-length-of-an-array-using-pointers)
+- [TODO](#todo)
+  - [Array of Pointers](#array-of-pointers)
+
 # Memory Allocation in C
 
 Memory assigned to a program in a typical architecture can be broken down into four segments:
@@ -259,3 +279,257 @@ modified at most once by the evaluation of an expression.
 which, in a sense means that we are not supposed to change a variable's value multiple times in the same expression.
 
 Take a look at [16-sequence-points.c](./16-sequence-points.c) for example code.
+
+# Pointers in C
+  
+## What are Pointers?
+
+Pointers (pointer variables) are special variables that are used to store addresses rather than values of data items.
+
+## Dereference Operator (*)
+
+What the `*` operator does in actuality is that it gets the corresponding data of the memory location stored in the variable.
+
+For example, if a variable `var` stores an integer 100, `*var` will get us the data stored in memory location 100.
+
+## Dereference (`*`) AND Reference (`&`) operators are converse of each other
+
+The Reference/Address-of operator(&) gets us the memory location of the data stored in a variable.
+
+For example, if we have a variable `var`, which holds an integer value, `&var` will get us the memory location where that integer value is stored.
+
+After this operation, if we use `*` operator, it will go back to the integer value, as it is using the newly obtained address to obtain the data item stored in that address.
+
+```c
+int a = 10;
+printf("%d\n", a);
+printf("%d\n", *&a); //Same output
+```
+
+## What is the type of a pointer variable?
+
+Pointer to the datatype of the data item whose address is stored 
+
+Example: integer pointer `int*`, float pointer `float*`, char pointer `char*`, etc.
+
+## Why do we have to define a type for just pointing to an address? Aren't all addresses the same?
+
+All data types occupy different sizes in a computer's memory. This size is sometimes compiler dependent.
+
+Specifying a data type for a pointer tells the compiler how many bytes to read from memory when you dereference that pointer. 
+
+If your architecture imposes a 4-byte integer, when you dereference an `int*` variable the compiler will retrieve 4 bytes of data from the place in memory where your pointer points. 
+
+This is why you have to be careful with pointers. If you define a `char` variable in your code and force an `int*` to point to that variable (via casting), when you dereference that `int*` you may get unexpected results (because you are accessing 4 bytes from a memory location where you have only stored a 1-byte value).
+
+```c
+int *point, var; 
+```
+
+Here, we are declaring a pointer variable 'point' and a regular integer variable 'var'. The asterisk (`*`) tells the compiler that `point` is a pointer variable.
+
+Note that `point` is a pointer, not `*point`.
+
+```c
+point = &var;
+var = 0;
+
+*point = 1; //Note that `*point` is the same as `var`
+```
+
+## (Pointer initialization) Vs. (Pointer declaration & assignment)
+
+### Initializing a Pointer with a value
+
+```c
+int *pointer_1 = &variable;
+```
+
+Here, note that we are not assigning a value to `*pointer_1`, but to `pointer_1` itself. 
+
+The first part of the statement just tells the compiler that `pointer_1` is a pointer variable.
+
+
+### When we declare a pointer and assign a value to it later
+
+```c
+int *pointer_2;
+pointer_2 = &variable; 
+```
+
+We don't have to apply an asterisk before `pointer_2` in the above statement, as we have already told the compiler that `pointer_2` is a pointer variable 
+when we declared it.
+
+If we do put an asterisk, that would be an attempt to change the value of the variable whose address is already stored in `pointer_2`, but since there is no
+address stored in `pointer_2`, that statement would throw an error.
+
+## Using pointers in looping statements
+
+```c
+#include <stdio.h>
+
+int main()
+{
+
+    char str[128] = "We all scream for ice cream!";
+    char *pointer_1 = str;
+    ...
+    ...
+```
+
+### Pointer as LOOP VARIABLE of a WHILE loop    
+
+```c
+  while(*pointer_1) {
+      
+      printf("%c", *pointer_1);
+      pointer_1++;
+  } 
+  printf('\n');
+```
+
+In this loop, since null character `\0` has FALSE truth value, as soon as `*pointer_1 == '\0'`, which is also the end of the string, the loop will terminate.
+
+### Pointer as LOOP VARIABLE of a FOR loop    
+
+```c
+  for(char *pointer_2 = str; *pointer_2; pointer_2++) {
+    printf("%c", *pointer_2);
+  }
+  printf('\n');
+```
+  
+Here we again see the loop exit condition `*pointer_2 == '\0'`.
+
+
+## Pointer to Pointer
+
+Usage of this is when we want to dynamically allocate memory for 2D arrays or higher in DATA MINING.
+
+But, nowadays we use Python for Data Mining.
+
+```c
+int main() {
+    int **pointer_to_a_pointer;
+
+    int *pointer;
+    
+    int variable;
+    
+    pointer = &variable;
+    pointer_to_a_pointer = &pointer;
+
+    return 0;
+}
+```
+
+The pointer `pointer_to_a_pointer` points to `pointer`, which stores the address of `variable`.
+
+# Arrays in C
+
+## Incrementing pointers pointing to array elements
+
+A pointer pointing to a specific element in an array, can be made to point to the next element of the array by 'incrementing' it.
+
+```cpp
+int arr[3] = {1, 2, 3};
+
+int *integerPtr = &(arr[0]);
+// integerPtr pointing to element at 0th index
+
+integerPtr++;
+// integerPtr NOW pointing to element at 1st index
+```
+
+Although integers usually occupy 4 bytes of memory, in case of pointers, the compiler internally recognizes according to the datatype, that how many elements separation is between the addresses stored in two pointers. 
+
+So `++` operation results in the pointer moving 4 bytes forward in the above case.
+
+## Decaying of array names to pointers
+
+In most contexts, array names decay to pointers. 
+In simple words, array names are converted to pointers. 
+
+That's the reason why you can use pointers to access elements of arrays. 
+
+However, you should remember that pointers and arrays are not the same.
+
+There are a few cases where array names don't decay to pointers, such as:
+- When it's the argument of the `&` (address-of) operator.
+- When it's the argument of the `sizeof` operator.
+
+### Array name as argument of `&` operator
+
+```c
+int arr[4];
+int index;
+
+// Address POINTED to by the variable name `arr`
+printf("%p", arr);
+
+// Adress of first contiguous memory location of `arr`
+printf(": %p", &arr); 
+
+//both give the same output
+```
+
+
+We know that the variable name of an array points to its base address so,
+
+- In the first line, we are getting that base address that the variable (technically, the pointer) is pointing to, which is the address of the first element of the array.
+
+- In the second line, we are referencing the array using (`&`) operator. In this case, we don't get the storage location of the pointer-value pointing to the first element of the array, we actually get a pointer-value pointing to the array as a WHOLE.
+
+  
+In the second case, the array name is not DECAYING into pointer.
+
+## Calculating the length of an array using pointers
+
+```cpp
+int arr[5] = {1, 2, 3, 4, 5};
+
+int* integerPtr1 = &arr[0];
+int* integerPtr2 = &arr[4];
+
+std::cout << integerPtr2 - integerPtr1 << std::endl;
+``` 
+
+The output of this code snippet is 4. 
+
+Now a question may arise in our mind that if the array `arr` has 5 elements, why is the output 4?
+
+This is because `integerPtr2` points to the BEGINNING memory location of the 5th element. So, in between the addresses `integerPtr1` and `integerPtr2`, there are 4 elements.
+
+We need to go to the address AFTER the 5th element to get the actual length of the array. 
+
+We can use the property of array names NOT [decaying to pointers](#decaying-of-array-names-to-pointers) when kept as an argument of `&` operator.
+
+If we increment `&arr` like so:
+
+```c
+printf("%p", (&arr + 1));
+```
+
+This will give us the address just after the array.
+
+Dereferencing `(&arr + 1)` will bring it back to `int*` level, where the compile again understands addition/subtraction of 1, 2 etc, as 4, 8 bytes etc (size of `int` in bytes). 
+
+```cpp
+  int arr[5] = {1, 2, 3, 4, 5};
+  
+  if( *(&arr + 1) - 5 == arr) {
+      cout << "Equal" << endl;
+  }
+```
+
+NOTE that the `if` condition returns true in the above case, indicating that what we have discussed till now is correct.
+
+This allows us to determine the number of elements in an array like this:
+
+```c
+printf("No. of elements : %d", *(&arr + 1) - arr);
+```
+
+# TODO
+
+## Array of Pointers
