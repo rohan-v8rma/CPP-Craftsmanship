@@ -22,7 +22,7 @@
 - [Sequence Points in C/C++](#sequence-points-in-cc)
 - [Pointers in C](#pointers-in-c)
   - [What are Pointers?](#what-are-pointers)
-  - [Dereference Operator (*)](#dereference-operator-)
+  - [Dereference Operator (`*`)](#dereference-operator-)
   - [Dereference (`*`) AND Reference (`&`) operators are converse of each other](#dereference--and-reference--operators-are-converse-of-each-other)
   - [What is the type of a pointer variable?](#what-is-the-type-of-a-pointer-variable)
   - [Why do we have to define a type for just pointing to an address? Aren't all addresses the same?](#why-do-we-have-to-define-a-type-for-just-pointing-to-an-address-arent-all-addresses-the-same)
@@ -33,11 +33,20 @@
     - [Pointer as LOOP VARIABLE of a WHILE loop](#pointer-as-loop-variable-of-a-while-loop)
     - [Pointer as LOOP VARIABLE of a FOR loop](#pointer-as-loop-variable-of-a-for-loop)
   - [Pointer to Pointer](#pointer-to-pointer)
+  - [Pointers To Multidimensional Arrays](#pointers-to-multidimensional-arrays)
+    - [Syntax for declaring a pointer to 2-D array](#syntax-for-declaring-a-pointer-to-2-d-array)
+    - [INCORRECT syntax 1](#incorrect-syntax-1)
+    - [INCORRECT syntax 2](#incorrect-syntax-2)
+    - [Using Multi-dimensional array pointers](#using-multi-dimensional-array-pointers)
 - [Arrays in C](#arrays-in-c)
   - [Incrementing pointers pointing to array elements](#incrementing-pointers-pointing-to-array-elements)
   - [Decaying of array names to pointers](#decaying-of-array-names-to-pointers)
     - [Array name as argument of `&` operator](#array-name-as-argument-of--operator)
   - [Calculating the length of an array using pointers](#calculating-the-length-of-an-array-using-pointers)
+  - [2-D Arrays](#2-d-arrays)
+    - [Declaring 2-D Arrays](#declaring-2-d-arrays)
+    - [Memory Allocation of 2-D Arrays.](#memory-allocation-of-2-d-arrays)
+      - [Testing this theory..](#testing-this-theory)
 - [TODO](#todo)
   - [Array of Pointers](#array-of-pointers)
 
@@ -286,7 +295,7 @@ Take a look at [16-sequence-points.c](./16-sequence-points.c) for example code.
 
 Pointers (pointer variables) are special variables that are used to store addresses rather than values of data items.
 
-## Dereference Operator (*)
+## Dereference Operator (`*`)
 
 What the `*` operator does in actuality is that it gets the corresponding data of the memory location stored in the variable.
 
@@ -425,7 +434,87 @@ int main() {
 
 The pointer `pointer_to_a_pointer` points to `pointer`, which stores the address of `variable`.
 
+## Pointers To Multidimensional Arrays
+
+### Syntax for declaring a pointer to 2-D array
+
+```c
+int (*threeElementArrayPtr)[3];
+```
+
+This means that the variable `threeElementArrayPtr` is a pointer to 3 element integer arrays.
+
+### INCORRECT syntax 1
+
+```c
+int* integerPtrArray[3];
+
+```
+This means the variable `integerPtrArray` is an array of pointers, having 3 elements..
+
+### INCORRECT syntax 2
+
+```c
+int* integerPtr; 
+```
+
+We can't use this pointer with a 2D array because this can only point to integers, which are contained within 1D arrays. 
+
+A 2D arrays contains other arrays.
+
+### Using Multi-dimensional array pointers
+
+Look through [Arrays in C](#arrays-in-c) for better understanding of this topic.
+
+```c
+int arr[3][3] = {
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9},
+};
+
+threeElementArrayPtr = arr;
+```
+
+Note that incrementing `threeElementArrayPtr` using `++` will mean movement to the memory location of the 2nd 3-element array within `arr`.
+
+- 
+  ```cpp
+  std::cout << **(threeElementArrayPtr) << std::endl; 
+  ```
+  This will give the first element of the 1st 3-element array contained within `arr`, which is `1`.
+
+-
+  ```cpp
+  std::cout << **(threeElementArrayPtr + 1) << std::endl; 
+  ```
+
+  This will give the first element of the 2nd 3-element array contained within `arr`, which is `4`.
+
+- 
+  ```cpp
+  std::cout << *( (*threeElementArrayPtr) + 1 ) << std::endl; 
+  ```
+
+  This will give the second element of the 1st 3-element array contained within `arr`, which is `2`.
+
+
 # Arrays in C
+
+In C, arrays consist of contiguous memory locations.
+
+The lowest address corresponds to the first element and the highest address to the last element. 
+  
+The variable we assign the array to points to the base address (first contigouous memory location) of the array and we can obtain the that element by DEREFERENCING the name of the variable.
+
+Some basic terminologies related to arrays:
+- The data type of array elements is known as the **BASE TYPE** of the array. 
+
+  This can be integer (`int`), double (`double`), integer array (`int[3]`) in the case of multi-dimensional arrays, character (`char`), etc.
+  
+- The element numbers in `[]` are called **SUBSCRIPTS** or **INDICES**. 
+
+The `numpy` API in `Python3` uses C arrays which is why it is so fast.
 
 ## Incrementing pointers pointing to array elements
 
@@ -512,23 +601,73 @@ printf("%p", (&arr + 1));
 
 This will give us the address just after the array.
 
-Dereferencing `(&arr + 1)` will bring it back to `int*` level, where the compile again understands addition/subtraction of 1, 2 etc, as 4, 8 bytes etc (size of `int` in bytes). 
+Dereferencing `(&arr + 1)` will bring it back to `int*` level, where the compile again understands addition/subtraction of 1, 2, etc, as 4, 8 bytes, etc (size of `int` in bytes). 
 
 ```cpp
-  int arr[5] = {1, 2, 3, 4, 5};
-  
-  if( *(&arr + 1) - 5 == arr) {
-      cout << "Equal" << endl;
-  }
+int arr[5] = {1, 2, 3, 4, 5};
+
+if( *(&arr + 1) - 5 == arr) {
+    printf("Equal");
+}
 ```
 
-NOTE that the `if` condition returns true in the above case, indicating that what we have discussed till now is correct.
+NOTE that the `if` condition returns true in the above case, since these are the same address, which is the beginning of the memory location of element 1.
+
+This indicates that what we have discussed till now is correct.
 
 This allows us to determine the number of elements in an array like this:
 
 ```c
 printf("No. of elements : %d", *(&arr + 1) - arr);
 ```
+
+## 2-D Arrays
+
+Two dimensional arrays are called Matrices.
+
+### Declaring 2-D Arrays
+
+- First Method
+  ```c
+  int matrix_1[4][2] = {
+      {1,2},
+      {3,4},
+      {5,6},
+      {7,8}
+  };
+  ```
+- Second method
+  ```c
+  int matrix_2[][2] = {1,2,3,4,5,6,7,8};
+  ```
+  According to the length of the row specified, the compiler is able to decipher the number of rows.
+  
+  BUT, avoid this to prevent confusion.
+
+### Memory Allocation of 2-D Arrays.
+
+If we look at this in terms of matrices, the first number represents the number of rows (each student occupies a row) the second number represents the number of columns (each data point related to the students occupies a column).
+
+According to C/C++ language specifications, matrices are laid out in memory in a ROW-MAJOR ORDER, which means the elements of the first row are laid out consecutively in memory, followed by the elements of the second row NEXT TO THEM in the memory, and so on.
+
+Note that **COLUMN-MAJOR ORDER** is the opposite of this where column wise layout is present.
+
+
+#### Testing this theory..
+
+```c
+for(int index = 0; index < 4; index++) {
+    printf("Address of element %d is %p\n", (index + 1), &matrix_1[index]);   
+}
+``` 
+    
+As seen by the output, each address is 8 bytes apart.
+
+This signifies that if we try accessing the 1st, 2nd etc element of `matrix_1`, we are accessing a complete row/2-element array, which has two integers. 
+
+Each integer takes up 4 bytes, so 2 integers take up 8 bytes.
+
+So, the 2-D array is stored row wise in contiguous memory locations.
 
 # TODO
 
