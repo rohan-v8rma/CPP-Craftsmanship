@@ -47,8 +47,6 @@
     - [Declaring 2-D Arrays](#declaring-2-d-arrays)
     - [Memory Allocation of 2-D Arrays.](#memory-allocation-of-2-d-arrays)
       - [Testing this theory..](#testing-this-theory)
-- [Common Errors in C Code](#common-errors-in-c-code)
-  - [Code Snippet 1](#code-snippet-1)
 - [TODO](#todo)
   - [Array of Pointers](#array-of-pointers)
 
@@ -673,40 +671,6 @@ Each integer takes up 4 bytes, so 2 integers take up 8 bytes.
 So, the 2-D array is stored row wise in contiguous memory locations.
 
 ---
-
-# Common Errors in C Code
-
-## Code Snippet 1
-
-```c
-1  void func() {
-2    cout << n;
-3  }
-4  
-5  int n = 0;
-6  
-7  int main() {
-8  
-9    cout << "Hello World";
-10 
-11   func();
-12  
-13   return 0;
-14 }
-```
-
-At first glance, this seems like working code. 
-
-But, as we can see in line 2, the variable `n` is being printed, without being declared yet, so we would get the error:
-
-```
-error: 'n' was not declared in this scope
-```
-
-One would think that we declared `n` before the function `func` is called, so the code should work.
-
-But, we need to ATLEAST declare if not initialize a variable being used inside a function, before the definition of the function. 
-
 
 # TODO
 
