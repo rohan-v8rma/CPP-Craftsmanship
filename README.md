@@ -68,6 +68,8 @@
   - [How does a C++ program end ( return value of `int main()` )](#how-does-a-c-program-end--return-value-of-int-main-)
     - [Can we use `void main()` in C? Should we use it?](#can-we-use-void-main-in-c-should-we-use-it)
   - [Difference b/w Argument & Parameter](#difference-bw-argument--parameter)
+- [Common Errors in C/C++ Code](#common-errors-in-cc-code)
+  - [Code Snippet 1](#code-snippet-1)
 - [Tips for C++](#tips-for-c)
   - [Alternative to `for-else` and `while-else` in C++](#alternative-to-for-else-and-while-else-in-c)
   
@@ -935,6 +937,39 @@ int main() {
   During the time of call each **argument** is always assigned to the parameter in the function definition.
 
   In the above code snippet, `5` and `6` are the **arguments**.
+
+# Common Errors in C/C++ Code
+
+## Code Snippet 1
+
+```cpp
+1  void func() {
+2    cout << n;
+3  }
+4  
+5  int n = 0;
+6  
+7  int main() {
+8  
+9    cout << "Hello World";
+10 
+11   func();
+12  
+13   return 0;
+14 }
+```
+
+At first glance, this seems like working code. 
+
+But, as we can see in line 2, the variable `n` is being printed, without being declared yet, so we would get the error:
+
+```
+error: 'n' was not declared in this scope
+```
+
+One would think that we declared `n` before the function `func` is called, so the code should work.
+
+But, we need to ATLEAST declare if not initialize a variable being used inside a function, before the definition of the function. 
 
 # Tips for C++
 
