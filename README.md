@@ -47,6 +47,8 @@
     - [Declaring 2-D Arrays](#declaring-2-d-arrays)
     - [Memory Allocation of 2-D Arrays.](#memory-allocation-of-2-d-arrays)
       - [Testing this theory..](#testing-this-theory)
+- [Common Errors in C Code](#common-errors-in-c-code)
+  - [Code Snippet 1](#code-snippet-1)
 - [TODO](#todo)
   - [Array of Pointers](#array-of-pointers)
 
@@ -219,7 +221,7 @@ When we call `gcc`, we are actually calling not just the `compiler`, we are call
 
 They are produced by the `compilation & assembling` phase of building a project.
 <div align="center" >
-<img src="./compilation-of-c-programs.jpg" width = "50%" />
+<img src="./image/compilation-of-c-programs.jpg" width = "50%" />
 </div>
 
 ## Role of Linker in creating executable/library files
@@ -273,6 +275,7 @@ After which it maps the libraries into the middle of virtual memory and resolves
 - **Disadvantage:**
 
   Suppose we have the compiled binary executable which has a bunch of libraries linked dynamically. If suppose the object file was converted to executable in one Linux distribution, and we try to run the executable in another distribution, there is a probability that the library that we dynamically linked isn't installed in the second distribution.
+
 # Sequence Points in C/C++
 
 In general, we can consider the sequence point as it defines any point in the execution of a computer program at which it guarantees or ensures that all the side effects of the previous evaluation of the program's code are done or successfully performed. 
@@ -668,6 +671,42 @@ This signifies that if we try accessing the 1st, 2nd etc element of `matrix_1`, 
 Each integer takes up 4 bytes, so 2 integers take up 8 bytes.
 
 So, the 2-D array is stored row wise in contiguous memory locations.
+
+---
+
+# Common Errors in C Code
+
+## Code Snippet 1
+
+```c
+1  void func() {
+2    cout << n;
+3  }
+4  
+5  int n = 0;
+6  
+7  int main() {
+8  
+9    cout << "Hello World";
+10 
+11   func();
+12  
+13   return 0;
+14 }
+```
+
+At first glance, this seems like working code. 
+
+But, as we can see in line 2, the variable `n` is being printed, without being declared yet, so we would get the error:
+
+```
+error: 'n' was not declared in this scope
+```
+
+One would think that we declared `n` before the function `func` is called, so the code should work.
+
+But, we need to ATLEAST declare if not initialize a variable being used inside a function, before the definition of the function. 
+
 
 # TODO
 
