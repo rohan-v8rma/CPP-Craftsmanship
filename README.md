@@ -50,6 +50,7 @@
     - [What is Overload Resolution?](#what-is-overload-resolution)
     - [What is Name Lookup?](#what-is-name-lookup)
     - [Coming to the important part mentioned in Clause 6.5.1...](#coming-to-the-important-part-mentioned-in-clause-651)
+    - [Example code-snippet (Example of why multiple inheritance is bad)](#example-code-snippet-example-of-why-multiple-inheritance-is-bad)
   - [Type Promotion and Type Narrowing](#type-promotion-and-type-narrowing)
   - [Poor Performance due to `std::endl`](#poor-performance-due-to-stdendl)
     - [Why aren't characters immediately written?](#why-arent-characters-immediately-written)
@@ -68,6 +69,7 @@
   - [How does a C++ program end ( return value of `int main()` )](#how-does-a-c-program-end--return-value-of-int-main-)
     - [Can we use `void main()` in C? Should we use it?](#can-we-use-void-main-in-c-should-we-use-it)
   - [Difference b/w Argument & Parameter](#difference-bw-argument--parameter)
+  - [Lvalues & Rvalues](#lvalues--rvalues)
 - [Common Errors in C/C++ Code](#common-errors-in-cc-code)
   - [Code Snippet 1](#code-snippet-1)
 - [Tips for C++](#tips-for-c)
@@ -662,7 +664,50 @@ The declarations found by name lookup shall either all denote the same entity or
 
 Overload Resolution (Clause 12.4) takes place **AFTER** Name Lookup(Clause 6.5.1) has succeeded.
 
-See [12oop-c-multiple-inheritance-overloading.cpp](./ObjectOrientedProgramming/12oop-c-multiple-inheritance-overloading.cpp) for an example implementation of this.
+### Example code-snippet (Example of why multiple inheritance is bad)
+
+This code-snippet is an example which justifies why multiple inheritance is bad.
+
+In this case, it is causing confusing overload resolution.
+
+This code is erroneous and hence can't be run.
+
+```cpp
+class BaseClass1 {
+  public:
+    void greet() {
+        cout << "Hello beautiful" << endl;
+    };
+};
+
+class BaseClass2 {
+  public:
+    void greet(string name) {
+        cout << "Hello " << name << endl;
+    };
+};
+
+class DerivedClass : public BaseClass1, public BaseClass2 {
+
+};
+
+int main() {
+  DerivedClass sampleDerived; 
+  sampleDerived.greet();
+  sampleDerived.greet("rohan");
+  
+  return 0;
+}
+```
+
+
+> ***NOTE:*** Inheriting two function definitions from two different classes is not the same as having two function definitions written in the derived class definition itself. This is in regard to ***SCOPING***.
+>
+> Because if the two functions had been declared in the Derived Class itself, they would've formed an OVERLOAD SET.
+>
+> But in this case, Name Lookup occurs first and the compiler tries to figure out which BASE class `greet` member function belongs. But it finds that the function call is AMBIGUOUS because a member function with the name `greet` is present in both the classes.
+> 
+> The compiler stops EXECUTION there, irrespective of the member function SIGNATURES.
 
 ## Type Promotion and Type Narrowing
 
@@ -851,7 +896,7 @@ It is important to understand that the amount of memory occupied by an instance 
 It would be inconsistent and problem causing if we were to decide what members get inherited
 based on the ACCESS MODIFIER they are enclosed in ( In the Base Class ).
 
-It is easier and more reliable to accept the MEMORY OVERHEAD of the extra data members inherited from the **Base Class** which can't be accessed ( they might be under the `private:` access modifier ) but are still grouped with the **Derived Class** and are allocated memory upon creation of instances of the **Derived Class**.
+It is easier and more reliable to accept the MEMORY OVERHEAD of the extra data members inherited from the **Base Class** which caAn lvalue (locator value) represents an object that occupies some identifiable location in memory (i.e. has an address). rvalues are defined by exclusion. Every expression is either an lvalue or an rvalue, so, an rvalue is an expression that does not represent an object occupying some identifiable location in memorythe **Derived Class** and are allocated memory upon creation of instances of the **Derived Class**.
 
 Take a look at [12oop-e-sizeof-derived-class.cpp](./ObjectOrientedProgramming/12oop-e-sizeof-derived-class.cpp) for validation of this concept.
 
@@ -937,6 +982,20 @@ int main() {
   During the time of call each **argument** is always assigned to the parameter in the function definition.
 
   In the above code snippet, `5` and `6` are the **arguments**.
+
+
+## Lvalues & Rvalues
+
+Lvalue and Rvalue used to refer to values on the left and right side of the assignment operator, respectively, but it is not descriptive enough for each case.
+
+- An **lvalue** (locator value) represents an object that occupies some identifiable location in memory (i.e. has an address). 
+- **rvalues** are defined by exclusion. 
+
+Every expression is either an **lvalue** or an **rvalue**, so, an **rvalue** is an expression that does not represent an object occupying some identifiable location in memory.
+
+In general, **rvalues** are temporary and short lived, while **lvalues** live a longer life since they exist as variables. 
+
+It's also fun to think of **lvalues** as containers and **rvalues** as things contained in the containers.
 
 # Common Errors in C/C++ Code
 
