@@ -37,8 +37,7 @@ Hence this function returns by reference.
     
 The return statement is return globalVar; 
 
-but unlike return by value, this statement doesn't return value of `globalVar`, 
-instead it returns variable `globalVar` itself.
+but unlike return by value, this statement doesn't return value of `globalVar`, instead it returns variable `globalVar` itself.
 
 ! NOTE that in C, when the return type was `int*`, we had to return an address of a variable which had already been passed by reference into the function.
 

@@ -46,21 +46,21 @@ If a virtual function is defined in a base class, there is no necessity of redef
 */
 
 class BaseClass {
-    public:
-        int base;
-        
-        virtual void show() {
-            cout << "Show base\n";
-        };
+public:
+    int base;
+    
+    virtual void show() {
+        cout << "Show base\n";
+    };
 };
 
 class DerivedClass : public BaseClass {
-    public:
-        int derived;
+public:
+    int derived;
 
-        void show() {
-            cout << "Show derived\n";
-        };
+    void show() {
+        cout << "Show derived\n";
+    };
 };
 
 int main() {
@@ -78,11 +78,7 @@ int main() {
     
     
     baseClassPointer -> show();
-    /*
-    ? Even when the function `show()` is made virtual, 
-    ? we can still use the scope resolution operator to 
-    ? access the definition of `show()` present in the `BaseClass
-    */
+    // ? Even when the function `show()` is made virtual, we can still use the scope resolution operator to  access the definition of `show()` present in the `BaseClass`
     baseClassPointer -> BaseClass::show();
 
     return 0;
