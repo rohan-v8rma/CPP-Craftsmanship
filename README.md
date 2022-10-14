@@ -896,8 +896,7 @@ It is important to understand that the amount of memory occupied by an instance 
 It would be inconsistent and problem causing if we were to decide what members get inherited
 based on the ACCESS MODIFIER they are enclosed in ( In the Base Class ).
 
-It is easier and more reliable to accept the MEMORY OVERHEAD of the extra data members inherited from the **Base Class** which caAn lvalue (locator value) represents an object that occupies some identifiable location in memory (i.e. has an address). rvalues are defined by exclusion. Every expression is either an lvalue or an rvalue, so, an rvalue is an expression that does not represent an object occupying some identifiable location in memorythe **Derived Class** and are allocated memory upon creation of instances of the **Derived Class**.
-
+It is easier and more reliable to accept the MEMORY OVERHEAD of the extra data members inherited from the **Base Class** which can't be accessed ( they might be under the `private:` access modifier ) but are still grouped with the **Derived Class** and are allocated memory upon creation of instances of the **Derived Class**.
 Take a look at [12oop-e-sizeof-derived-class.cpp](./ObjectOrientedProgramming/12oop-e-sizeof-derived-class.cpp) for validation of this concept.
 
 ## Empty Function/Constructor Definition
