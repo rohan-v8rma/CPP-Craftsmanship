@@ -17,6 +17,14 @@
   - [How does the most elementary combination of `<iostream>` header file and `std` namespace work?](#how-does-the-most-elementary-combination-of-iostream-header-file-and-std-namespace-work)
 - [Scopes in C++](#scopes-in-c)
 - [I/O in C++](#io-in-c)
+- [OOP in C++](#oop-in-c)
+  - [Introduction](#introduction)
+  - [Member Functions of Classes (Implicitly Inline)](#member-functions-of-classes-implicitly-inline)
+  - [Access Modifiers](#access-modifiers)
+  - [Friend Class](#friend-class)
+    - [Important points about friendship](#important-points-about-friendship)
+    - [Example code-snippet](#example-code-snippet)
+  - [Friend Function](#friend-function)
 - [Templates in C++](#templates-in-c)
   - [Declaring one or more Template Parameters using PlaceHolder Types](#declaring-one-or-more-template-parameters-using-placeholder-types)
   - [Templates with Default Parameters](#templates-with-default-parameters)
@@ -292,6 +300,259 @@ This is why the change in `a` is reflected.
 # I/O in C++
 
 TODO : Refer [10B-InputOutput-in-C++.cpp](10B-InputOutput-in-C++.cpp) and write here
+
+# OOP in C++
+
+## Introduction
+
+Because objects are dynamic, they are called run-time entities as they are created and modified during the run-time.
+
+A class is a user-defined type. It consists of a set of members which might be PRIVATE or PUBLIC. 
+
+A `struct` which we studied earlier is a type of class where all MEMBERs are by default public. 
+
+PUBLIC MEMBERS provide the class’s interface.
+PRIVATE MEMBERS provide implementation details.
+
+The most common kinds of members are data members and member functions.
+
+MEMBER FUNCTIONS can define the meaning of initialization (creation), copy, move, and cleanup (destruction).
+
+The variables defined within an objects are called its DATA MEMBERS.
+
+Members are accessed using `.` (dot) for objects and `−>` (arrow) for pointers to objects.
+
+A class is defined in C++ using keyword `class` followed by the name of the class.
+
+The body of the class is defined inside the curly brackets and terminated by a semicolon at the end.
+
+```cpp
+class className {
+   // some data
+   // some functions
+};
+```
+
+When a class is defined, only the specification for the object is defined; no memory or storage is allocated.
+To use the data and access functions defined in the class, we need to create objects.
+
+## Member Functions of Classes (Implicitly Inline)
+
+Defining a member function within the class definition implicitly converts the function to inline, even if we do not use the inline specifier.
+
+> **_NOTE:_** Any function declared within a class is IMPLICITLY INLINE, irrespective of the fact whether it is defined INSIDE or OUTSIDE the class.
+
+```cpp
+class Point {
+private:
+    int x, y;
+public:
+    // inline function DECLARED and DEFINED within a class
+    
+    int getX() {
+        return x;
+    };
+    
+    // inline function DECLARED within a class but DEFINED OUTSIDE it
+    
+    int getY();
+};
+
+//DEFINITION of the function DECLARED above
+int Point::getY() {
+    return y;
+};
+```
+
+Here, the functions `getX()` and `getY()` are inline member functions of the class `Point`.
+
+## Access Modifiers
+
+There are 3 kinds of access modifiers: public, private and protected. 
+The default access modifier in a class is PRIVATE
+
+- `public` keyword is used to create public members (data and functions). The public members are accessible from any part of the program.
+
+  The public elements are accessible from `main()`, because public elements are accessible from all parts of the program.
+
+- `private` keyword is used to create private members (data and functions).
+
+  The private members can only be accessed from within the class.
+
+  > _**NOTE**_: `private` members are inherited by derived classes. They even occupy memory when instances of the derived classes are created.
+  >
+  > But, they still can't be accessed from anywhere EXCEPT from within the base class.
+
+  However, a `friend class` or a `friend function` can access private members.
+
+- `protected` access modifier is similar to private access modifier in the sense that it can’t be accessed outside of its class unless with the help of friend class.
+
+  The difference is that the class members declared as `protected` can be accessed by any 
+subclass(derived class) of that class as well. 
+
+Look at the following code-snippet to see the usage of all access modifiers.
+
+```cpp
+class Employee {
+
+private: 
+    int age;
+protected:
+    int protected_variable;
+public:
+    int hours_worked;
+    void display_hours_worked() {
+        cout << "Hours worked by employee: " << hours_worked << endl;
+    };
+    void displayAge(int age_argument) {
+        age = age_argument;
+        cout << "Age of the employee is: " << age << endl;
+    }
+};
+
+class EmployeeChild : public Employee  {
+    
+public:
+    int child_number;
+
+    //? The member function of the child class is able to access the protected variable of its parent
+
+    void access_protected_variable (int value_argument) {
+        protected_variable = value_argument;
+        cout << "Value of protected variable: " << protected_variable << endl;
+    }
+};
+
+int main() {
+    Employee employee_1;
+
+    //* accessing public members of the object `employee_1`
+
+    employee_1.hours_worked = 100;
+    employee_1.display_hours_worked();
+
+    //* modifying and displaying a private data member using a public inline member function 
+
+    employee_1.displayAge(29);
+
+    /*
+    In main(), we cannot directly access the class variable age.
+    We can only indirectly manipulate age through the public inline member function displayAge().
+    */
+    
+    //* demonstrating how child can access protected variable of parent
+
+    EmployeeChild child_1;
+    
+    child_1.access_protected_variable(10);
+
+    return 0;
+}
+```
+
+## Friend Class
+
+A friend class can access PRIVATE and PROTECTED members of other class in which it is declared as friend. 
+It is sometimes useful to allow a particular class to access private members of other class.
+
+### Important points about friendship
+
+- Friendship is not mutual. If class A is a friend of B, then B doesn’t become a friend of A automatically.
+- Friendship is not inherited
+
+### Example code-snippet
+
+```cpp
+class SecondaryClass {
+    friend class PrimaryClass;
+
+private: 
+    int privateVarSecondary;
+};
+
+class PrimaryClass {
+
+private: 
+    int privateVarPrimary;
+public:
+    void variableAccessFunction(SecondaryClass &exampleSecondaryClass) { 
+        
+        exampleSecondaryClass.privateVarSecondary = 10;
+        cout << exampleSecondaryClass.privateVarSecondary;
+    };
+};
+
+
+int main() {
+    PrimaryClass one;
+    SecondaryClass two;
+
+    one.variableAccessFunction(two);
+
+    return 0;
+}
+```
+
+Output:
+```
+10
+```
+
+The function `variableAccessFunction` has to be a public member function to allow its usage in `main()`.
+
+## Friend Function
+
+Like friend class, a friend function can be given a special grant to access PRIVATE and PROTECTED members. 
+
+A friend function is a function that is specified outside a class but has the ability to access 
+the class members’ protected and private data.
+
+A friend function can be any of the TWO: 
+1. A member of another class 
+2. A global function 
+
+The benefit of using friend functions instead of member functions defined within a class is that MEMBER functions are implicitly made INLINE which is good for speed but can cause some functional problems and reduces separation of local variables of the function.
+
+> **_NOTE:_** Member functions are USEFUL in case of short codes that will benefit from reduced time of creating a function call stack.
+
+Syntax for declaring a Friend Function:
+
+```cpp
+class <class-name> {
+    friend <return-type> <function-name> (argument/s);
+    ...
+    ...
+};
+```
+
+Take a look at the following code-snippet to understand Friend Functions.
+
+```cpp
+class Box {    
+    private:    
+        int length;    
+    public:    
+        Box() {
+            length = 0;
+        }
+        friend int printLength(class Box example_box); //friend function    
+};    
+
+int printLength(class Box example_box) {    
+    example_box.length += 10;      
+    return example_box.length;    
+}     
+int main() {    
+    class Box first_box;
+    cout << "Length of box: " << printLength(first_box) << endl;    
+    return 0;    
+}   
+```
+
+Output:
+```
+Length of box: 10
+```
 
 # Templates in C++
 
