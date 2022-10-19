@@ -10,8 +10,8 @@
   - [Static vs. Dynamic Languages](#static-vs-dynamic-languages)
 - [Source Code to Executable File](#source-code-to-executable-file)
   - [Source Code to Assembly Code](#source-code-to-assembly-code)
-  - [Assembly Code to Object Code](#assembly-code-to-object-code)
-    - [What is Object Code?](#what-is-object-code)
+  - [Assembly Code to Object/Intermediate Code](#assembly-code-to-objectintermediate-code)
+    - [What is Object/Intermediate Code?](#what-is-objectintermediate-code)
   - [`gcc` compiler](#gcc-compiler)
   - [Intermediate/Object Code files](#intermediateobject-code-files)
   - [Role of Linker in creating executable/library files](#role-of-linker-in-creating-executablelibrary-files)
@@ -20,6 +20,13 @@
       - [Static Linking](#static-linking)
       - [Dynamic Linking](#dynamic-linking)
 - [Sequence Points in C/C++](#sequence-points-in-cc)
+- [printf and scanf](#printf-and-scanf)
+  - [Format Specifiers](#format-specifiers)
+  - [More details about `scanf()`](#more-details-about-scanf)
+  - [Taking input of two variables together](#taking-input-of-two-variables-together)
+- [Some commonly used operators](#some-commonly-used-operators)
+  - [Address-of/Reference (`&`) operator](#address-ofreference--operator)
+  - [`sizeof()` operator](#sizeof-operator)
 - [Pointers in C](#pointers-in-c)
   - [What are Pointers?](#what-are-pointers)
   - [Dereference Operator (`*`)](#dereference-operator-)
@@ -38,6 +45,9 @@
     - [INCORRECT syntax 1](#incorrect-syntax-1)
     - [INCORRECT syntax 2](#incorrect-syntax-2)
     - [Using Multi-dimensional array pointers](#using-multi-dimensional-array-pointers)
+  - [`void*` pointers](#void-pointers)
+  - [What are they?](#what-are-they)
+  - [Pointer arithmetic on `void*` pointers](#pointer-arithmetic-on-void-pointers)
 - [Arrays in C](#arrays-in-c)
   - [Incrementing pointers pointing to array elements](#incrementing-pointers-pointing-to-array-elements)
   - [Decaying of array names to pointers](#decaying-of-array-names-to-pointers)
@@ -278,15 +288,15 @@ In the case of languages like Java, which have the facility of GARBAGE collectio
 
 When we have the source code of a C program, that `source code` is passed to the compiler and compiler will produce the output in `assembly code` (mnemonic version of machine code). 
 
-## Assembly Code to Object Code
+## Assembly Code to Object/Intermediate Code
 
-This assembly language code is given to the assembler and assembler produces `object code`,  which is usually in binary language.  
+This assembly language code is given to the assembler and assembler produces ***Object Code***,  which is usually in binary language.  
 
-### What is Object Code?
+### What is Object/Intermediate Code?
 
-The term `object code` indicates the code is the goal or **"objective"** of the compiling process, wherein compilation includes the assembling phases as well.
+The term ***Object Code*** indicates the code is the goal or **"objective"** of the compiling process, wherein compilation includes the assembling phases as well.
 
-This code can be run on any machine with the same CPU architecture. It is also referred to as **Intermediate Code**.
+This code can be run on any machine with the same CPU architecture. It is also referred to as ***Intermediate Code***.
 
 ## `gcc` compiler
 
@@ -300,11 +310,14 @@ When we call `gcc`, we are actually calling not just the `compiler`, we are call
 
 ## Intermediate/Object Code files
 
-`.obj` files (.o files on Linux/Unix) are `compiled & assembled` source files. There will indeed be one for each `.cpp` file, or more formally "compilation unit". 
+`.obj` files (.o files on Linux/Unix) are ***compiled & assembled*** source files. 
 
-They are produced by the `compilation & assembling` phase of building a project.
+There will indeed be one for each `.cpp` file, or more formally "compilation unit". 
+
+They are produced by the ***compilation & assembling*** phase of building a project.
+
 <div align="center" >
-<img src="./image/compilation-of-c-programs.jpg" width = "50%" />
+<img src="./images/compilation-of-c-programs.jpg" width = "50%" />
 </div>
 
 ## Role of Linker in creating executable/library files
@@ -312,9 +325,9 @@ They are produced by the `compilation & assembling` phase of building a project.
 These `.obj` files are then combined by linker to:
  - an application, which is usually a `.exe` file on Windows. On Unix-like systems, an application has no extension. 
  
- OR
+    OR
  - a library file (dynamic or static)
-    -  `.dll` on Windows, `.so` on a Unix-like platform for dynamic library files.
+    -  `.dll` *(Dynamic-Link Library)* on Windows, `.so` on a Unix-like platform for dynamic library files.
     - `.lib` on Windows, `.a` on a Unix-like platform for static library files (which is basically a collection of `.obj` files in one packed into one file). 
 
 We do not see `.obj` files or static `.lib` files with applications/programs, because they are not needed at runtime, they are used only by `linker`. 
@@ -327,13 +340,13 @@ Let us assume that we `#include`'d some header files in our C program and used t
 
 We know that the actual definitions of these functions are in certain libraries that are referred to within the header file.
 
-If we were to explain the need of a linker in simple terms, after `compilation & assembling`, once we obtain the object code contained within an `.obj` file, the linker ensures that the definitions of the `library functions` used are grouped with the object code into a single package which is the `executable file` of the program.
+If we were to explain the need of a linker in simple terms, after ***compilation & assembling***, once we obtain the object code contained within an `.obj` file, the linker ensures that the definitions of the **library functions** used are grouped with the object code into a single package which is the **executable file** of the program.
 
 ### Static vs. Dynamic Linking
 
 #### Static Linking
   
-When we click the .exe (executable) file of the program and it starts running, all the necessary contents of the binary file have been loaded into the process’s virtual address space. However, most programs also need to run functions from the system libraries, and these library functions also need to be loaded.
+When we click the `.exe` (executable) file of the program and it starts running, all the necessary contents of the binary file have been loaded into the process’s virtual address space. However, most programs also need to run functions from the system libraries, and these library functions also need to be loaded.
 
 In the simplest case, the necessary library functions are embedded directly in the program’s executable binary file. Such a program is statically linked to its libraries, and statically linked executable codes can commence running as soon as they are loaded.
 
@@ -347,7 +360,9 @@ In the simplest case, the necessary library functions are embedded directly in t
 
 #### Dynamic Linking
 
-Every dynamically linked program contains a small, statically linked function that is called when the program starts. This static function only maps the link library into memory and runs the code that the function contains. The link library determines what are all the dynamic libraries which the program requires along with the names of the variables and functions needed from those libraries by reading the information contained in sections of the library.
+Every dynamically linked program contains a small, statically linked function that is called when the program starts. This static function only maps the link library into the virtual memory allocated to the program and runs the code that the function contains. 
+
+The link library determines what are all the dynamic libraries which the program requires along with the names of the variables and functions needed from those libraries by reading the information contained in sections of the library.
 
 After which it maps the libraries into the middle of virtual memory and resolves the references to the symbols contained in those libraries. We don’t know where in the memory these shared libraries are actually mapped: They are compiled into position-independent code (PIC), that can run at any address in memory.
 
@@ -374,6 +389,116 @@ modified at most once by the evaluation of an expression.
 which, in a sense means that we are not supposed to change a variable's value multiple times in the same expression.
 
 Take a look at [16-sequence-points.c](./16-sequence-points.c) for example code.
+
+# printf and scanf
+
+In C programming, `printf()` is one of the main output function. The `printf()` is a library function to send formatted output to the screen. The function prints the string inside quotations.
+
+## Format Specifiers
+
+- - `%d` - integer(decimal) number (always base 10)
+  - `%4d` - For RIGHT-ALIGNING integers. Integer will be displayed right aligned to 4 places.
+    ```cpp
+    printf("number:%4d\n", 1);
+    printf("number:%4d\n", 12);
+    ```
+
+    Output:
+    ```
+    number:___1
+    number:__12
+    ```
+    where each underscore represents a whitespace.
+
+- `%o` - octal number. In C, Octal number is of the format: 012, with a leading 0.
+    ```cpp
+    printf("%o\n", 01212); //leading 0 of octal number won't be displayed
+    ```
+
+    Output:
+    ```
+    1212
+    ```
+
+- `%x` - hexadecimal number (`%X` for capital letters)
+    (In C, Hexadecimal number is of the format: 0x1a2, with leading 0x)
+    
+    ```cpp
+    printf("%x\n", 0xab10);//leading 0x of hexadecimal won't be displayed  
+    ```
+
+    Output:
+    ```
+    ab10
+    ```
+  
+- - `%f` - floating-point number with 6 digits of precision
+  - `%.1f` - 1 decimal place displayed
+  - `%.f` - 0 decimal place displayed. The floating-pointer number is rounded to the nearest integer. 
+  
+    For example if number is between 2 and 3:
+      - if n > 2.5, rounded up to 3.
+      - if n <= 2.5, rounded down to 2.
+    
+- `%lf` - floating-point with 15 digits of precision.
+- `%c` - character
+- `%p` - an address or a pointer (since a pointer stores addresses as well)
+    
+## More details about `scanf()`
+
+`scanf` function takes two arguments. 
+
+1. A string containing a format specifier
+2. The memory location assigned to the variable to which the input value has to be written.
+
+## Taking input of two variables together
+
+```cpp
+int b;
+int c;
+scanf("%d %d", &b, &c);
+```
+
+
+
+# Some commonly used operators
+
+Variables name memory locations, which hold values. These are useful since we don't have to memorize long addresses to access certain values. 
+
+## Address-of/Reference (`&`) operator
+
+The ampersand (`&`) is the Address-of/Reference operator. It returns the memory location of the data stored in a variable, and it is used by prefixing to the name of a variable. 
+
+For example, if we have a variable `var`, which holds an integer value, `&var` will get us the memory location where that integer value is stored.
+
+The variable doesn't even have to be initialized, just declared.
+
+## `sizeof()` operator
+
+The `sizeof()` operator is the most common operator in C. 
+
+- It is a compile-time unary operator and used to compute the size of its operand. 
+- It returns the size of a variable. It can be applied to any data type, for e.g.: float type, pointer type variables.
+
+When `sizeof()` is used with the data types, it simply returns the amount of memory that would be allocated to an instance of that data type.
+
+> **_NOTE:_** In order to print the size of any variable, we need to give `%ld` (long int) or `%lu` (unsigned long int) format specifier, otherwise, we will encounter error.
+
+```cpp
+printf("Size of variable `a` : %ld\n", sizeof(a));
+printf("Size of `char` data type : %ld\n", sizeof(char));
+printf("Size of `short` data type : %ld\n", sizeof(short));
+printf("Size of `int` data type : %ld\n", sizeof(int));
+printf("Size of `long double` data type : %ld\n", sizeof(long double));
+
+printf("\nSize of pointer data types\n\n");
+
+printf("Size of `short*` data type : %ld\n", sizeof(short*));
+printf("Size of `int*` data type : %ld\n", sizeof(int*));
+printf("Size of `long*` data type : %ld\n", sizeof(long*));
+printf("Size of `double*` data type : %ld\n", sizeof(double*));
+printf("Size of `long double*` data type : %ld\n", sizeof(long double*));
+```
 
 # Pointers in C
   
@@ -584,6 +709,28 @@ Note that incrementing `threeElementArrayPtr` using `++` will mean movement to t
 
   This will give the second element of the 1st 3-element array contained within `arr`, which is `2`.
 
+## `void*` pointers
+
+## What are they?
+
+void pointers can be used to point to any datatype.
+
+## Pointer arithmetic on `void*` pointers
+
+You cannot perform arithmetic on a `void` pointer because pointer arithmetic is defined in terms of the size of the pointed-to object.
+
+You can, however, cast the pointer to a pointer of a particular type, do arithmetic on that pointer, and then convert it back to a `void*`:
+```cpp
+int intArr[3] = {1, 2, 3};
+
+void* pointer = intArr;
+
+for(int index = 0; index < 3; index++) {
+    printf("%d\n", intArr[index]);
+    pointer = (void*)((int*)(pointer) + 1); 
+    // Casting to `int*`, doing arithmetic and converting back to `void*`
+}
+```
 
 # Arrays in C
 
