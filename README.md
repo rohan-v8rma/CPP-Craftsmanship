@@ -20,10 +20,16 @@
       - [Static Linking](#static-linking)
       - [Dynamic Linking](#dynamic-linking)
 - [Sequence Points in C/C++](#sequence-points-in-cc)
-- [printf and scanf](#printf-and-scanf)
-  - [Format Specifiers](#format-specifiers)
-  - [More details about `scanf()`](#more-details-about-scanf)
-  - [Taking input of two variables together](#taking-input-of-two-variables-together)
+- [I/O in C & C++](#io-in-c--c)
+  - [printf and scanf](#printf-and-scanf)
+    - [Format Specifiers](#format-specifiers)
+    - [More details about `scanf()`](#more-details-about-scanf)
+    - [Taking input of two variables together](#taking-input-of-two-variables-together)
+  - [`puts()` function](#puts-function)
+  - [Basic elements for I/O in C++](#basic-elements-for-io-in-c)
+  - [Cascading of I/O operators (`<<` and `>>`)](#cascading-of-io-operators--and-)
+  - [get() 'single-character' function for input](#get-single-character-function-for-input)
+  - [`cin >> ch` vs. `cin.get(ch)`](#cin--ch-vs-cingetch)
 - [Some commonly used operators](#some-commonly-used-operators)
   - [Address-of/Reference (`&`) operator](#address-ofreference--operator)
   - [`sizeof()` operator](#sizeof-operator)
@@ -390,11 +396,13 @@ which, in a sense means that we are not supposed to change a variable's value mu
 
 Take a look at [16-sequence-points.c](./16-sequence-points.c) for example code.
 
-# printf and scanf
+# I/O in C & C++
+
+## printf and scanf
 
 In C programming, `printf()` is one of the main output function. The `printf()` is a library function to send formatted output to the screen. The function prints the string inside quotations.
 
-## Format Specifiers
+### Format Specifiers
 
 - - `%d` - integer(decimal) number (always base 10)
   - `%4d` - For RIGHT-ALIGNING integers. Integer will be displayed right aligned to 4 places.
@@ -444,14 +452,30 @@ In C programming, `printf()` is one of the main output function. The `printf()` 
 - `%c` - character
 - `%p` - an address or a pointer (since a pointer stores addresses as well)
     
-## More details about `scanf()`
+### More details about `scanf()`
+
+Function signature:
+```cpp
+void scanf(char* nullTerminatedCharArray, <dataType>* address);
+```
 
 `scanf` function takes two arguments. 
 
-1. A string containing a format specifier
+1. A string (null-terminated character array) containing a format specifier
 2. The memory location assigned to the variable to which the input value has to be written.
 
-## Taking input of two variables together
+Example:
+```cpp
+scanf("number : %d", &integer);
+```
+
+> **_NOTE:_** If we don't give the input similar to the string containing the format specifier, the variable will have its value as the default initialization value for that data-type.
+> 
+> Which would be 0 in the case of `int` (This is the value that variables of type `int` are assigned when they are created in the call stack of a function. Primitives like `int`, `char`, `float`, etc, have their values stored in the stack itself, and hence they are initialized with a default value upon creation).
+> 
+> In the case of pointers, they would by-default be `NULL` pointers. When memory from heap is used to store an object, and its address is assigned to the pointer, that is when the value of the pointer changes, 
+
+### Taking input of two variables together
 
 ```cpp
 int b;
@@ -459,6 +483,83 @@ int c;
 scanf("%d %d", &b, &c);
 ```
 
+## `puts()` function
+
+The `puts()` function in C is used to write a line or string to the output stream (`stdout`) that 
+is up to, but does not include, the null character. 
+
+The `puts()` function also appends a newline character (`\n`) to the output and returns an integer.
+
+Function signature:
+```cpp
+int puts(char* nullTerminatedCharArray);
+```
+
+The `puts()` function takes a single mandatory parameter, i.e., a null-terminated character array.
+
+Example:
+```cpp
+puts("hello world");
+```
+
+Output: 
+
+The `puts()` function writes the provided argument to the output stream and appends a newline character (`\n`) at the end.
+
+Return Value:
+
+- If the execution is SUCCESSFUL, the function returns a non-negative integer; 
+- Otherwise, it returns an `EOF` (End-of-File) for any error.
+
+## Basic elements for I/O in C++
+ 
+```cpp
+cout << "Enter value1 : ";
+```
+
+- `<<` is the output operator **"put to"**, also called ***Stream Insertion Operator***. 
+
+  It is used to direct a value to standard output. 
+
+  Also, by default `\n` escape sequence is NOT added to each output stream.
+
+```cpp
+cin >> value1;
+```
+
+- `cin` is an [istream class](#istream-class) object tied to standard input.
+  
+  `cin` stands for console input.
+
+- `>>` is the input operator **"get from"**, also called ***Stream Extraction Operator***. 
+
+  It is used to read a value from standard input.
+
+  Stream Extraction Operator, `>>`, signifies "extract the next value" from the stream named  `cin` and assign it to the next named variable, which is `value1` in this case.
+
+## Cascading of I/O operators (`<<` and `>>`)
+
+Successive occurrences of I/O operators can be concatenated. 
+
+To understand this, read about the return type of the operation `cout << "hello"` or `cin >> A`, under [Overloading of Stream Insertion and Extraction Operators](#overloading-the-stream-insertion--and-stream-extraction--operator), with it being referred to as an operation because the stream insertion (`<<`) and stream extraction (`>>`) operators are performing binary operations using their 2 operands.
+
+## get() 'single-character' function for input
+
+`get()` function is an input function. It fetches a single character and stores it in a character variable.
+
+The `get()` is a member-function of [istream class](#istream-class) and can be used with the istream class object `cin` as shown:
+
+```cpp
+char ch;
+cout << "Enter the character : ";
+cin.get(ch);
+```
+## `cin >> ch` vs. `cin.get(ch)`
+
+- When `>>` operator is used, the white spaces (tabs, spaces, and newline characters) are ignored.
+
+- This is NOT the case with `cin.get(ch)`.
+*/
 
 
 # Some commonly used operators
