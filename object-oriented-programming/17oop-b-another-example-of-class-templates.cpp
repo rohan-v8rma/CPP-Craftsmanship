@@ -10,7 +10,7 @@ class Vector {
         T *arr;
         int size;
 
-        Vector(int size) {
+        Vector<T>(int size) {
             this -> size = size;
             arr = new T[size];
             /*
@@ -22,7 +22,7 @@ class Vector {
             */
         };
         
-        T dotProduct(Vector &passed) { 
+        T dotProduct(Vector<T> &passed) { 
             /*
             ! NOTE that once an object is created using this class template,
             ! the placeholder datatype, wherever used, is made CONSTANT.
