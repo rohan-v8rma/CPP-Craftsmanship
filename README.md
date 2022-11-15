@@ -82,6 +82,11 @@
   - [How does the most elementary combination of `<iostream>` header file and `std` namespace work?](#how-does-the-most-elementary-combination-of-iostream-header-file-and-std-namespace-work)
 - [Scopes in C++](#scopes-in-c)
 - [I/O in C++](#io-in-c)
+- [Dynamic Memory Allocation in C++](#dynamic-memory-allocation-in-c)
+  - [`new` operator](#new-operator)
+  - [`delete` & `delete[]` operator](#delete--delete-operator)
+    - [Examples](#examples)
+  - [Example containing usage of `new` and `delete`](#example-containing-usage-of-new-and-delete)
 - [OOP in C++](#oop-in-c)
   - [Introduction](#introduction)
   - [Member Functions of Classes (Implicitly Inline)](#member-functions-of-classes-implicitly-inline)
@@ -1221,6 +1226,135 @@ This is why the change in `a` is reflected.
 
 TODO : Refer [10B-InputOutput-in-C++.cpp](10B-InputOutput-in-C++.cpp) and write here
 
+# Dynamic Memory Allocation in C++
+
+## `new` operator
+
+The `new` operator in C++ is extremely useful.
+
+It denotes a request for memory allocation from heap for storing values that reference variable can point to.
+
+If sufficient memory is available, a `new` operator initializes the memory and returns the address of the newly allocated and initialized memory to the pointer variable.
+
+1. Using `new` to allocate memory for an integer (along with implicit zero initialization) and assign it to an integer pointer.
+  
+    ```cpp
+    int *firstIntegerPointer;
+    firstIntegerPointer = new int;
+    cout << *firstIntegerPointer << "\n";
+    ```
+
+    Output:
+    ```
+    0
+    ```
+    This shows that integer was *ZERO-INITIALIZED*.
+
+
+2. Using `new` to allocate memory for an integer along with value initialization.
+    ```cpp
+    int *secondIntegerPointer;
+    secondIntegerPointer = new int(5);
+    cout << *secondIntegerPointer << "\n";
+    ```
+
+    Round brackets `()` indicated that it is the value used for intializing the integer that the `secondIntegerPointer` is made to point to.
+
+    Output:
+    ```
+    5
+    ```
+
+3. Using `new` to allocate memory for an integer array and assign it to an integer pointer.
+    ```cpp
+    int *thirdIntegerPointer;
+    thirdIntegerPointer = new int[5];
+    ```
+
+    Square brackets `[]` indicate that an array needs to be created, where each `int` is *ZERO-INITIALIZED*.
+    
+    The `thirdIntegerPointer` is then made to point to the first element of this newly created array.
+  
+## `delete` & `delete[]` operator
+
+`delete` & `delete[]` are operators that are used to destroy array and non-array(pointer) objects which are created using [`new`](#new-operator) keyword.
+ 
+- As mentioned above, the `new` operator is used for dynamic memory allocation, which puts values pointed to by reference variables in the heap memory. 
+
+  This implies that the `delete` operator deallocates memory from heap.
+
+- The reference variable/pointer to the object is not destroyed. Rather the value/memory block pointed by pointer is destroyed.
+
+### Examples
+1. Deleting a value pointed to by a regular pointer
+
+    ```cpp
+    // Creating a zero-initialized integer
+    int* ptr1 = new int;
+     
+    // Initializing the newly created integer with value 20
+    int* ptr2 = new int(20);
+ 
+    delete ptr1; // Destroying ptr1
+    delete ptr2; // Destroying ptr2
+    ```
+
+
+2. Deleting Array Objects 
+
+    We delete an array using `delete[]`.
+
+    ```cpp
+    // Allocate Heap memory
+    int* array = new int[10];
+     
+    // Deallocate Heap memory
+    delete[] array;
+    ```
+
+    If we use the regular `delete` operator, only the value of the first element will be removed from memory, leading to a lot of memory wastage by the rest of the elements during the program run.
+
+## Example containing usage of `new` and `delete`
+
+```cpp
+1  class Book {
+2  public:
+3     string* author;
+4      string* title;
+5      float* price;
+6      string* publisher;
+7      int* stock;
+8
+9      Book() {
+10       author = (string*)(new string); 
+11     
+12       title = new string;
+13       price = new float;
+14       publisher = new string;
+15       stock = new int;
+16     };
+17
+18     ~Book() {
+19         delete author;
+20         delete title;
+21         delete price;
+22         delete publisher;
+23         delete stock;
+24     };
+25 };
+26
+27 int main() {
+28   Book* bookShelf = new Book[10];
+29 
+30   delete[] bookShelf;
+31   return 0;
+32 }
+```
+
+> **_NOTE:_** The method of explicit type casting which we used with `malloc` and `calloc` is not required as the `new` operator already returns a pointer of the datatype following it.
+>
+> So, the explicit type-casting performed on line 10 in the above example is redundant.
+
 # OOP in C++
 
 ## Introduction
@@ -1787,6 +1921,8 @@ It can be accessed using the following scope resolution syntax - `std::ostream::
 Since we do not have the ability to add anything to the `ostream` class (which someone else already invented) in order to overload it for use with the user-defined class.
 
 So, we will have to make it a friend of our user-defined class and pass the `ostream` object into the friend function (as opposed to a member function being able to directly access the **data members** of the `ostream` class).
+
+
 
 ## Return type of the overloaded Operator Function
 
