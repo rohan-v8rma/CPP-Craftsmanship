@@ -41,6 +41,20 @@
     - [Constants (`const` Access Modifier)](#constants-const-access-modifier)
       - [Standalone `const` keyword is equivalent to `const int`](#standalone-const-keyword-is-equivalent-to-const-int)
       - [`const` keyword as an access modifier](#const-keyword-as-an-access-modifier)
+  - [Sizes in Array Expressions](#sizes-in-array-expressions)
+- [Scopes](#scopes)
+  - [Scopes in C++](#scopes-in-c)
+    - [Local Scope](#local-scope)
+    - [Function Scope](#function-scope)
+    - [File Scope](#file-scope)
+    - [Class Scope (TODO)](#class-scope-todo)
+  - [Function Scope Determination](#function-scope-determination)
+    - [Local function prototype](#local-function-prototype)
+    - [Global function prototype](#global-function-prototype)
+  - [Variables Scope Determination](#variables-scope-determination)
+    - [Global variables](#global-variables)
+    - [Local variables](#local-variables)
+    - [Static Local variables](#static-local-variables)
 - [I/O in C \& C++](#io-in-c--c)
   - [printf and scanf](#printf-and-scanf)
     - [Format Specifiers](#format-specifiers)
@@ -101,7 +115,7 @@
       - [How do they work?](#how-do-they-work)
     - [What is a Namespace?](#what-is-a-namespace)
   - [How does the most elementary combination of `<iostream>` header file and `std` namespace work?](#how-does-the-most-elementary-combination-of-iostream-header-file-and-std-namespace-work)
-- [Scopes in C++](#scopes-in-c)
+- [Scopes in C++](#scopes-in-c-1)
 - [I/O in C++](#io-in-c)
 - [Dynamic Memory Allocation in C++](#dynamic-memory-allocation-in-c)
   - [`new` operator](#new-operator)
@@ -156,7 +170,7 @@
     - [Why aren't characters immediately written?](#why-arent-characters-immediately-written)
     - [Is there need to explicitly flush a stream?](#is-there-need-to-explicitly-flush-a-stream)
   - [Zero Initializing vs. Default Initializing vs. Value Initializing](#zero-initializing-vs-default-initializing-vs-value-initializing)
-  - [Function Scope Determination](#function-scope-determination)
+  - [Function Scope Determination](#function-scope-determination-1)
   - [Pass and Return by Reference in C++](#pass-and-return-by-reference-in-c)
     - [What is actually the meaning of By Reference?](#what-is-actually-the-meaning-of-by-reference)
     - [Makeshift Pass and Return by Reference of C](#makeshift-pass-and-return-by-reference-of-c)
@@ -644,9 +658,9 @@ A function is a named part of a program that can be invoked from other parts of 
 The syntax for writing a function in C++ is:
 
 ```cpp
-? returnType functionName(parameter1, parameter2, ....){
-?     //function body
-? }
+returnType functionName(parameter1, parameter2, ....){
+    //function body
+}
 ```
 
 Instead of declaring and initializing the parameters beforehand, they can be initialized directly in the function parameters.
@@ -781,6 +795,92 @@ Here, a constant named `upperage` of type integer is declared that holds value 5
 The `const` keyword modifies a variable's access type, i.e., the access of the constant variable is readable only; it can no longer be written on to.
 
 A constant must be initialized at the time of declaration i.e., we have to say that it is a constant when we are declaring its datatype and value.
+
+However, this can be bypassed by providing
+
+## Sizes in Array Expressions
+
+
+
+# Scopes
+
+## Scopes in C++
+
+There are four kinds of scopes in C++: local, function, file, and class.
+
+### Local Scope
+
+A name declared in a block is local to that block and can be used only in it and the other blocks contained under it. 
+
+The names of formal arguments are treated as if they were declared in the outermost block of that function.
+
+### Function Scope
+
+The variables declared in the outermost block of a function have function scope i.e., they can be accessed only in the function that declares them. 
+
+
+Also labels (of `goto`) have function scope i.e., they cannot be used outside the function. 
+
+> ***Note*** : Local function prototypes also can't access the variables declared in their parent functions and neither can the parent functions access the variables within the local functions.
+
+### File Scope
+
+A name declared outside all blocks and functions has file scope i.e., it can be used in all the blocks and functions written inside the file in which the name declaration appears.
+
+### Class Scope (TODO)
+
+A name of a class member has class scope and is local to its class. 
+
+---
+
+## Function Scope Determination 
+
+The scope for a function is determined by its place of declaration. 
+
+### Local function prototype
+
+If a function's (say `A()`'s declaration appears within another function (say `B()`), then the function `A()` is locally available to function `B()` i.e., it can be only called from `B()` and nowhere else. 
+
+Such function prototypes are local prototypes and their scope is local to the function that contains their declaration. 
+
+### Global function prototype
+
+On the other hand, if the function's (say `A()`'s prototype appears outside all other functions in the program file, then the function `A(`) can be accessed from any of the functions in the file. 
+
+Such function prototypes are GLOBAL prototypes and are globally available to all the functions in the file. 
+
+---
+
+## Variables Scope Determination 
+
+The scope for variables is also determined by the place of their declaration. 
+
+### Global variables
+
+If a variable declaration appears outside all the functions, it is said to be GLOBAL variable. 
+
+A GLOBAL variable is available to all the functions and blocks defined in the file. 
+
+A global variable comes into existence when the program execution starts and is destroyed when the program terminates Global variables hold their values throughout the program execution. 
+
+Any expression may access them regardless of what block of code that expression is in i.e., the scope of global variables is FILE scope. 
+
+They can be accessed from anywhere in the file. 
+
+### Local variables
+
+Unlike global variables, the local variables are the ones that are defined within a function. 
+
+A local variable comes into existence when the function is entered and is destroyed upon exit i.e., a local variable cannot hold its value between function calls. 
+
+
+It is defined and initialised every time a function call (for the function that declares it) occurs. 
+
+### Static Local variables
+
+The only exception to this rule is static local variable. 
+
+Such variable is defined and initialized at the time of first function call and it holds its value throughout the program run, but its scope is still the function scope i.e., it cannot be accessed beyond its parent function.
 
 # I/O in C & C++
 
