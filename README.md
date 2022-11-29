@@ -20,7 +20,7 @@
       - [Static Linking](#static-linking)
       - [Dynamic Linking](#dynamic-linking)
 - [Sequence Points in C/C++](#sequence-points-in-cc)
-- [I/O in C & C++](#io-in-c--c)
+- [I/O in C \& C++](#io-in-c--c)
   - [printf and scanf](#printf-and-scanf)
     - [Format Specifiers](#format-specifiers)
     - [More details about `scanf()`](#more-details-about-scanf)
@@ -39,7 +39,7 @@
   - [Dereference (`*`) AND Reference (`&`) operators are converse of each other](#dereference--and-reference--operators-are-converse-of-each-other)
   - [What is the type of a pointer variable?](#what-is-the-type-of-a-pointer-variable)
   - [Why do we have to define a type for just pointing to an address? Aren't all addresses the same?](#why-do-we-have-to-define-a-type-for-just-pointing-to-an-address-arent-all-addresses-the-same)
-  - [(Pointer initialization) Vs. (Pointer declaration & assignment)](#pointer-initialization-vs-pointer-declaration--assignment)
+  - [(Pointer initialization) Vs. (Pointer declaration \& assignment)](#pointer-initialization-vs-pointer-declaration--assignment)
     - [Initializing a Pointer with a value](#initializing-a-pointer-with-a-value)
     - [When we declare a pointer and assign a value to it later](#when-we-declare-a-pointer-and-assign-a-value-to-it-later)
   - [Using pointers in looping statements](#using-pointers-in-looping-statements)
@@ -84,7 +84,7 @@
 - [I/O in C++](#io-in-c)
 - [Dynamic Memory Allocation in C++](#dynamic-memory-allocation-in-c)
   - [`new` operator](#new-operator)
-  - [`delete` & `delete[]` operator](#delete--delete-operator)
+  - [`delete` \& `delete[]` operator](#delete--delete-operator)
     - [Examples](#examples)
   - [Example containing usage of `new` and `delete`](#example-containing-usage-of-new-and-delete)
 - [OOP in C++](#oop-in-c)
@@ -122,6 +122,7 @@
   - [`cin` and `cout`](#cin-and-cout)
   - [Stream Insertion and Extraction operators](#stream-insertion-and-extraction-operators)
     - [Stream Insertion Operator (`<<`)](#stream-insertion-operator-)
+  - [Original Function Signature of iostream operator functions](#original-function-signature-of-iostream-operator-functions)
   - [Return type of the overloaded Operator Function](#return-type-of-the-overloaded-operator-function)
 - [Important Concepts](#important-concepts)
   - [Name Lookup vs. Overload Resolution](#name-lookup-vs-overload-resolution)
@@ -146,8 +147,8 @@
   - [Empty Function/Constructor Definition](#empty-functionconstructor-definition)
   - [How does a C++ program end ( return value of `int main()` )](#how-does-a-c-program-end--return-value-of-int-main-)
     - [Can we use `void main()` in C? Should we use it?](#can-we-use-void-main-in-c-should-we-use-it)
-  - [Difference b/w Argument & Parameter](#difference-bw-argument--parameter)
-  - [Lvalues & Rvalues](#lvalues--rvalues)
+  - [Difference b/w Argument \& Parameter](#difference-bw-argument--parameter)
+  - [Lvalues \& Rvalues](#lvalues--rvalues)
 - [Common Errors in C/C++ Code](#common-errors-in-cc-code)
   - [Code Snippet 1](#code-snippet-1)
 - [Tips for C++](#tips-for-c)
@@ -307,7 +308,15 @@ This assembly language code is given to the assembler and assembler produces ***
 
 The term ***Object Code*** indicates the code is the goal or **"objective"** of the compiling process, wherein compilation includes the assembling phases as well.
 
-This code can be run on any machine with the same CPU architecture. It is also referred to as ***Intermediate Code***.
+This code can be run on any machine with the same CPU architecture. It is also referred to as ***Intermediate Code***. Intermediate code lies between the high-level language and the machine language. 
+
+If the compiler directly translated source code into machine code, without generating intermediate code then a fully native compiler would be required for each new machine.
+
+Let us take an example to understand this.
+
+Suppose we have a file called `example.cpp`. When we compile this file using the compiler, an executable file containing intermediate code of BINARY FILE FORMAT is created. 
+
+Upon running this newly created executable file, we get the output of our program. It can be run independent of the presence of the source code.
 
 ## `gcc` compiler
 
@@ -1922,7 +1931,7 @@ Since we do not have the ability to add anything to the `ostream` class (which s
 
 So, we will have to make it a friend of our user-defined class and pass the `ostream` object into the friend function (as opposed to a member function being able to directly access the **data members** of the `ostream` class).
 
-
+## Original Function Signature of iostream operator functions
 
 ## Return type of the overloaded Operator Function
 
