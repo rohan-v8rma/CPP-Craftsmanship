@@ -20,6 +20,27 @@
       - [Static Linking](#static-linking)
       - [Dynamic Linking](#dynamic-linking)
 - [Sequence Points in C/C++](#sequence-points-in-cc)
+- [Data in C++](#data-in-c)
+  - [Fundamental Data Types](#fundamental-data-types)
+  - [Data Type Modifiers](#data-type-modifiers)
+    - [Integer Type Modifiers](#integer-type-modifiers)
+    - [Character Type Modifiers](#character-type-modifiers)
+    - [Floating-point Type Modifiers](#floating-point-type-modifiers)
+  - [Scalar vs. Non-scalar data objects](#scalar-vs-non-scalar-data-objects)
+  - [Floating-point suffixes](#floating-point-suffixes)
+  - [Type Promotion](#type-promotion)
+  - [Narrowing Type Conversions](#narrowing-type-conversions)
+    - [`{}`-initializer syntax to prevent type-narrowing](#-initializer-syntax-to-prevent-type-narrowing)
+  - [Derived Data Types](#derived-data-types)
+    - [Functions](#functions)
+    - [Arrays](#arrays)
+    - [Pointers](#pointers)
+      - [Base typing and pointing by a pointer](#base-typing-and-pointing-by-a-pointer)
+    - [References](#references)
+      - [Memory in the context of References](#memory-in-the-context-of-references)
+    - [Constants (`const` Access Modifier)](#constants-const-access-modifier)
+      - [Standalone `const` keyword is equivalent to `const int`](#standalone-const-keyword-is-equivalent-to-const-int)
+      - [`const` keyword as an access modifier](#const-keyword-as-an-access-modifier)
 - [I/O in C \& C++](#io-in-c--c)
   - [printf and scanf](#printf-and-scanf)
     - [Format Specifiers](#format-specifiers)
@@ -409,6 +430,357 @@ modified at most once by the evaluation of an expression.
 which, in a sense means that we are not supposed to change a variable's value multiple times in the same expression.
 
 Take a look at [16-sequence-points.c](./16-sequence-points.c) for example code.
+
+# Data in C++
+
+## Fundamental Data Types
+
+The Fundamental Data Types in C++ are `char`, `string`, `int`, `float`, `double` and `void` that represent character, string of characters, integer, floating-point, double floating-point and valueless data.
+
+1. Integer (`int`) (1,4,100)
+  
+    2 or 4 bytes = 16 or 32 bits assigned contiguously.
+
+2. Floating-point number (`float`) (3.14, 1.00)
+
+    - 4 bytes = 32 bits --> 8 significant digits (each digit - 0 to 9 requires 4 bits, 0000 to 1001).
+
+    - A floating constant has 2 parts: a *mantissa*  and an *exponent*
+
+      E.g :- `2.5E02` or `0.17E-3`. This is another type of representation of float. `2.5` and `0.17` are the *mantissas*. 02 and -3 are the *exponents*.
+
+    - Although floating-point numbers can represent numbers between integers and can represent a larger range of numbers, floating-point operations are slower than integer operations. 
+
+3. Double precision floating-point (`double`) 
+   
+   - Just like float but is 8 bytes --> 16 significant digits.
+
+   - It stores floating-point numbers with much larger range and precision. It is used when type float is too small or insufficiently precise.
+
+   - But, the type `double` is larger and slower than type `float`.
+
+4. Void (`void`)
+   - Takes up no space
+
+   - The `void` data type specifies an empty set of values and it is used as the return type for functions that do not return a value.
+
+   - A function that does not return a value is declared as follows:
+      ```cpp
+      void printHelloIteration(int number = 1){
+          for(int iter_var = 0; iter_var < number; iter_var++){
+              cout << "Hello\n";
+          }
+      }    
+      ```    
+
+    - A function that does not require any parameter (i.e., it has an empty argument list) can be declared as follows:
+      ```cpp
+      int printBye(void){
+          cout << "Bye";
+          return 0;
+      }
+      ```
+
+
+5. Character (`char`) (c, d, @, %) 
+   - 1 byte = 8 bits - represented by ascii in 8 bit form
+
+   - The `char` type is really another integer type. This is because internally, it actually holds numbers i.e., equivalent ASCII codes of characters/symbols).
+
+      ASCII Values are never negative so char values will always be stored internal as positive integers.
+
+    - Some peculiarities of the `char` datatype:
+      
+      - Getting the ASCII code of a character.
+        ```cpp
+        character = 'a';
+        int var = character;
+        ``` 
+      - Increment operator can be used to get the subsequent ASCII character.
+        ```cpp
+        character = 'a';
+        character++;
+        ``` 
+      - Comparisons between `int` and `char`, without having to assign the ASCII code of the character to an integer:
+        ```cpp
+        if('a' == 50) {
+            return true;
+        }
+        ```
+     - >***Note*** : `char` data type is not the same as `string` data type, `char` is used to represent only single characters where string can represent a collection of characters.
+
+
+
+6. String Literals (`string`) 
+   - It refers to a sequence of characters enclosed within double quotes. E.g :- "abc", "jk".
+
+   - Each string literal is automatically added with a special character `\0` as a terminator. So, the size of the string is the number of character plus 1 for this terminator.
+
+      E.g :- size of `abc` is 4. it is stored as `abc\0` in the memory
+
+    - Also, if we write `\0` (which is by default added to the end of every string), in the middle of a string, the part of the string after it is ignored. (No particular application, just an observation.)
+
+7. Boolean (`bool`) (0, 1)
+   - 1 byte = 8 bits
+
+- Derived Data Types are constructed from fundamental data types. 
+
+They can be built-in or user-defined. 
+E.g :- array, functions, pointers, references, constants, classes, structures, unions and enumerations.
+
+## Data Type Modifiers
+
+Except type `void`, the basic data types may have various modifiers preceeding them.
+
+### Integer Type Modifiers
+
+C++ offers 3 types of integers: `short`, `int` and `long`, each representing a different integer size. We can prefix `int` according to our range needs. E.g - `short int a`; 
+
+Each comes in both signed and unsigned versions (in binary signed representation, the Most Significant Bit(`MSB`) or the left-most bit, represents the sign of the integer, 0 means `+` and 1 means `-`). 
+
+This gives us a choice of six different integer types.
+
+Advantage of unsigned integers is when a quantity can't be negative(population, inventory counts etc.) we can store a bigger number in the same amount of space as we get one extra bit which was previously occupied by the sign bit.
+
+
+### Character Type Modifiers
+
+The `char` type is guaranteed to be large enough to represent the entire range of basic symbols - all the letters, digits, punctuation and the like because it occupies 1 byte (8 bits) by default and 8 bits can represent 256 unique values which are more than enough for ever character.
+
+Since `char` type is just another type of integer, it can be signed or unsigned.
+
+By default, char is signed and the numerical values it can hold range from -128 to 127. So all characters(usually all the characters present on the keyboard), occupy an ASCII value below 127. So their numerical codes aren't affected in signed or unsigned char. 
+
+But other special characters are associated with their normal numerical codes in unsigned, since in unsigned, the range is from 0 to 255 but in case of signed, suppose a character has ASCII value of 128, it's numerical code in signed char will be -128, for a character with ASCII value of 129, it will be -127 and so on.
+
+
+### Floating-point Type Modifiers
+
+C++ has 3 floating-point types: float, double and long-double, (double is just long float but we call it double, there is no such thing as long float.)
+
+float --> 4 bytes --> 32 bits --> 8 significant digits
+double --> 8 bytes --> 64 bits --> 16 significant digits 
+long double --> 10 bytes --> 80 bits --> 20 significant digits
+(each digit - 0 to 9 requires 4 bits, 0000 to 1001)
+
+These are signed by default and only some implementations allow for unsigned. But this is not advisable, as it reduces the portability of your code.
+
+
+## Scalar vs. Non-scalar data objects
+
+Data objects in C++ can be categorized as: 
+
+- scalar (e.g. integers and pointers) 
+- non-scalar (e.g. arrays and classes)
+
+where scalars are primitive objects which contain a single value and aren't composed of other C++ objects.
+
+## Floating-point suffixes
+
+We can add suffixes to the end of floating-point numbers to specify what exact datatype we are entering. This is incredibly useful for entering arguments for functions.
+
+If present, is one of `f`, `F`, `l`, or `L`. The suffix determines the type of the floating-point literal:
+
+- (no suffix) : defines double
+- `f` or `F`  : defines float
+- `l` or `L`  : defines long double
+
+For more information about floating-point literals, refer [this](https://en.cppreference.com/w/cpp/language/floating_literal) link.
+
+
+## Type Promotion
+
+The implicit conversions that preserve values are commonly referred to as promotions. 
+    
+Before an arithmetic operation is performed, integral promotion is used to create `int`s out of shorter integer types. Similarly, floating-point promotion is used to create `double`s out of `float`s. 
+    
+> ***Note*** : These promotions will not promote to `long` (unless the operand is a `char16_t`, `char32_t`, `wchar_t`, or a plain enumeration that is already larger than an `int`) or `long double`. 
+    
+This reflects the original purpose of these promotions in C: to bring operands to the *natural* size for arithmetic operations.
+    
+## Narrowing Type Conversions
+
+- Integral and floating-point types can be mixed freely in assignments and expressions. Wherever possible, values are converted so as not to lose information. 
+    
+  Unfortunately, some value-destroying OR value-*narrowing* conversions are also performed implicitly. 
+    
+- A conversion is ***value-preserving*** if you can convert a value and then convert the result back to its original type and get the original value. 
+
+  If a conversion cannot do that, it is a *narrowing* conversion.
+
+- When writing code, one should always aim to avoid undefined behavior and conversions that quietly throw away information (*narrowing conversions*).
+   
+- A compiler can warn about many questionable conversions. Fortunately, many compilers do.
+
+### `{}`-initializer syntax to prevent type-narrowing
+
+The `{}`-initializer syntax prevents *narrowing* as demonstrated below.
+   
+```cpp
+1 // Type narrowing not taking place
+2 char hello_1 {'b'}; 
+3 printf("%c", hello_1);
+4 
+5 //! Type narrowing taking place 
+6 float floating_point_number = 7.2;
+7 int integer {floating_point_number};
+8 printf("%d", integer);
+```
+
+Output:
+```
+warning: narrowing conversion of ‘floating_point_number’ from ‘float’ to ‘int’ [-Wnarrowing]
+7 | int integer {floating_point_number};
+```
+
+## Derived Data Types
+
+From the [Fundamental Data Types](#fundamental-data-types), other types can be derived using the declaration operators.
+
+### Functions
+
+A function is a named part of a program that can be invoked from other parts of the program as often needed. 
+
+The syntax for writing a function in C++ is:
+
+```cpp
+? returnType functionName(parameter1, parameter2, ....){
+?     //function body
+? }
+```
+
+Instead of declaring and initializing the parameters beforehand, they can be initialized directly in the function parameters.
+
+It is important to note that the variables passed into the function as parameters are not themselves passed into the function, rather their values are passed local variables are created holding that value and they are destroyed upon returning from the function.
+
+For instance, if a variable has an initial value of 1 is incremented in a function body, after returning from that function, the value of that variable will still remain 1.
+
+To summarize, if a variable passed into a function isn't returned after changing its value, its value will remain what it was before the function call.
+
+---
+
+### Arrays
+
+Arrays refer to a named list of a finite number 'n' of similar data elements. 
+
+Each of the data elements can be referenced respectively by a set of consecutive numbers, usually 0, 1, 2, 3,... n. 
+
+If the name of an array of 10 elements is ARR, then it's elements will be referenced as shown :
+
+`ARR[0]`, `ARR[1]`, `ARR[2]`,..., `ARR[9]`
+
+Array can be one dimensional, two dimensional or multidimensional. 
+    
+Syntax for declaring an array:
+```
+<data type stored in array> <name>[number of elements]
+```
+
+Examples of 1-D and 2-D arrays:
+
+```cpp
+int arr[3];
+// The above array is an array of 3 integers, arr[0], arr[1], arr[2].
+
+float b[2][4];
+/* declares a two dimensional array of floats: 
+b[0][0], b[0][1], b[0][2], b[0][3],
+b[1][0], b[1][1], b[1][2], b[1][3] 
+
+Here, there are two float arrays, b[0] and b[1] each having 4 integers elements. */
+```
+
+---
+
+### Pointers
+
+A pointer is a variable that holds a memory address. This address is usually the location of another variable.
+
+If one variable contains the address of another variable, the first variable is said to *point* to the second one. 
+
+For example, a variable `A` stored in memory address 1050 can have stored in it memory address 1053, which has a variable named `B` stored in it. 
+
+This way variable `A` points to memory address of variable `B`.
+
+If a variable is going to hold a pointer, it must be declared as such. A pointer declaration consists of a base type, an asterisk (`*`), and the variable name. 
+
+#### Base typing and pointing by a pointer
+
+- The general form of declaring a pointer variable is:
+    ```
+    baseType *name;
+    ```
+
+  The base-type of the pointer defines what type of variables the pointer can point to. 
+
+- Technically, any point can point anywhere in memory. 
+
+  However, all pointer arithmetic is done relative to its base type so it is important to declare the pointer correctly.
+
+### References
+
+A reference is an alternative name for an object. 
+
+A reference variable provides an 'alias' for a previously defined variable. 
+
+A reference declaration consists of a base type, an ampersand (`&`), a reference variable name equated to a variable name (previously defined).
+
+```c++
+dataType &referenceVariable = variableName;
+```
+
+The datatype has to be same as the datatype of the main variable.
+
+#### Memory in the context of References
+
+References themselves are not really new variables. They don't really occupy memory.
+
+The main differences between POINTERS and REFERENCES are that pointers can be a null pointer but references have to reference an existing variable, otherwise they would have no meaning.
+
+There can be no references of references, no arrays of references, and no pointers of references.
+
+The reference variable and the main variable name can be used interchangably. 
+
+The value of the reference variable changes with change in the main variable.
+
+Look at the following code-snippet to understand things more clearly:
+
+```cpp
+int total;
+int &sum = total;
+total = 100;
+cout << "The value of the total is : " << total << endl;
+cout << "The value of the sum is : " << sum << endl;
+```
+
+Both variable names refer to the same data object in the memory, thus, print the same value.
+
+### Constants (`const` Access Modifier)
+
+The keyword `const` can be added to the declaration of a variabe to make that variable a constant rather than a variable. 
+
+Thus, the value of the named constant cannot be changed during the program run.
+
+Syntax for declaring a constant:
+```cpp
+const dataType name = <value>;
+```
+
+#### Standalone `const` keyword is equivalent to `const int`
+
+The `const` modifier by itself is equivalent to `const int`. For example:
+
+```cpp
+const upperage = 50;
+```
+
+Here, a constant named `upperage` of type integer is declared that holds value 50.
+
+#### `const` keyword as an access modifier
+
+The `const` keyword modifies a variable's access type, i.e., the access of the constant variable is readable only; it can no longer be written on to.
+
+A constant must be initialized at the time of declaration i.e., we have to say that it is a constant when we are declaring its datatype and value.
 
 # I/O in C & C++
 
@@ -2037,7 +2409,9 @@ int main() {
 
 ## Type Promotion and Type Narrowing
 
-Read [08B-c-type-promotion-and-type-narrowing.cpp](./08B-c-type-promotion-and-type-narrowing.cpp). It is important to understand why narrowing type conversion can be bad and how to prevent it.
+Read about it under [Type Promotion](#type-promotion) and [Narrowing Type Conversions](#narrowing-type-conversions) above.
+
+It is important to understand why narrowing type conversion can be bad and how to prevent it.
 
 ## Poor Performance due to `std::endl`
 
