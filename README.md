@@ -20,6 +20,12 @@
       - [Static Linking](#static-linking)
       - [Dynamic Linking](#dynamic-linking)
 - [Sequence Points in C/C++](#sequence-points-in-cc)
+- [Variables in C/C++](#variables-in-cc)
+  - [`lvalue` and `rvalue`](#lvalue-and-rvalue)
+  - [Different ways of declaring variables](#different-ways-of-declaring-variables)
+  - [Initializing Variables](#initializing-variables)
+  - [Dynamic Initialization](#dynamic-initialization)
+  - [Redefining vs. Redeclaring variables](#redefining-vs-redeclaring-variables)
 - [Data in C++](#data-in-c)
   - [Fundamental Data Types](#fundamental-data-types)
   - [Data Type Modifiers](#data-type-modifiers)
@@ -444,6 +450,84 @@ modified at most once by the evaluation of an expression.
 which, in a sense means that we are not supposed to change a variable's value multiple times in the same expression.
 
 Take a look at [16-sequence-points.c](./16-sequence-points.c) for example code.
+
+# Variables in C/C++
+
+Variables represent named storage locations, whose value can be manipulated during the program run. 
+
+- Variables declared outside functions in the body of the program are global variables and can be accessed anywhere within the program.
+
+- Variables declared within the body of functions are local to that specific function. They can be accessed only within that function.
+
+- Rules in C++ specification regarding variables: A variable can be accessed only in the block in which it has been declared into (local to that block).
+
+  A variable declared inside the block of `main()` and not in any sub-block can be accessed anywhere inside `main()` i.e., the scope of the variable is the function `main()`.
+
+## `lvalue` and `rvalue`
+
+There are two values associated with a variable :
+
+- Its data value, stored at some location in the memory. It is referred to as a variable's `rvalue`.
+- Its locations value; that is, the address in memory at which its data value is stored. It is referred to as a variable's `lvalue`. 
+
+An `lvalue` is an expression to which you can assign a value. 
+Whenever, you use the assignment operator `=`, the expression to the left of an assignment operator must be an lvalue i.e., it must provide an accessible memory address where the data can be written to.
+
+On the programmer side, we can see the `lvalue` as the variable name however, internally the `lvalue` is a numbered address which is mapped to the variable name.
+
+E.g:- sum = 100, the left one is `lvalue` and the right one is `rvalue`.
+
+## Different ways of declaring variables
+
+SYNTAX: 
+```
+[typeModifier] dataType variableName;
+```
+
+- A type modifier can also be added as a prefix to the dataType according to the requirement. A simple variable declaration consists of a type specifier followed by a ariable-name. 
+  ```cpp
+  short int value0;
+  ```
+- When more than one variable/identifier of a particular data type is being declared, a comma-separated list of identifiers may follow the type specifier.
+  ```cpp
+  int value1, value2, value3;
+  ```
+
+## Initializing Variables
+
+In the above simple declarations, a first value or initial value is not provided to the variable i.e., variable is uninitialized and the variable's value is said to be undefined (If variable is not initialized, junk values are stored).
+
+The following are examples of initializing the variables:
+  ```cpp
+  int val(1001);
+
+  int val1 = int(1001);
+  ```
+
+## Dynamic Initialization
+
+One additional feature of C++ is that it permits initialization of the variables at run time. 
+
+This is referred to as dynamic initialization. 
+
+Example:
+```cpp
+float avg = val1/val;
+```
+
+## Redefining vs. Redeclaring variables 
+
+Giving it a different value again, in general, is perfectly fine in C++. 
+
+But we cannot declare it again i.e., specify its data type. The following code-snippet is syntactically incorrect in C++:
+
+```cpp
+int var = 10;
+
+var = 30; // permitted
+
+char var; // NOT permitted
+```
 
 # Data in C++
 
