@@ -45,9 +45,10 @@
     - [References](#references)
       - [Memory in the context of References](#memory-in-the-context-of-references)
     - [Constants (`const` Access Modifier)](#constants-const-access-modifier)
-      - [Standalone `const` keyword is equivalent to `const int`](#standalone-const-keyword-is-equivalent-to-const-int)
       - [`const` keyword as an access modifier](#const-keyword-as-an-access-modifier)
-  - [Sizes in Array Expressions](#sizes-in-array-expressions)
+      - [How to initialize `const` variables using user-input OR by programmatical output](#how-to-initialize-const-variables-using-user-input-or-by-programmatical-output)
+      - [`const` variables vs. `const` return types](#const-variables-vs-const-return-types)
+  - [Sizes in Array Declarations](#sizes-in-array-declarations)
 - [Scopes](#scopes)
   - [Scopes in C++](#scopes-in-c)
     - [Local Scope](#local-scope)
@@ -864,12 +865,9 @@ Syntax for declaring a constant:
 const dataType name = <value>;
 ```
 
-#### Standalone `const` keyword is equivalent to `const int`
-
-The `const` modifier by itself is equivalent to `const int`. For example:
-
+For example:
 ```cpp
-const upperage = 50;
+const int upperage = 50;
 ```
 
 Here, a constant named `upperage` of type integer is declared that holds value 50.
@@ -880,11 +878,114 @@ The `const` keyword modifies a variable's access type, i.e., the access of the c
 
 A constant must be initialized at the time of declaration i.e., we have to say that it is a constant when we are declaring its datatype and value.
 
-However, this can be bypassed by providing
+#### How to initialize `const` variables using user-input OR by programmatical output
 
-## Sizes in Array Expressions
+We know that a `const` expression necessarily has to have an `rvalue`. So, in order to initialize `const` variables with a value obtained at runtime, we can use the return values of function calls.
+
+```cpp
+int constInitializer(int num) {
+  return num;
+}
+
+const int const1 = constInitializer(2);
+```
+
+This is useful for applications like determining the size of a fixed-size array using function calls that can be evaluated at compile-time. Take a look [below](#sizes-in-array-declarations) for more details.
+
+#### `const` variables vs. `const` return types
+
+The **const-ness** of a variable is determined by whether the `const` modifier is used with it or not.
+
+Take a look at the following code-snippet:
+
+```cpp
+const int constInitializer(int num) {
+  return num;
+}
+
+int const1 = constInitializer(3);
+const int const2 = constInitializer(2);
+
+const1 = 10; // Still permitted
+const2 = 11; // NOT permitted
+```
+
+Even though the `const1` variable was also initialized by a function of `const int` return-type, the `const` modifier only applies to the value returned by the function, not to the `const1` variable.
+
+The practice of keeping `const` return types originated to prevent modification of the results of operations like addition using `+` operator. For example:
+
+```cpp
+class Int {
+  int num;
+
+public:
+  Int(int _num) {
+    num = _num;
+  }
+
+  Int operator + (Int augend) {
+    return Int(num + augend.num);
+  }
+};
+
+int main() {
+  Int a(2);
+  Int b(3);
+
+  (a + b) = 2; // ??
+
+  return 0;
+}
+```
+
+If we kept the return-type of the `+` operator function as `const`, this code would not compile.
+
+In the age of C++11, however, it is strongly advised to return values as non-`const` so that you can take full advantage of [`rvalue`](#lvalue-and-rvalue) references, which only make sense on non-constant `rvalue`s.
+
+In summary, there is a rationale for this practice, but it is essentially obsolete.
+
+## Sizes in Array Declarations
+
+Take a look at the following guides in order to understand the meaning of Declarators and Declarations:
+- [Overview of Declarations (Microsoft)](https://learn.microsoft.com/en-us/cpp/c-language/overview-of-declarations?view=msvc-170)
+- [Declarators and variable declarations (Microsoft)](https://learn.microsoft.com/en-us/cpp/c-language/declarators-and-variable-declarations?view=msvc-170)
+
+An array declaration declares an object of array type. It is a simple ***declaration*** whose ***declarator*** has the form
+
+```
+noptr-declarator [ expr(optional) ] 
+```
+
+- `noptr-declarator`	-	any valid ***declarator***.
+- `expr`	-	an **integral constant expression**, which is an expression that can be evaluated at compile-time, and whose type is integral or an enumeration.
 
 
+> ***Note*** : It is important to understand that a `const` value and an **integral constant expression** is not the same.
+> 
+> It is possible to initialize a `const int` at run-time, but it should be possible to evaluate an integral constant expression at compile-time.
+
+Take the following code-snippet:
+```cpp
+int constInitializer1(int num) {
+    return num;
+}
+
+int constInitializer2() {
+    int num;  
+    cin >> num;
+    return num;
+}
+
+int main() {
+    const int const1 = constInitializer1(2); // The return value of this function call can be resolved at compile-time
+    const int const2 = constInitializer2(); // The return value of this function call can be resolved only at run-time, so although this is const value, it is not an integral constant expression
+
+
+    int array1[const1]; // valid.
+    int array2[const2]; // invalid: NOT an integral constant expression.
+```
+
+In the above code-snippet the compiler does not know what `const2` will be until run-time. This might be allowable, but the compiler has no idea how big to make C, which means it can't continue. If you need a size that's unknown at compile-time, you need a dynamic array, for which memory is allocated in heap.
 
 # Scopes
 
