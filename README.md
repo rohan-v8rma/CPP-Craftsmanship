@@ -107,7 +107,7 @@
       - [Testing this theory..](#testing-this-theory)
 - [Compiling using g++](#compiling-using-g)
   - [Options controlling the kind of Output](#options-controlling-the-kind-of-output)
-  - [Operands accepted by `gcc`/`g++`](#operands-accepted-by-gccg)
+  - [Operands accepted by `gcc` or `g++`](#operands-accepted-by-gcc-or-g)
   - [Compiling a CPP file to generate an executable target file](#compiling-a-cpp-file-to-generate-an-executable-target-file)
     - [`g++ file_name`](#g-file_name)
     - [`g++ -S file_name`](#g--s-file_name)
@@ -167,6 +167,8 @@
   - [Original Function Signature of iostream operator functions](#original-function-signature-of-iostream-operator-functions)
   - [Return type of the overloaded Operator Function](#return-type-of-the-overloaded-operator-function)
 - [Important Concepts](#important-concepts)
+  - [Functors in C++](#functors-in-c)
+    - [Code snippet demonstrating its usage with STL](#code-snippet-demonstrating-its-usage-with-stl)
   - [Name Lookup vs. Overload Resolution](#name-lookup-vs-overload-resolution)
     - [What is Overload Resolution?](#what-is-overload-resolution)
     - [What is Name Lookup?](#what-is-name-lookup)
@@ -1699,7 +1701,7 @@ The usual way to run GCC is to run the executable called `gcc`, or `machine-gcc`
 
 When you compile `C++` programs, you should invoke GCC as `g++` instead.
 
-## Operands accepted by `gcc`/`g++`
+## Operands accepted by `gcc` or `g++`
 
 The `gcc` program accepts `options` and `file names` as **operands**. Many options have multi-letter names; therefore multiple single-letter options may not be grouped: `-dv` is very different from `-d` `-v`.
 
@@ -2615,7 +2617,95 @@ Even though it isn't necessary to keep the return type as `istream&` or `ostream
 Refer [08Op-d-stream-operator-overloading.cpp](./Operators/08Op-d-stream-operator-overloading.cpp) for an example implementation of this.
 
 # Important Concepts
-    
+
+## Functors in C++
+
+This is a `class` or `struct` object that can be called like a function. It overloads the function-call operator `()` and allows us to use an object like a function.
+
+### Code snippet demonstrating its usage with STL
+
+Take a look at the following code-snippet:
+
+```cpp
+#include <iostream>
+#include <queue>
+using namespace std;
+
+class Node {
+public:
+    int nodeVal;
+
+    Node() {
+        this->nodeVal = 0;
+    }
+
+    Node(int val) {
+        this->nodeVal = val;
+    }
+};
+```
+The above class will be used in the functor class we will define next.
+
+```cpp
+class Functor {
+
+public:
+    void operator() () {
+        cout << "hello" << endl;
+    }
+```
+The method above is a basic overloaded definition of the function-call operator.
+
+```cpp    
+    bool operator() (const Node* first, const Node* second) {
+        return first->nodeVal > second->nodeVal;
+    }
+};
+```
+This is another overloaded definition of the functor that accepts arguments. This functor returns true if the `nodeVal` of the first Node reference is greater.
+
+```cpp
+int main() {
+    Functor functorObject;
+    functorObject();
+
+    Node* nodePtr1 = new Node(2);
+    Node* nodePtr2 = new Node(3);
+
+    cout << functorObject(nodePtr1, nodePtr2);
+```
+The output of this `cout` statement is `0`, i.e. `false`, since the first node reference has a lesser value of `nodeVal`.
+
+```cpp
+    priority_queue<Node*, vector<Node*>, Functor> minHeap;
+```
+We create a `priority_queue`, following the format of the priority queue: `priority_queue<T, vector<T>, comparator>`, where instances of the class `T` are going to be placed in the priority queue.
+
+```cpp
+    minHeap.push(new Node(2));
+    minHeap.push(new Node(12));
+    minHeap.push(new Node(22));
+    minHeap.push(new Node(32));
+```
+
+The Functor acting as a comparator, causes a swap when a true value is obtained. 
+
+So, when the element to the left in the vector of the `priority_queue` has a greater `nodeVal` than an element to its immediate right (a child in the case of a priority queue), it is swapped with its least child, maintaining the min heap property.
+
+
+```cpp
+    while(!minHeap.empty()) {
+        cout << minHeap.top()->nodeVal << ", ";
+        minHeap.pop();
+    }
+    cout << endl;
+}
+```
+
+The output of the above code is `2, 12, 22, 32, `, as expected by the min heap property of the `priority_queue`.
+
+---
+
 ## Name Lookup vs. Overload Resolution 
 
 ### What is Overload Resolution?
@@ -2692,11 +2782,15 @@ int main() {
 > 
 > The compiler stops EXECUTION there, irrespective of the member function SIGNATURES.
 
+---
+
 ## Type Promotion and Type Narrowing
 
 Read about it under [Type Promotion](#type-promotion) and [Narrowing Type Conversions](#narrowing-type-conversions) above.
 
 It is important to understand why narrowing type conversion can be bad and how to prevent it.
+
+---
 
 ## Poor Performance due to `std::endl`
 
@@ -2738,6 +2832,8 @@ Immediately before asking for user input **(note that `std::cout` is automatical
 
 Although there may be a few occasions where you EXPLICITLY want to flush a stream, they are fairly rare.
 
+---
+
 ## Zero Initializing vs. Default Initializing vs. Value Initializing
 
 According to the C++20 standard,
@@ -2764,12 +2860,16 @@ To **value-initialize** an object of type T means:
 - if T is an array type, then each element is value-initialized;
 - otherwise, the object is zero-initialized.
 
+---
+
 ## Function Scope Determination 
 
 The concept of local and global function scope is very important in C++.
 In simple terms, a function can be called from a scope wherre its prototype is declared.
 
 Read [09B-a-scope.cpp](./09B-a-scope.cpp) for more details.
+
+---
 
 ## Pass and Return by Reference in C++
 
@@ -2846,11 +2946,15 @@ void swap_by_pointers(int *first_num, int *second_num) {
 - [08Op-d-stream-operator-overloading.cpp](./Operators/08Op-d-stream-operator-overloading.cpp) for understanding why we return `cin` and `cout` by reference when we overload the stream insertion (`<<`) and stream deletion (`>>`)
 operators.
 
+---
+
 ## Data types in Switch Case statement
 
 Only integers and characters can be used in switch case expression.
 
 Read [07FoC-SwitchStatement.cpp](./FlowOfControl/07FoC-SwitchStatement.cpp) for more details.
+
+---
 
 ## Size of Classes/Structures in C++
 
@@ -2883,6 +2987,8 @@ based on the ACCESS MODIFIER they are enclosed in ( In the Base Class ).
 
 It is easier and more reliable to accept the MEMORY OVERHEAD of the extra data members inherited from the **Base Class** which can't be accessed ( they might be under the `private:` access modifier ) but are still grouped with the **Derived Class** and are allocated memory upon creation of instances of the **Derived Class**.
 Take a look at [12oop-e-sizeof-derived-class.cpp](./ObjectOrientedProgramming/12oop-e-sizeof-derived-class.cpp) for validation of this concept.
+
+---
 
 ## Empty Function/Constructor Definition
 
@@ -2920,6 +3026,8 @@ Consider the following code snippet...
     ```
 - Line 11 is a VALID **empty default constructor definition** because constructors don't return any values. But, just like line 6, we can't write a definition for this constructor using the scope resolution operator (`::`) outside the class as it would be considered a **function re-definition** which is not allowed. 
 
+---
+
 ## How does a C++ program end ( return value of `int main()` )
 
 The `exit` function, declared in `<stdlib.h>`, terminates a C++ program. 
@@ -2939,6 +3047,8 @@ Although most C compilers don't give error when running `void main()`, it's non-
 The standard prototype of main is `int main()` with the optional command line arguments `argc` and `argv` . 
 
 The `int` returned by `main()` is a way for a program to return a value to the system that invokes it.
+
+---
 
 ## Difference b/w Argument & Parameter
 
@@ -2967,6 +3077,7 @@ int main() {
 
   In the above code snippet, `5` and `6` are the **arguments**.
 
+---
 
 ## Lvalues & Rvalues
 
@@ -2980,6 +3091,8 @@ Every expression is either an **lvalue** or an **rvalue**, so, an **rvalue** is 
 In general, **rvalues** are temporary and short lived, while **lvalues** live a longer life since they exist as variables. 
 
 It's also fun to think of **lvalues** as containers and **rvalues** as things contained in the containers.
+
+---
 
 # Common Errors in C/C++ Code
 
