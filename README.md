@@ -19,6 +19,10 @@
     - [Static vs. Dynamic Linking](#static-vs-dynamic-linking)
       - [Static Linking](#static-linking)
       - [Dynamic Linking](#dynamic-linking)
+  - [Does C have a runtime environment, like Java has JVM?](#does-c-have-a-runtime-environment-like-java-has-jvm)
+    - [1. Compilation](#1-compilation)
+    - [2. Linking (Runtime Libraries used)](#2-linking-runtime-libraries-used)
+    - [3. Execution](#3-execution)
 - [Sequence Points in C/C++](#sequence-points-in-cc)
 - [Variables in C/C++](#variables-in-cc)
   - [`lvalue` and `rvalue`](#lvalue-and-rvalue)
@@ -437,6 +441,51 @@ After which it maps the libraries into the middle of virtual memory and resolves
 - **Disadvantage:**
 
   Suppose we have the compiled binary executable which has a bunch of libraries linked dynamically. If suppose the object file was converted to executable in one Linux distribution, and we try to run the executable in another distribution, there is a probability that the library that we dynamically linked isn't installed in the second distribution.
+
+---
+
+## Does C have a runtime environment, like Java has JVM?
+
+The compiled C code, unlike Java bytecode which runs on the JVM, runs directly on the hardware of the system. 
+
+This is because C is a compiled language and not interpreted, like Java bytecode. 
+
+> ***Note***: Although C does NOT have a runtime environment, it does need **runtime libraries** that provide definitions of system calls, which are specific to the system which will be running the compiled machine code.
+>
+> These runtime libraries provide essential functionality and services to C programs, such as memory management, input/output operations, and other system-related tasks.
+>
+> Examples include: 
+> 1. Standard C Library (`libc`)
+> 2. GNU C Library (`glibc`)
+
+Here's the general process:
+
+### 1. Compilation
+
+The C compiler takes the source code and translates it into machine code or assembly language. 
+
+This machine code is specific to the processor architecture and operating system where the compiler runs. 
+
+This is different from Java, where the Java compiler produces platform-independent bytecode.
+
+### 2. Linking (Runtime Libraries used)
+
+The linker then takes the machine code and any libraries that the program depends on and combines them into an executable file. 
+
+This file contains all the machine instructions and resources necessary for running the program.
+
+### 3. Execution
+
+The operating system loads the executable file into memory and **starts executing the machine instructions on the processor**. 
+
+The program communicates with the operating system and hardware through system calls and direct memory access.
+
+---
+
+Remember, the compiled C code is platform-dependent, meaning it can only run on the type of system it was compiled for. 
+
+If you want to run the same C program on a different type of system, you would need to compile the program again on that system.
+
 
 # Sequence Points in C/C++
 
