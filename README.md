@@ -66,7 +66,7 @@
     - [Global variables](#global-variables)
     - [Local variables](#local-variables)
     - [Static Local variables](#static-local-variables)
-- [I/O in C \& C++](#io-in-c--c)
+- [I/O in C \& C++ (TODO)](#io-in-c--c-todo)
   - [printf and scanf](#printf-and-scanf)
     - [Format Specifiers](#format-specifiers)
     - [More details about `scanf()`](#more-details-about-scanf)
@@ -127,7 +127,6 @@
     - [What is a Namespace?](#what-is-a-namespace)
   - [How does the most elementary combination of `<iostream>` header file and `std` namespace work?](#how-does-the-most-elementary-combination-of-iostream-header-file-and-std-namespace-work)
 - [Scopes in C++](#scopes-in-c-1)
-- [I/O in C++](#io-in-c)
 - [Dynamic Memory Allocation in C++](#dynamic-memory-allocation-in-c)
   - [`new` operator](#new-operator)
   - [`delete` \& `delete[]` operator](#delete--delete-operator)
@@ -141,6 +140,16 @@
     - [Important points about friendship](#important-points-about-friendship)
     - [Example code-snippet](#example-code-snippet)
   - [Friend Function](#friend-function)
+  - [Late binding OR Runtime Polymorphism](#late-binding-or-runtime-polymorphism)
+    - [How it works in C++, step-by-step](#how-it-works-in-c-step-by-step)
+      - [1. Class Hierarchy Definition](#1-class-hierarchy-definition)
+      - [2. Compilation](#2-compilation)
+      - [3. Linking](#3-linking)
+      - [4. Runtime](#4-runtime)
+    - [Scenarios where late binding is used](#scenarios-where-late-binding-is-used)
+      - [1. Run-Time Polymorphism](#1-run-time-polymorphism)
+      - [2. Abstract Base Classes and Interfaces](#2-abstract-base-classes-and-interfaces)
+      - [3. Runtime Decisions](#3-runtime-decisions)
 - [Templates in C++](#templates-in-c)
   - [Declaring one or more Template Parameters using PlaceHolder Types](#declaring-one-or-more-template-parameters-using-placeholder-types)
   - [Templates with Default Parameters](#templates-with-default-parameters)
@@ -1118,7 +1127,9 @@ The only exception to this rule is static local variable.
 
 Such variable is defined and initialized at the time of first function call and it holds its value throughout the program run, but its scope is still the function scope i.e., it cannot be accessed beyond its parent function.
 
-# I/O in C & C++
+# I/O in C & C++ (TODO)
+
+TODO : Refer [10B-InputOutput-in-C++.cpp](10B-InputOutput-in-C++.cpp) and write here
 
 ## printf and scanf
 
@@ -1939,9 +1950,6 @@ Since, we didn't pass the variable by value `a` into `exampleFn()`, no local cop
 
 This is why the change in `a` is reflected.
 
-# I/O in C++
-
-TODO : Refer [10B-InputOutput-in-C++.cpp](10B-InputOutput-in-C++.cpp) and write here
 
 # Dynamic Memory Allocation in C++
 
@@ -2324,6 +2332,174 @@ Output:
 ```
 Length of box: 10
 ```
+
+## Late binding OR Runtime Polymorphism
+
+Late binding in C++ is also known as "dynamic binding" or "runtime polymorphism." It refers to the mechanism by which the appropriate function or method to call is determined at runtime, rather than at compile time. This is achieved through the use of `virtual` functions and pointers (or references) to base class objects. Late binding is a key feature of object-oriented programming and enables the implementation of polymorphism.
+
+### How it works in C++, step-by-step
+
+#### 1. Class Hierarchy Definition
+
+- You define a base class with at least one virtual function. Virtual functions are marked using the `virtual` keyword.
+- You create derived classes that inherit from the base class and can override the virtual function(s).
+
+#### 2. Compilation
+
+- During compilation, the compiler generates a "vtable" (virtual function table) for each class with virtual functions. 
+- The vtable is a table of function pointers that point to the actual derived class implementations of the virtual functions.
+
+#### 3. Linking
+
+- The compiler generates references to the virtual functions in the code, but the actual addresses of these functions are not known at this stage. 
+- These references will be resolved at runtime.
+
+#### 4. Runtime
+
+- When you create an instance of a derived class and assign it to a base class pointer or reference, you're effectively using polymorphism. This is where late binding comes into play.
+- When you call a virtual function using the base class pointer or reference, the runtime system looks up the correct function to call in the vtable.
+- The vtable lookup involves finding the correct derived class implementation of the virtual function, based on the type of the actual object pointed to.
+- The correct function is called, and this determination is made dynamically at runtime.
+
+---
+1. Run-Time Polymorphism
+2. Abstract Base Classes and Interfaces
+3. Overriding Behavior
+4. Runtime Decisions
+### Scenarios where late binding is used
+
+#### 1. Run-Time Polymorphism
+
+- This is the primary scenario for late binding. 
+- You have a base class with virtual functions, and different derived classes implement these functions differently. 
+- At runtime, you can call these virtual functions through pointers or references to base class objects, and the appropriate derived class implementation will be invoked.
+- This enables you to create a common interface in the base class while allowing each derived class to customize the behavior according to its specific needs.
+
+- Example that uses pointers:
+  ```cpp
+  class Shape {
+  public:
+      virtual void draw() const {
+          std::cout << "Drawing a shape." << std::endl;
+      }
+  };
+
+  class Circle : public Shape {
+  public:
+      void draw() const override {
+          std::cout << "Drawing a circle." << std::endl;
+      }
+  };
+
+  int main() {
+      Shape* shapePtr = new Circle();
+      shapePtr->draw();  // Late binding will call the Circle's draw function.
+      
+      delete shapePtr;
+      return 0;
+  }
+  ```
+
+- Example that uses references:
+  ```cpp
+  class Shape {
+  public:
+      virtual void draw() const {
+          std::cout << "Drawing a shape." << std::endl;
+      }
+  };
+
+  class Circle : public Shape {
+  public:
+      void draw() const override {
+          std::cout << "Drawing a circle." << std::endl;
+      }
+  };
+
+  int main() {
+      Circle circle;
+      Shape& shapeRef = circle; // A reference is simply another name for the variable.
+      shapeRef.draw();  // Late binding will call the Circle's draw function.
+      
+      return 0;
+  }
+  ```
+
+
+#### 2. Abstract Base Classes and Interfaces
+
+- You can define an abstract base class with pure virtual functions, essentially creating an interface. 
+- Derived classes must provide implementations for these functions. 
+- Late binding ensures that the correct derived class implementation is invoked when using pointers or references to the base class.
+- Here is an example demonstrating the same:
+  ```cpp
+  class Printable {
+  public:
+      virtual void print() const = 0;  // Pure virtual function (abstract)
+  };
+
+  class Book : public Printable {
+  public:
+      void print() const override {
+          std::cout << "Printing book." << std::endl;
+      }
+  };
+
+  int main() {
+      Printable* printablePtr = new Book();
+      printablePtr->print();  // Late binding will call the Book's print function.
+      
+      delete printablePtr;
+      return 0;
+  }
+  ```
+
+#### 3. Runtime Decisions
+
+- Late binding enables runtime decisions based on the actual type of the object. 
+- For example, you could have a container of base class pointers that hold different derived class instances, and you can process them based on their dynamic types.
+  
+  Here is the above example in code:
+  ```cpp
+  class Vehicle {
+  public:
+      virtual void showInfo() const {
+          std::cout << "Vehicle" << std::endl;
+      }
+  };
+
+  class Car : public Vehicle {
+  public:
+      void showInfo() const override {
+          std::cout << "Car" << std::endl;
+      }
+  };
+
+  class Bike : public Vehicle {
+  public:
+      void showInfo() const override {
+          std::cout << "Bike" << std::endl;
+      }
+  };
+
+  int main() {
+      std::vector<Vehicle*> vehicles;
+      vehicles.push_back(new Car());
+      vehicles.push_back(new Bike());
+      
+      for (const Vehicle* vehicle : vehicles) {
+          vehicle->showInfo();  // Late binding will call the correct showInfo based on object type.
+      }
+      
+      for (Vehicle* vehicle : vehicles) {
+          delete vehicle;
+      }
+      
+      return 0;
+  }
+  ```
+  
+---
 
 # Templates in C++
 
