@@ -7,6 +7,7 @@
     - [What is Stack Overflow Error?](#what-is-stack-overflow-error)
   - [6. Command Line Arguments](#6-command-line-arguments)
   - [7. Usage of Heap](#7-usage-of-heap)
+  - [How does `malloc` work for allocating memory in C?](#how-does-malloc-work-for-allocating-memory-in-c)
   - [Static vs. Dynamic Languages](#static-vs-dynamic-languages)
 - [Source Code to Executable File](#source-code-to-executable-file)
   - [Source Code to Assembly Code](#source-code-to-assembly-code)
@@ -346,6 +347,33 @@ If we delete the pointer/reference variable, the object will still consume memor
 This should be looked out for as it can lead to complete exhaustion of the memory.
 
 In the case of languages like Java, which have the facility of GARBAGE collection, those **objects** which don't have any **reference variable** pointing to them are removed from memory.
+
+## How does `malloc` work for allocating memory in C?
+
+`malloc` uses syscalls to obtain memory from the OS.
+
+`mmap` and `brk` are two different mechanisms used for memory allocation in C, and they can be employed by the `malloc` function in different ways, depending on the implementation of the C library. 
+
+Both `mmap` and `brk` are system calls used for managing memory, but they have different characteristics and use cases.
+
+Here is a brief explanation of how `mmap` and `brk` can be involved in the `malloc` method:
+
+1. **brk:**
+   - The `brk` system call is traditionally used for managing the program break location, which represents the end of the data (heap) segment. `brk` is used to set the program break location to a specific value, effectively resizing the heap.
+   - When `malloc` is called and the requested memory size is small, the C library might use `brk` to extend the heap. This is known as "brk-based allocation."
+   - `brk` is less efficient for large memory allocations or when memory needs to be deallocated, as it doesn't release memory back to the operating system.
+
+2. **mmap:**
+   - The `mmap` system call is used for memory mapping, which allows mapping regions of a file or creating anonymous memory mappings. It can be used for both allocating and deallocating memory.
+   - When `malloc` is called and the requested memory size is large, the C library might use `mmap` to request memory directly from the operating system. This is known as "mmap-based allocation."
+   - `mmap` is often more efficient for large memory allocations and supports features like shared memory between processes.
+   - It's possible that memory allocated using mmap may not be perfectly contiguous with the heap section. The memory it provides may come from various sources, including physical memory, swap space, or even a file.
+
+The combination of `mmap` and `brk` in the implementation of `malloc` is often referred to as the "memory allocator strategy" or "allocation policy." Different C libraries may use different strategies, and some libraries may use a combination of both mechanisms based on the size of the requested memory.
+
+In modern implementations, you may also encounter other mechanisms such as the `sbrk` system call, which is similar to `brk` but allows for finer control over memory allocation.
+
+It's important to note that the specific behavior of `malloc` and the underlying memory allocation strategy can vary between C libraries (e.g., glibc, musl, etc.) and even between different versions of the same library. Library implementers often optimize memory allocation strategies based on the characteristics of the target platform and the expected usage patterns of applications.
 
 ## Static vs. Dynamic Languages
 
