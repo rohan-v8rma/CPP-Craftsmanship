@@ -164,7 +164,11 @@
     - [`std::vector`](#stdvector)
     - [Some member functions of `std::vector`](#some-member-functions-of-stdvector)
       - [Take a look at vectors.cpp for example code.](#take-a-look-at-vectorscpp-for-example-code)
-    - [`std::list`](#stdlist)
+    - [Understanding `std::list` iterators in C++ STL](#understanding-stdlist-iterators-in-c-stl)
+      - [Key properties of `std::list` iterators](#key-properties-of-stdlist-iterators)
+      - [Erasing an element using an iterator](#erasing-an-element-using-an-iterator)
+      - [Iterator validity rules](#iterator-validity-rules)
+      - [Why this matters](#why-this-matters)
     - [Associative Containers](#associative-containers)
     - [`std::set` and `std::multiset`](#stdset-and-stdmultiset)
     - [`std::map` and `std::multimap`](#stdmap-and-stdmultimap)
@@ -2753,12 +2757,56 @@ This is in comparison with the built-in implementation of arrays in C.
 
 #### Take a look at [vectors.cpp](./StandardTemplateLibrary/vectors.cpp) for example code.
 
-### `std::list`
+### Understanding `std::list` iterators in C++ STL
 
-TODO
+`std::list` is a **doubly linked list** in the C++ STL. 
 
 - Random access is slow in `std::list`.
-- Insertion and deletion is fast both at the end and in the middle.
+- Its iterators point **directly to nodes**, not indices. This allows certain operations to run in constant time.
+
+#### Key properties of `std::list` iterators
+
+* Iterators remain **valid across insertions** anywhere in the list
+* An iterator becomes **invalid only when its element is erased**
+* `erase(iterator)` removes the **exact element** the iterator points to
+* No searching or shifting of elements is required
+
+Because of this, operations like removal and reordering can be done efficiently when you already have an iterator.
+
+#### Erasing an element using an iterator
+
+```cpp
+#include <list>
+
+std::list<int> lst = {1, 2, 3, 4};
+
+auto it = lst.begin();
+std::advance(it, 2);   // points to 3
+
+lst.erase(it);         // removes 3 in O(1)
+```
+
+#### Iterator validity rules
+
+```cpp
+auto it1 = lst.begin();
+auto it2 = std::next(it1);
+
+lst.erase(it1);   // it1 is invalid
+// it2 is still valid
+```
+
+#### Why this matters
+
+Passing iterators to STL algorithms and container member functions allows:
+
+* Precise element access
+* Constant-time modifications
+* Predictable iterator validity
+
+> **Rule of thumb:** If you need frequent insertions, deletions, or reordering and you can keep iterators around, `std::list` is a strong choice.
+
+This behavior is a fundamental STL concept and is widely used in cache implementations, schedulers, and other performance-critical systems.
 
 ### Associative Containers
 
