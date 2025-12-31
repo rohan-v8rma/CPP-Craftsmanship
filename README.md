@@ -164,16 +164,30 @@
     - [`std::vector`](#stdvector)
     - [Some member functions of `std::vector`](#some-member-functions-of-stdvector)
       - [Take a look at vectors.cpp for example code.](#take-a-look-at-vectorscpp-for-example-code)
-    - [Understanding `std::list` iterators in C++ STL](#understanding-stdlist-iterators-in-c-stl)
-      - [Key properties of `std::list` iterators](#key-properties-of-stdlist-iterators)
-      - [Erasing an element using an iterator](#erasing-an-element-using-an-iterator)
-      - [Iterator validity rules](#iterator-validity-rules)
-      - [Why this matters](#why-this-matters)
     - [Associative Containers](#associative-containers)
     - [`std::set` and `std::multiset`](#stdset-and-stdmultiset)
     - [`std::map` and `std::multimap`](#stdmap-and-stdmultimap)
     - [Derived Containers](#derived-containers)
   - [Iterators](#iterators)
+    - [What are Iterators?](#what-are-iterators)
+    - [Iterator Categories](#iterator-categories)
+    - [Common Iterator Methods](#common-iterator-methods)
+      - [`begin()` and `end()`](#begin-and-end)
+      - [`rbegin()` and `rend()`](#rbegin-and-rend)
+      - [`cbegin()`, `cend()`, `crbegin()`, `crend()`](#cbegin-cend-crbegin-crend)
+    - [Iterator Operations](#iterator-operations)
+      - [Dereferencing](#dereferencing)
+      - [Increment and Decrement](#increment-and-decrement)
+      - [Iterator Arithmetic (Random Access Iterators only)](#iterator-arithmetic-random-access-iterators-only)
+      - [Iterator Comparison](#iterator-comparison)
+    - [Range-Based For Loops and Iterators](#range-based-for-loops-and-iterators)
+    - [Iterator Invalidation](#iterator-invalidation)
+    - [Using Iterators with STL Algorithms](#using-iterators-with-stl-algorithms)
+    - [Understanding `std::list` iterators in C++ STL](#understanding-stdlist-iterators-in-c-stl)
+      - [Key properties of `std::list` iterators](#key-properties-of-stdlist-iterators)
+      - [Erasing an element using an iterator](#erasing-an-element-using-an-iterator)
+      - [Iterator validity rules](#iterator-validity-rules)
+      - [Why this matters](#why-this-matters)
 - [Overloading the Stream Insertion (`<<`) and Stream Extraction (`>>`) operator](#overloading-the-stream-insertion--and-stream-extraction--operator)
   - [`ostream` class](#ostream-class)
     - [`ofstream` class (derived from `ostream` class)](#ofstream-class-derived-from-ostream-class)
@@ -2757,6 +2771,209 @@ This is in comparison with the built-in implementation of arrays in C.
 
 #### Take a look at [vectors.cpp](./StandardTemplateLibrary/vectors.cpp) for example code.
 
+### Associative Containers
+
+Associative containers are containers that automatically sort their inputs when those inputs are inserted into the container. By default, associative containers compare elements using operator `<`.
+
+All operations (searching, insertion and deleting) are fast except for Random Access.
+
+### `std::set` and `std::multiset`
+
+- `std::set` is a container that stores unique elements, with duplicate elements disallowed. The elements are sorted according to their values.
+- `std::multiset` is a set where duplicate elements are allowed.
+
+`std::set` and `std::multiset` are both defined in the `<set>` header file and are included under the `std` namespace.
+
+### `std::map` and `std::multimap`
+
+- `std::map` (also called an associative array) is a set where each element is a pair, called a key/value pair. The key is used for sorting and indexing the data, and must be unique. The value is the actual data.
+- `std::multimap` (also called a dictionary) is a map that allows duplicate keys. Real-life dictionaries are multimaps: the key is the word, and the value is the meaning of the word. All the keys are sorted in ascending order, and you can look up the value by key. Some words can have multiple meanings, which is why the dictionary is a multimap rather than a map.
+
+`std::map` and `std::multimap` are both defined in the `<map>` header file and are included under the `std` namespace.
+
+### Derived Containers
+
+These containers model real-world objects so the speed of their operations depends on the implementation of the container.
+
+## Iterators
+
+Iterators are objects that provide a way to access elements in a container sequentially without exposing the underlying representation of the container. They act as a bridge between algorithms and containers, allowing algorithms to work with different container types in a uniform way.
+
+### What are Iterators?
+
+An iterator is an object that points to an element in a container. It is handled just like pointers and provides a way to traverse through the elements of a container. The movement of iterators is controlled by algorithms, making them a fundamental part of the STL design.
+
+### Iterator Categories
+
+Iterators in C++ are categorized based on their capabilities:
+
+1. **Input Iterator**: Can read values in a forward direction (single-pass, read-only)
+2. **Output Iterator**: Can write values in a forward direction (single-pass, write-only)
+3. **Forward Iterator**: Can read and write, moves forward only (multi-pass)
+4. **Bidirectional Iterator**: Can move both forward and backward (multi-pass)
+5. **Random Access Iterator**: Can jump to any element directly (supports arithmetic operations)
+
+### Common Iterator Methods
+
+Most STL containers provide these iterator access methods:
+
+#### `begin()` and `end()`
+
+- `begin()`: Returns an iterator pointing to the **first element** in the container
+- `end()`: Returns an iterator pointing to the **past-the-end** element (one position after the last element)
+
+```cpp
+#include <vector>
+#include <iostream>
+
+std::vector<int> vec = {1, 2, 3, 4, 5};
+
+// Using begin() and end() to iterate
+for (auto it = vec.begin(); it != vec.end(); ++it) {
+    std::cout << *it << " ";  // Dereference iterator to get value
+}
+// Output: 1 2 3 4 5
+```
+
+> **Important**: `end()` does **not** point to the last element. It points to a position **after** the last element. This is why the loop condition is `it != vec.end()` rather than `it <= vec.end()`.
+
+#### `rbegin()` and `rend()`
+
+- `rbegin()`: Returns a **reverse iterator** pointing to the **last element** in the container
+- `rend()`: Returns a reverse iterator pointing to the **theoretical element preceding the first element**
+
+```cpp
+#include <vector>
+#include <iostream>
+
+std::vector<int> vec = {1, 2, 3, 4, 5};
+
+// Using rbegin() and rend() to iterate in reverse
+for (auto it = vec.rbegin(); it != vec.rend(); ++it) {
+    std::cout << *it << " ";
+}
+// Output: 5 4 3 2 1
+```
+
+> **Note**: When incrementing a reverse iterator (`++it`), it actually moves backward through the container.
+
+#### `cbegin()`, `cend()`, `crbegin()`, `crend()`
+
+These are **const versions** of the iterator methods, returning `const_iterator` objects that prevent modification of the container elements:
+
+- `cbegin()`: Const version of `begin()`
+- `cend()`: Const version of `end()`
+- `crbegin()`: Const version of `rbegin()`
+- `crend()`: Const version of `rend()`
+
+```cpp
+#include <vector>
+
+std::vector<int> vec = {1, 2, 3, 4, 5};
+
+// Const iterator - cannot modify elements
+for (auto it = vec.cbegin(); it != vec.cend(); ++it) {
+    // *it = 10;  // ERROR: cannot modify through const iterator
+    std::cout << *it << " ";
+}
+```
+
+### Iterator Operations
+
+#### Dereferencing
+
+Use the `*` operator to access the value an iterator points to:
+
+```cpp
+auto it = vec.begin();
+int first_value = *it;  // Gets the value at the iterator position
+```
+
+#### Increment and Decrement
+
+- `++it` or `it++`: Move iterator forward (to next element)
+- `--it` or `it--`: Move iterator backward (to previous element) - only for bidirectional and random access iterators
+
+```cpp
+auto it = vec.begin();
+++it;  // Now points to second element
+--it;  // Back to first element
+```
+
+#### Iterator Arithmetic (Random Access Iterators only)
+
+For containers like `std::vector` and `std::deque` that support random access:
+
+```cpp
+std::vector<int> vec = {1, 2, 3, 4, 5};
+auto it = vec.begin();
+
+it += 2;        // Move 2 positions forward
+it = it + 3;    // Move 3 positions forward
+int distance = it - vec.begin();  // Calculate distance
+```
+
+#### Iterator Comparison
+
+```cpp
+auto it1 = vec.begin();
+auto it2 = vec.end();
+
+if (it1 != it2) {  // Check if iterators point to different positions
+    // ...
+}
+
+if (it1 < it2) {   // Only for random access iterators
+    // ...
+}
+```
+
+### Range-Based For Loops and Iterators
+
+Range-based for loops (C++11) internally use iterators:
+
+```cpp
+std::vector<int> vec = {1, 2, 3, 4, 5};
+
+// This range-based for loop
+for (int value : vec) {
+    std::cout << value << " ";
+}
+
+// Is equivalent to this iterator-based loop
+for (auto it = vec.begin(); it != vec.end(); ++it) {
+    std::cout << *it << " ";
+}
+```
+
+### Iterator Invalidation
+
+Iterators can become **invalid** when the container is modified. The rules depend on the container type:
+
+- **`std::vector`**: Iterators invalidate when the vector is resized or elements are inserted/erased before the iterator position
+- **`std::list`**: Iterators remain valid except when the specific element they point to is erased
+- **`std::map`/`std::set`**: Iterators remain valid except when the specific element is erased
+
+### Using Iterators with STL Algorithms
+
+Iterators enable STL algorithms to work with any container:
+
+```cpp
+#include <vector>
+#include <algorithm>
+
+std::vector<int> vec = {5, 2, 8, 1, 9};
+
+// Sort using iterators
+std::sort(vec.begin(), vec.end());
+
+// Find element using iterators
+auto it = std::find(vec.begin(), vec.end(), 8);
+if (it != vec.end()) {
+    std::cout << "Found at position: " << (it - vec.begin()) << std::endl;
+}
+```
+
 ### Understanding `std::list` iterators in C++ STL
 
 `std::list` is a **doubly linked list** in the C++ STL. 
@@ -2808,31 +3025,6 @@ Passing iterators to STL algorithms and container member functions allows:
 
 This behavior is a fundamental STL concept and is widely used in cache implementations, schedulers, and other performance-critical systems.
 
-### Associative Containers
-
-Associative containers are containers that automatically sort their inputs when those inputs are inserted into the container. By default, associative containers compare elements using operator `<`.
-
-All operations (searching, insertion and deleting) are fast except for Random Access.
-
-### `std::set` and `std::multiset`
-
-- `std::set` is a container that stores unique elements, with duplicate elements disallowed. The elements are sorted according to their values.
-- `std::multiset` is a set where duplicate elements are allowed.
-
-`std::set` and `std::multiset` are both defined in the `<set>` header file and are included under the `std` namespace.
-
-### `std::map` and `std::multimap`
-
-- `std::map` (also called an associative array) is a set where each element is a pair, called a key/value pair. The key is used for sorting and indexing the data, and must be unique. The value is the actual data.
-- `std::multimap` (also called a dictionary) is a map that allows duplicate keys. Real-life dictionaries are multimaps: the key is the word, and the value is the meaning of the word. All the keys are sorted in ascending order, and you can look up the value by key. Some words can have multiple meanings, which is why the dictionary is a multimap rather than a map.
-
-`std::map` and `std::multimap` are both defined in the `<map>` header file and are included under the `std` namespace.
-
-### Derived Containers
-
-These containers model real-world objects so the speed of their operations depends on the implementation of the container.
-
-## Iterators
 
 # Overloading the Stream Insertion (`<<`) and Stream Extraction (`>>`) operator
 
@@ -3470,5 +3662,3 @@ int main(){
     return 0;
 }
 ```
-
->>>>>>> e2cd24e3b6ca780252022c97ba13df9932cc3b72
