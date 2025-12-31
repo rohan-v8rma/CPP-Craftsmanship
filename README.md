@@ -49,6 +49,7 @@
       - [Base typing and pointing by a pointer](#base-typing-and-pointing-by-a-pointer)
     - [References](#references)
       - [Memory in the context of References](#memory-in-the-context-of-references)
+      - [Why References Cannot Be Rebound](#why-references-cannot-be-rebound)
     - [Constants (`const` Access Modifier)](#constants-const-access-modifier)
       - [`const` keyword as an access modifier](#const-keyword-as-an-access-modifier)
       - [How to initialize `const` variables using user-input OR by programmatical output](#how-to-initialize-const-variables-using-user-input-or-by-programmatical-output)
@@ -959,6 +960,46 @@ cout << "The value of the sum is : " << sum << endl;
 ```
 
 Both variable names refer to the same data object in the memory, thus, print the same value.
+
+#### Why References Cannot Be Rebound
+
+Once a reference is initialized to refer to a variable, it **cannot be changed to refer to a different variable**. This is a fundamental difference between references and pointers.
+
+In other words, a reference is **bound** to its initial object at initialization and remains bound to that object for its entire lifetime. You cannot "reassign" a reference to point to a different object.
+
+Consider the following code:
+
+```cpp
+int x = 10;
+int y = 20;
+
+int &ref = x;  // ref is bound to x
+ref = y;       // This does NOT rebind ref to y
+               // Instead, it assigns the value of y (20) to x through ref
+               // Now x = 20, but ref still refers to x
+```
+
+The statement `ref = y` does not rebind `ref` to `y`. Instead, it assigns the value of `y` to the object that `ref` refers to (which is `x`). After this assignment, `x` will have the value `20`, but `ref` still refers to `x`, not `y`.
+
+This is different from pointers, which **can** be reassigned:
+
+```cpp
+int x = 10;
+int y = 20;
+
+int *ptr = &x;  // ptr points to x
+ptr = &y;       // ptr now points to y (reassignment is allowed)
+```
+
+**Why can't references be rebound?**
+
+1. **References are aliases, not separate objects**: A reference is essentially another name for an existing object. You cannot change what name an object has.
+
+2. **Design philosophy**: References were designed to provide a safer alternative to pointers by guaranteeing they always refer to a valid object and eliminating the possibility of null references or dangling references caused by reassignment.
+
+3. **Compiler implementation**: The compiler treats references as the same object they reference, not as separate storage. There is no separate memory location to store a "new address" to rebind to.
+
+If you need the ability to change what a reference-like entity points to during its lifetime, you should use a **pointer** instead.
 
 ### Constants (`const` Access Modifier)
 
