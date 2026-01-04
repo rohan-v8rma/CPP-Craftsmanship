@@ -168,6 +168,23 @@
     - [Associative Containers](#associative-containers)
     - [`std::set` and `std::multiset`](#stdset-and-stdmultiset)
     - [`std::map` and `std::multimap`](#stdmap-and-stdmultimap)
+    - [STL Data Structures That Accept Custom Comparators](#stl-data-structures-that-accept-custom-comparators)
+      - [🔹 Ordered Associative Containers (Comparator Required)](#-ordered-associative-containers-comparator-required)
+        - [1️⃣ `std::set`](#1️⃣-stdset)
+        - [2️⃣ `std::multiset`](#2️⃣-stdmultiset)
+        - [3️⃣ `std::map`](#3️⃣-stdmap)
+        - [4️⃣ `std::multimap`](#4️⃣-stdmultimap)
+      - [🔹 Heap-Based Containers](#-heap-based-containers)
+        - [5️⃣ `std::priority_queue`](#5️⃣-stdpriority_queue)
+      - [🔹 Sequence Containers (via Algorithms)](#-sequence-containers-via-algorithms)
+        - [6️⃣ `std::sort` (on `vector`, `deque`, `array`)](#6️⃣-stdsort-on-vector-deque-array)
+        - [7️⃣ `std::stable_sort`](#7️⃣-stdstable_sort)
+        - [8️⃣ `std::nth_element`](#8️⃣-stdnth_element)
+        - [9️⃣ `std::lower_bound / upper_bound / binary_search`](#9️⃣-stdlower_bound--upper_bound--binary_search)
+      - [🔹 Ordered Views / Algorithms](#-ordered-views--algorithms)
+        - [🔟 `std::merge`](#-stdmerge)
+        - [1️⃣1️⃣ `std::set_union / intersection / difference`](#1️⃣1️⃣-stdset_union--intersection--difference)
+      - [🔥 Pro Tip (Very Important)](#-pro-tip-very-important)
     - [Derived Containers](#derived-containers)
   - [Iterators](#iterators)
     - [What are Iterators?](#what-are-iterators)
@@ -195,6 +212,15 @@
       - [Erasing an element using an iterator](#erasing-an-element-using-an-iterator)
       - [Iterator validity rules](#iterator-validity-rules)
       - [Why this matters](#why-this-matters)
+    - [Set Operations: Union, Intersection, and Difference](#set-operations-union-intersection-and-difference)
+      - [`std::set_union`](#stdset_union)
+      - [`std::set_intersection`](#stdset_intersection)
+      - [`std::set_difference`](#stdset_difference)
+      - [`std::set_symmetric_difference`](#stdset_symmetric_difference)
+      - [Return Value](#return-value)
+      - [Complete Example](#complete-example)
+      - [Time Complexity](#time-complexity)
+      - [Using with `std::set` and `std::map`](#using-with-stdset-and-stdmap)
 - [Overloading the Stream Insertion (`<<`) and Stream Extraction (`>>`) operator](#overloading-the-stream-insertion--and-stream-extraction--operator)
   - [`ostream` class](#ostream-class)
     - [`ofstream` class (derived from `ostream` class)](#ofstream-class-derived-from-ostream-class)
@@ -208,6 +234,15 @@
 - [Important Concepts](#important-concepts)
   - [Functors in C++](#functors-in-c)
     - [Code snippet demonstrating its usage with STL](#code-snippet-demonstrating-its-usage-with-stl)
+  - [When to Use `decltype` with Lambda Comparators](#when-to-use-decltype-with-lambda-comparators)
+    - [Case 1: Template Parameter (Container Types) → `decltype` REQUIRED](#case-1-template-parameter-container-types--decltype-required)
+    - [Case 2: Function Argument (STL Algorithms) → `decltype` NOT needed](#case-2-function-argument-stl-algorithms--decltype-not-needed)
+    - [Comparison Table](#comparison-table)
+  - [Why Lambda Types Are Unnamed](#why-lambda-types-are-unnamed)
+    - [Why C++ designed it this way:](#why-c-designed-it-this-way-1)
+    - [How `decltype` works:](#how-decltype-works)
+    - [Why templates need `decltype` but functions don't:](#why-templates-need-decltype-but-functions-dont)
+      - [Example:](#example)
   - [Name Lookup vs. Overload Resolution](#name-lookup-vs-overload-resolution)
     - [What is Overload Resolution?](#what-is-overload-resolution)
     - [What is Name Lookup?](#what-is-name-lookup)
@@ -2838,6 +2873,183 @@ All operations (searching, insertion and deleting) are fast except for Random Ac
 
 `std::map` and `std::multimap` are both defined in the `<map>` header file and are included under the `std` namespace.
 
+### STL Data Structures That Accept Custom Comparators
+
+#### 🔹 Ordered Associative Containers (Comparator Required)
+
+These containers maintain **sorted order** and accept a comparator.
+
+---
+
+##### 1️⃣ `std::set`
+
+```cpp
+auto cmp = [](int a, int b) {
+    return a > b; // descending order
+};
+
+std::set<int, decltype(cmp)> s(cmp);
+s.insert(3);
+s.insert(1);
+s.insert(2);
+```
+
+---
+
+##### 2️⃣ `std::multiset`
+
+```cpp
+auto cmp = [](int a, int b) {
+    return a > b;
+};
+
+std::multiset<int, decltype(cmp)> ms(cmp);
+ms.insert(1);
+ms.insert(1);
+ms.insert(2);
+```
+
+---
+
+##### 3️⃣ `std::map`
+
+```cpp
+auto cmp = [](int a, int b) {
+    return a > b;
+};
+
+std::map<int, int, decltype(cmp)> mp(cmp);
+mp[1] = 10;
+mp[3] = 30;
+```
+
+---
+
+##### 4️⃣ `std::multimap`
+
+```cpp
+auto cmp = [](int a, int b) {
+    return a > b;
+};
+
+std::multimap<int, int, decltype(cmp)> mmp(cmp);
+mmp.insert({1, 10});
+mmp.insert({1, 20});
+```
+
+---
+
+#### 🔹 Heap-Based Containers
+
+---
+
+##### 5️⃣ `std::priority_queue`
+
+```cpp
+auto cmp = [](int a, int b) {
+    return a > b; // min-heap
+};
+
+std::priority_queue<int, std::vector<int>, decltype(cmp)> pq(cmp);
+pq.push(3);
+pq.push(1);
+pq.push(2);
+```
+
+---
+
+#### 🔹 Sequence Containers (via Algorithms)
+
+These containers **don't store comparators**, but algorithms on them do.
+
+---
+
+##### 6️⃣ `std::sort` (on `vector`, `deque`, `array`)
+
+```cpp
+std::vector<int> v = {3, 1, 2};
+
+std::sort(v.begin(), v.end(), [](int a, int b) {
+    return a > b;
+});
+```
+
+---
+
+##### 7️⃣ `std::stable_sort`
+
+```cpp
+std::stable_sort(v.begin(), v.end(), [](int a, int b) {
+    return a > b;
+});
+```
+
+---
+
+##### 8️⃣ `std::nth_element`
+
+```cpp
+std::nth_element(v.begin(), v.begin() + 1, v.end(), [](int a, int b) {
+    return a > b;
+});
+```
+
+---
+
+##### 9️⃣ `std::lower_bound / upper_bound / binary_search`
+
+```cpp
+std::lower_bound(v.begin(), v.end(), 2, [](int a, int b) {
+    return a > b;
+});
+```
+
+---
+
+#### 🔹 Ordered Views / Algorithms
+
+---
+
+##### 🔟 `std::merge`
+
+```cpp
+std::merge(v1.begin(), v1.end(), v2.begin(), v2.end(),
+           result.begin(),
+           [](int a, int b) {
+               return a > b;
+           });
+```
+
+---
+
+##### 1️⃣1️⃣ `std::set_union / intersection / difference`
+
+```cpp
+std::set_union(a.begin(), a.end(), b.begin(), b.end(),
+               result.begin(),
+               [](int x, int y) {
+                   return x > y;
+               });
+```
+
+
+---
+
+#### 🔥 Pro Tip (Very Important)
+
+**Lambda comparators need `decltype(cmp)`** because lambdas are unnamed types:
+
+```cpp
+auto cmp = [](int a, int b) { return a > b; };
+std::set<int, decltype(cmp)> s(cmp);
+```
+
+> 💡 **Want to understand this deeply?** See:
+> - [When to Use `decltype` with Lambda Comparators](#when-to-use-decltype-with-lambda-comparators) — explains when you need `decltype` vs when you don't
+> - [Why Lambda Types Are Unnamed](#why-lambda-types-are-unnamed) — explains why lambdas have types but no names
+
+---
+
 ### Derived Containers
 
 These containers model real-world objects so the speed of their operations depends on the implementation of the container.
@@ -3169,6 +3381,143 @@ Passing iterators to STL algorithms and container member functions allows:
 
 This behavior is a fundamental STL concept and is widely used in cache implementations, schedulers, and other performance-critical systems.
 
+### Set Operations: Union, Intersection, and Difference
+
+The STL provides algorithms for performing set operations on sorted ranges: `std::set_union`, `std::set_intersection`, and `std::set_difference`. These algorithms work on any sorted container (vectors, arrays, sets, etc.).
+
+**Important**: The input ranges must be **sorted** (using the same comparator) for these algorithms to work correctly.
+
+#### `std::set_union`
+
+Creates a sorted union of two sorted ranges (all elements from both ranges, duplicates appear once).
+
+```cpp
+#include <algorithm>
+#include <vector>
+#include <iterator>
+
+std::vector<int> a = {1, 2, 3, 4, 5};
+std::vector<int> b = {3, 4, 5, 6, 7};
+std::vector<int> result;
+
+std::set_union(a.begin(), a.end(), b.begin(), b.end(),
+               std::back_inserter(result));
+// result = {1, 2, 3, 4, 5, 6, 7}
+```
+
+**With custom comparator:**
+
+```cpp
+std::set_union(a.begin(), a.end(), b.begin(), b.end(),
+               std::back_inserter(result),
+               [](int x, int y) { return x > y; });  // descending order
+```
+
+#### `std::set_intersection`
+
+Creates a sorted intersection of two sorted ranges (only elements present in both ranges).
+
+```cpp
+std::vector<int> a = {1, 2, 3, 4, 5};
+std::vector<int> b = {3, 4, 5, 6, 7};
+std::vector<int> result;
+
+std::set_intersection(a.begin(), a.end(), b.begin(), b.end(),
+                      std::back_inserter(result));
+// result = {3, 4, 5}
+```
+
+#### `std::set_difference`
+
+Creates a sorted difference of two sorted ranges (elements in first range but not in second).
+
+```cpp
+std::vector<int> a = {1, 2, 3, 4, 5};
+std::vector<int> b = {3, 4, 5, 6, 7};
+std::vector<int> result;
+
+std::set_difference(a.begin(), a.end(), b.begin(), b.end(),
+                    std::back_inserter(result));
+// result = {1, 2}
+```
+
+#### `std::set_symmetric_difference`
+
+Creates elements that are in either range but not in both.
+
+```cpp
+std::vector<int> a = {1, 2, 3, 4, 5};
+std::vector<int> b = {3, 4, 5, 6, 7};
+std::vector<int> result;
+
+std::set_symmetric_difference(a.begin(), a.end(), b.begin(), b.end(),
+                              std::back_inserter(result));
+// result = {1, 2, 6, 7}
+```
+
+#### Return Value
+
+All set operation algorithms return an iterator pointing to the end of the constructed range:
+
+```cpp
+auto it = std::set_union(a.begin(), a.end(), b.begin(), b.end(),
+                         result.begin());
+// it points to one past the last element inserted
+// Use result.erase(it, result.end()) if result was pre-sized
+```
+
+#### Complete Example
+
+```cpp
+#include <algorithm>
+#include <vector>
+#include <iostream>
+#include <iterator>
+
+int main() {
+    std::vector<int> set1 = {1, 2, 3, 4, 5};
+    std::vector<int> set2 = {3, 4, 5, 6, 7};
+    std::vector<int> union_result, intersection_result, difference_result;
+    
+    // Union
+    std::set_union(set1.begin(), set1.end(), set2.begin(), set2.end(),
+                   std::back_inserter(union_result));
+    // union_result = {1, 2, 3, 4, 5, 6, 7}
+    
+    // Intersection
+    std::set_intersection(set1.begin(), set1.end(), set2.begin(), set2.end(),
+                          std::back_inserter(intersection_result));
+    // intersection_result = {3, 4, 5}
+    
+    // Difference (set1 - set2)
+    std::set_difference(set1.begin(), set1.end(), set2.begin(), set2.end(),
+                        std::back_inserter(difference_result));
+    // difference_result = {1, 2}
+    
+    return 0;
+}
+```
+
+#### Time Complexity
+
+All set operations have **O(n + m)** time complexity where n and m are the sizes of the two input ranges, assuming the ranges are already sorted.
+
+#### Using with `std::set` and `std::map`
+
+These algorithms work directly with `std::set` and `std::map` iterators:
+
+```cpp
+std::set<int> s1 = {1, 2, 3, 4, 5};
+std::set<int> s2 = {3, 4, 5, 6, 7};
+std::set<int> result;
+
+std::set_union(s1.begin(), s1.end(), s2.begin(), s2.end(),
+               std::inserter(result, result.end()));
+// result = {1, 2, 3, 4, 5, 6, 7}
+```
+
+Note: Use `std::inserter` with associative containers instead of `std::back_inserter`.
+
 
 # Overloading the Stream Insertion (`<<`) and Stream Extraction (`>>`) operator
 
@@ -3340,6 +3689,92 @@ So, when the element to the left in the vector of the `priority_queue` has a gre
 ```
 
 The output of the above code is `2, 12, 22, 32, `, as expected by the min heap property of the `priority_queue`.
+
+---
+
+## When to Use `decltype` with Lambda Comparators
+
+**Core Rule**: Use `decltype(cmp)` when the comparator type must be part of the container's type (template parameter). Don't use it when the comparator is just a function argument.
+
+### Case 1: Template Parameter (Container Types) → `decltype` REQUIRED
+
+Containers that store comparators internally: `set`, `map`, `multiset`, `multimap`, `priority_queue`
+
+```cpp
+// ❌ ERROR: cmp is a variable, not a type
+auto cmp = [](int a, int b) { return a > b; };
+std::set<int, cmp> s;
+
+// ✅ Correct: decltype(cmp) provides the type, cmp provides the instance
+std::set<int, decltype(cmp)> s(cmp);
+```
+
+**Why both are needed:**
+- `decltype(cmp)` in `< >`: Tells the compiler the comparator **type** at compile time (needed for template instantiation)
+- `cmp` in `(cmp)`: Provides the comparator **instance** at runtime (the container copies it for comparisons)
+
+### Case 2: Function Argument (STL Algorithms) → `decltype` NOT needed
+
+Algorithms that accept comparators: `sort`, `stable_sort`, `lower_bound`, `upper_bound`, `merge`, `nth_element`
+
+```cpp
+// ✅ Works: Type is automatically deduced from the function argument
+std::sort(v.begin(), v.end(), [](int a, int b) { return a > b; });
+```
+
+### Comparison Table
+
+| Situation        | Where comparator appears | Needs `decltype`? | Why                          |
+| ---------------- | ------------------------ | ----------------- | ---------------------------- |
+| `set`, `map`     | Template parameter `< >` | ✅ YES             | Must specify comparator TYPE |
+| `priority_queue` | Template parameter `< >` | ✅ YES             | Comparator stored internally |
+| `sort`, `merge`  | Function argument `( )`  | ❌ NO              | Type deduced                 |
+| `lower_bound`    | Function argument `( )`  | ❌ NO              | Type deduced                 |
+
+## Why Lambda Types Are Unnamed
+
+A lambda **does have a type**, but that type has **no name you are allowed to write** in C++. The C++ standard explicitly forbids naming lambda types.
+
+When you write:
+
+```cpp
+auto cmp = [](int a, int b) { return a > b; };
+```
+
+The compiler internally creates an anonymous struct (something like `__lambda_42`), but this name is not accessible to you. You cannot:
+- Forward declare it
+- Write it in template parameters
+- Reference it by name
+
+### Why C++ designed it this way:
+
+1. **Simplicity**: Lambdas are meant to be inline and anonymous
+2. **ABI stability**: The compiler can change lambda layout without breaking code
+3. **Encapsulation**: You should care about behavior, not the type name
+
+### How `decltype` works:
+
+`decltype` doesn't name the type—it asks the compiler for the type of an expression. You are *referring* to the type, not *naming* it:
+
+```cpp
+decltype(cmp)  // Returns the unnamed lambda type
+```
+
+### Why templates need `decltype` but functions don't:
+
+- **Templates** (like `std::set<int, decltype(cmp)>`) need the exact type at compile time for size, layout, and instantiation
+- **Function calls** (like `std::sort(v.begin(), v.end(), cmp)`) use template argument deduction—the type is automatically deduced from the argument
+
+#### Example:
+
+```cpp
+// ❌ This will NEVER work
+std::set<int, lambda_type> s;  // No such type name exists
+
+// ✅ This is the ONLY correct way
+auto cmp = [](int a, int b) { return a > b; };
+std::set<int, decltype(cmp)> s(cmp);
+```
 
 ---
 
