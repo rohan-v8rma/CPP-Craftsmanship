@@ -143,6 +143,12 @@
     - [Example code-snippet](#example-code-snippet)
   - [Friend Function](#friend-function)
   - [Late binding OR Runtime Polymorphism](#late-binding-or-runtime-polymorphism)
+    - [`virtual` and `override` Keywords](#virtual-and-override-keywords)
+      - [`virtual` Keyword](#virtual-keyword)
+      - [`override` Keyword](#override-keyword)
+      - [How They Work Together](#how-they-work-together)
+      - [Key Differences Summary](#key-differences-summary)
+      - [Best Practices](#best-practices)
     - [How it works in C++, step-by-step](#how-it-works-in-c-step-by-step)
       - [1. Class Hierarchy Definition](#1-class-hierarchy-definition)
       - [2. Compilation](#2-compilation)
@@ -2464,6 +2470,148 @@ Length of box: 10
 ## Late binding OR Runtime Polymorphism
 
 Late binding in C++ is also known as "dynamic binding" or "runtime polymorphism." It refers to the mechanism by which the appropriate function or method to call is determined at runtime, rather than at compile time. This is achieved through the use of `virtual` functions and pointers (or references) to base class objects. Late binding is a key feature of object-oriented programming and enables the implementation of polymorphism.
+
+### `virtual` and `override` Keywords
+
+#### `virtual` Keyword
+
+**Purpose**: Enables polymorphism by allowing derived classes to override base class functions.
+
+**How it works**:
+- Without `virtual`: Function calls are resolved at compile time (static binding) based on the pointer/reference type
+- With `virtual`: Function calls are resolved at runtime (dynamic binding) based on the actual object type
+
+**Example**:
+```cpp
+class Base {
+public:
+    void nonVirtual() { cout << "Base::nonVirtual\n"; }
+    virtual void virtualFunc() { cout << "Base::virtualFunc\n"; }
+};
+
+class Derived : public Base {
+public:
+    void nonVirtual() { cout << "Derived::nonVirtual\n"; }
+    void virtualFunc() { cout << "Derived::virtualFunc\n"; }
+};
+
+// Usage
+Base* ptr = new Derived();
+ptr->nonVirtual();   // Output: Base::nonVirtual (compile-time binding)
+ptr->virtualFunc();  // Output: Derived::virtualFunc (runtime binding)
+```
+
+**Key points**:
+- Virtual functions enable runtime polymorphism
+- Virtual destructors are important for proper cleanup of derived objects
+- Virtual functions have a small performance overhead (vtable lookup)
+
+#### `override` Keyword
+
+**Purpose**: Explicitly marks a function as overriding a virtual function from the base class. Introduced in C++11.
+
+**Benefits**:
+1. **Compile-time safety**: Compiler error if function doesn't actually override anything
+2. **Code clarity**: Makes intent explicit
+3. **Catches mistakes**: Prevents typos or signature mismatches
+
+**Example**:
+```cpp
+class Base {
+public:
+    virtual void func(int x) { }
+    virtual void anotherFunc() { }
+};
+
+class Derived : public Base {
+public:
+    // Good - correctly overrides
+    void func(int x) override { }
+    
+    // Error - doesn't match base signature (compiler error)
+    void func(double x) override { }  // ERROR: no matching function to override
+    
+    // Error - typo in function name (compiler error)
+    void anothrFunc() override { }  // ERROR: no matching function to override
+};
+```
+
+#### How They Work Together
+
+```cpp
+class Shape {
+public:
+    virtual double area() = 0;  // Pure virtual - must be overridden
+    virtual void draw() { cout << "Drawing shape\n"; }
+    virtual ~Shape() {}  // Virtual destructor for proper cleanup
+};
+
+class Circle : public Shape {
+private:
+    double radius;
+public:
+    Circle(double r) : radius(r) {}
+    
+    // override ensures this actually overrides base class function
+    double area() override {
+        return 3.14159 * radius * radius;
+    }
+    
+    void draw() override {
+        cout << "Drawing circle\n";
+    }
+};
+
+class Rectangle : public Shape {
+private:
+    double width, height;
+public:
+    Rectangle(double w, double h) : width(w), height(h) {}
+    
+    double area() override {
+        return width * height;
+    }
+    
+    void draw() override {
+        cout << "Drawing rectangle\n";
+    }
+};
+
+// Polymorphism in action
+vector<Shape*> shapes;
+shapes.push_back(new Circle(5.0));
+shapes.push_back(new Rectangle(4.0, 6.0));
+
+for (Shape* shape : shapes) {
+    shape->draw();  // Calls correct derived class function
+    cout << "Area: " << shape->area() << "\n";
+}
+```
+
+#### Key Differences Summary
+
+| Aspect | `virtual` | `override` |
+|--------|-----------|------------|
+| **Purpose** | Enables runtime polymorphism | Documents intent, catches errors |
+| **Required** | Yes (in base class) | No (optional but recommended) |
+| **Where** | Base class function declaration | Derived class function declaration |
+| **Compile-time check** | No | Yes (ensures correct override) |
+
+#### Best Practices
+
+1. Use `virtual` in base class for functions that should be overridable
+2. Use `override` in derived classes to make intent clear and catch errors
+3. Always use virtual destructors in base classes with virtual functions
+4. Use `final` keyword (C++11) to prevent further overriding:
+   ```cpp
+   class Base {
+       virtual void func() { }
+   };
+   
+   class Derived : public Base {
+       void func() override final { }  // Cannot be overridden further
+   };
+   ```
 
 ### How it works in C++, step-by-step
 
